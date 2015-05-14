@@ -3,34 +3,44 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Java Interview</title>
-	<link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/bootstrap.min.css" type="text/css" media="screen" charset="utf-8" />
 </head>
 <body>
-<h3>1.抽象类和接口的区别</h3>
+<div class="container">
+<div id="header">
+<ul class="pills">
+	<li class="active"><a href="index.html">andrewgyq's Weblog</a></li>
+	<li><a href="about.html">About</a></li>
+</ul>
+</div>
+
+<div id="post">
+<p><strong>1.抽象类和接口的区别</strong></p>
 <p>按三点答：先答属性：抽象类可以有普通成员变量，接口不行； 然后答方法：抽象类有非抽象的方法和构造方法，并且修饰符可以是私有的，接口只能是抽象的方法，并且修饰符是public，最后说一句只能继承一个抽象类，但能实现多个接口。</p>
 
-<h3>2.JSP的内置对象及方法。</h3>
+<p><strong>2.JSP的内置对象及方法。</strong></p>
 <p>request response application session page pageContext out config exception</p>
 
-<h3>3.说出Servlet的生命周期，并说出Servlet和CGI的区别。</h3>
+<p><strong>3.说出Servlet的生命周期，并说出Servlet和CGI的区别。</strong></p>
 <p>服务器实例化后，容器运行init方法，请求到达时运行其service方法，service方法自动派遣运行与请求对应的doGet或doPost方法，服务器将实例销毁的时调用其destroy方法。
 与cgi的区别在于servlet处于服务器进程中，它通过多线程方式运行其service方法，一个实例可以服务于多个请求，并且其实例一般不会销毁，而CGI对每个请求都产生新的进程，服务完成后就销毁，所以效率上低于servlet。</p>
 
-<h3>4.java中的wait()方法和sleep()方法的区别。</h3>
+<p><strong>4.java中的wait()方法和sleep()方法的区别。</strong></p>
 <p>sleep是Thread类的方法,wait是Object类的方法;
 Thread.sleep不会释放锁，Object.wait会释放锁;
 wait，notify和notifyAll只能在同步控制方法或者同步控制块里面使用，而sleep可以在任何地方使用;
 sleep必须捕获异常，而wait，notify和notifyAll不需要捕获异常。</p>
 
-<h3>5.字节顺序。</h3>
+<p><strong>5.字节顺序。</strong></p>
 <p>小端字节序指低字节数据存放在内存低地址处，高字节数据存放在内存高地址处；大端字节序是高字节数据存放在低地址处，低字节数据存放在高地址处。</p>
 
-<h3>6.概念</h3>
+<p><strong>6.概念</strong></p>
 <p>对于基本类型变量，java是传值的副本;对于一切对象型变量，java都是传引用的副本。
 构造函数不能被覆盖，没有返回值，从父类开始向下执行调用，可以被重载。
 子类被构造时一定会先调用父类的构造函数，若不指定将调用无参的构造函数。</p>
 
 
-
+</div>
+</div>
 </body>
 </html>
