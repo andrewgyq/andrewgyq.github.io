@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Java Encode</title>
+	<link rel="stylesheet" href="css/bootstrap.min.css" type="text/css" media="screen" charset="utf-8" />
+</head>
+<body>
+<div class="container">
+<div id="header">
+<ul class="pills">
+	<li class="active"><a href="index.html">andrewgyq's blog</a></li>
+	<li><a href="about.html">About</a></li>
+</ul>
+</div>
+
+<div id="post">
+<h1><a href="">Java中文编码</a></h1>
+
+<div class="authoring">2015-05-17</div>
+<p><strong>概述</strong></p>
+<p>计算机中存储的最小单位是一个字节，8bit(位)即1byte(字节)，所能表示的字符范围为0-255。但需要表示的符号太多，无法用一个字节来完全表示，需要定义char数据结构，char到byte必须编码。</p>
+
+<p>Java中系统的默认编码方式为GBK，中文占2个字节，而英文字符占1个字节。</p>
+<p>char[] => byte[]</p>
+<pre><code>String str = "I am 君山";
+byte[] iso8859 = str.getBytes("ISO-8859-1");
+for (byte b : iso8859) {
+    System.out.print(String.format("%02x ", b));
+}
+System.out.println();
+
+byte[] gbk = str.getBytes("GBK");
+for (byte b : gbk) {
+    System.out.print(String.format("%02x ", b));
+}
+System.out.println();
+
+
+byte[] utf8 = str.getBytes("UTF-8");
+for (byte b : utf8) {
+    System.out.print(String.format("%02x ", b));
+}
+System.out.println();
+</code></pre>
+
+<p><strong>ISO-8859-1编码</strong></p>
+<p>&nbspI&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspa&nbsp  m&nbsp&nbsp&nbsp&nbsp&nbsp 君 山</p>
+<p>49 20 61 6d 20 3f 3f</p>
+<p>ISO-8859-1是单字节编码，中文"君山"被转化成3f (?)，出现了中文乱码，大部分基础的Java框架或系统的默认字符集编码是ISO-8859-1</p>
+
+<p><strong>GBK编码</strong></p>
+<p>&nbspI&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspa&nbsp  m&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp 君 &nbsp&nbsp&nbsp&nbsp山</p>
+<p>49 20 61 6d 20 be fd c9 bd</p>
+<p>GBK编码中，中文占2个字节，而英文字符占1个字节</p>
+
+<p><strong>UTF-8编码</strong></p>
+<p>&nbspI&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspa&nbsp  m&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp 君 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp山</p>
+<p>49 20 61 6d 20 e5 90 9b e5 b1 b1</p>
+<p>UTF-8编码中，对单字节范围内字符仍然用一个字节表示，对汉字采用三个字节表示。</p>
+</div>
+</div>
+</body>
+</html>

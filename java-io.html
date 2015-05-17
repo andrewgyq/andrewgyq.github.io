@@ -9,7 +9,7 @@
 <div class="container">
 <div id="header">
 <ul class="pills">
-	<li class="active"><a href="index.html">andrewgyq's Weblog</a></li>
+	<li class="active"><a href="index.html">andrewgyq's blog</a></li>
 	<li><a href="about.html">About</a></li>
 </ul>
 </div>
@@ -31,15 +31,64 @@
 </ul>
 
 <p><strong>基于字节IO操作接口</strong></p>
+<p><img src="http://kjmt.5any.com/Jcxsj/CourseContent/Jcxsj/Content/ch10/images/java-tp-1002.JPG"></p>
+<p><img src="http://kjmt.5any.com/Jcxsj/CourseContent/Jcxsj/Content/ch10/images/java-tp-1003.JPG"></p>
+<p>FileInputStream使用</p>
+<pre><code>FileInputStream in = new FileInputStream("input.txt");
+int b;
+int i = 1;
+while((b = in.read()) != -1){
+    System.out.print(Integer.toHexString(b) + " ");
+    if(i++ % 10 == 0)
+        System.out.println();
+}
+in.close();
+</code></pre>
+
+<p>InputStream转成String</p>
+<p>1.InputStream => InputStreamReader(with charset) => String</p>
+<pre><code>try {
+    BufferedReader reader = new BufferedReader(new InputStreamReader(stream, charset));
+    StringWriter writer = new StringWriter();
+
+    char[] chars = new char[256];
+    int count = 0;
+    while ((count = reader.read(chars)) > 0) {
+        writer.write(chars, 0, count);
+    }
+
+    return writer.toString();
+} finally {
+    if (stream != null) {
+        stream.close();
+    }
+}
+</code></pre>
+
 <p>操作数据的方式可以组合使用</p>
 <pre><code>OutputStream out = new BufferedOutputStream(new ObjectOutputStream(new FileOutputStream("fileName")));
 </code></pre>
 
 <p><strong>基于字符IO操作接口</strong></p>
+<p><img src="http://kjmt.5any.com/Jcxsj/CourseContent/Jcxsj/Content/ch10/images/java-tp-1004.JPG"></p>
+<p><img src="http://kjmt.5any.com/Jcxsj/CourseContent/Jcxsj/Content/ch10/images/java-tp-1005.jpg"></p>
+<p>Java文本(char)是16位无符号整数，是字符的unicode编码(双字节编码)</p>
+<p>文件是byte byte byte...的数据序列</p>
+<p>文本文件是文本(char)按照某种编码方案(utf-8,utf-16,gbk)序列化为byte的存储</p>
 
 <p><strong>字节与字符转化</strong></p>
-<p>InputStreamReader类是字节与字符的转化桥梁，InputStream到Reader要指定字符集</p>
+<p>InputStreamReader类是字节与字符的转化桥梁，完成byte流转换成char流，InputStream到Reader要指定字符集</p>
 
+<h3>Java IO中的适配器模式</h3>
+<p>适配器模式就是将一个接口适配到另一个接口，如将字符串数据转变为字节数据保存到文件中，将字节数据转变成流数据
+</p>
+<p>InputStreamReader和OutPutReader将InputStream和OutputStream适配到Reader和Writer</p>
+<p>StringReader将一个String类适配到Reader接口</p>
+<p>ByteArrayInputStream将byte数组适配到InputStream流处理接口</p>
+
+<h3>Java IO中的装饰器模式</h3>
+<p>适配器模式就是将某个类重新装扮一下，使其在功能上更强大</p>
+<p>InputStream类是抽象组件，FileInputStream是具体组件；FilterInputStream是装饰角色，它实现了所有接口，持有InputStream对象引用。BufferedInputStream是具体的装饰器实现者，它使InputStream读取的数据保存在内存中，提高读取性能。</p>
 </div>
 </div>
 </body>

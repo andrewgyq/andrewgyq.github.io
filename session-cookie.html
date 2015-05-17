@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Session Cookie</title>
+	<link rel="stylesheet" href="css/bootstrap.min.css" type="text/css" media="screen" charset="utf-8" />
+</head>
+<body>
+<div class="container">
+<div id="header">
+<ul class="pills">
+	<li class="active"><a href="index.html">andrewgyq's blog</a></li>
+	<li><a href="about.html">About</a></li>
+</ul>
+</div>
+
+<div id="post">
+<h1><a href="">Session与Cookie</a></h1>
+
+<div class="authoring">2015-05-18</div>
+<p><strong>概述</strong></p>
+<p>Session与Cookie的作用都是为了保持访问用户与后端服务器的交互状态。使用Cookie来传递信息时，随着Cookie个数的增多和访问量的增加，占用的网络贷款也大。使用Session的弱点是不容易在多台服务器间共享。</p>
+
+<p><strong>理解Cookie</strong></p>
+<p>当用户通过HTTP协议访问一个服务器的时候，服务器会将一些Key/Value键值对返回给客户端浏览器，在用户下次访问这个服务器时，数据又会完整的发给服务器。由于HTTP协议是一种无状态协议，当用户的一次访问后，后端服务器不知道下次是否是同一个访问，这时需要用到Cookie，常用的应用是购物车。Cookie存在浏览器里，浏览器对Cookie的大小和数量有限制。</p>
+
+<p><strong>理解Session</strong></p>
+<p>Cookie可以让服务器跟踪每个客户端的访问，但每次访问需要传回这些Cookie，如果Cookie很多就是加大服务器压力，Session可以解决这个问题。客户端每次跟服务器哦交互时，不需要每次都传回多有的Cookie值，而是传一个ID，每个客户端有了唯一的ID。</p>
+
+<p><strong>表单重复提交的问题</strong></p>
+<p>要防止表单的重复提交，就要标识用户每一次访问请求，使得每一次访问对于服务端来说都是唯一确定的。可以在用户请求一个表单域时增加一个隐藏表单项，这个表单项的值每次都是唯一的token。</p>
+<p>当用户在请求时生成这个唯一的token时，同时将这个token保存在用户的Session中，等用户提交请求时检查这个token和当前Session中保存的是否一致。</p>
+</div>
+</div>
+</body>
+</html>

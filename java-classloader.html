@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Java ClassLoader</title>
+	<link rel="stylesheet" href="css/bootstrap.min.css" type="text/css" media="screen" charset="utf-8" />
+</head>
+<body>
+<div class="container">
+<div id="header">
+<ul class="pills">
+	<li class="active"><a href="index.html">andrewgyq's blog</a></li>
+	<li><a href="about.html">About</a></li>
+</ul>
+</div>
+
+<div id="post">
+<h1><a href="">Java类加载机制</a></h1>
+
+<div class="authoring">2015-05-17</div>
+<p><strong>概述</strong></p>
+<p>Java中ClassLoader是一种上级委托接待机制。整个JVM中提供三个ClassLoader类：</p>
+<ul>
+	<li>Bootstrap ClassLoader，主要加载JVM自身工作需要的类，没有更高一级的父加载器，也没有子加载器。</li>
+	<li>ExtClassLoader，</li>
+	<li>AppClassLoader，它的父类是ExtClassLoader，用于加载classpath下的类。</li>
+</ul>
+
+</div>
+</div>
+</body>
+</html>

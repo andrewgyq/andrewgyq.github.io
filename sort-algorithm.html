@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Sort Algorithm</title>
+	<link rel="stylesheet" href="css/bootstrap.min.css" type="text/css" media="screen" charset="utf-8" />
+</head>
+<body>
+<div class="container">
+<div id="header">
+<ul class="pills">
+	<li class="active"><a href="index.html">andrewgyq's blog</a></li>
+	<li><a href="about.html">About</a></li>
+</ul>
+</div>
+
+<div id="post">
+<h1><a href="">七大排序算法</a></h1>
+
+<div class="authoring">2015-05-12</div>
+<p><strong>冒泡排序 (Bubble Sort)</strong></p>
+<pre><code>public static int[] bubbleSort(int [] array){ 
+    for(int i = 0; i < array.length - 1; i++){  
+        boolean flag = true;  
+        for(int j = 0; j < array.length - 1 - i; j++){  
+            if(array[j] > array[j + 1]){  
+                int tmp = array[j];  
+                array[j] = array[j + 1];  
+                array[j + 1] = tmp;  
+                flag = false;  
+            }  
+        }  
+        if(flag)  
+            break;  
+    }  
+    return array;  
+}</code></pre>  
+
+<p><strong>插入排序 (Insertion Sort)</strong></p>
+<pre><code>public static int[] insertionSort(int [] array){ 
+    for(int i = 1; i < array.length; i++){  
+        // 待插入元素的索引  
+        int index = i;  
+        // 当前待插入的元素  
+        int tmp = array[index];  
+        while(index > 0 && tmp < array[index - 1]){  
+            array[index] = array[index - 1];  
+            --index;  
+        }  
+        array[index] = tmp;  
+    }  
+    return array;  
+}</code></pre>  
+
+<p><strong>选择排序 (Selection Sort)</strong></p>
+<pre><code>public static int[] selectionSort(int [] array){ 
+    for(int i = 0; i < array.length; i++){  
+        int min = i;  
+        for(int j = i + 1; j < array.length; j++){  
+            if(array[j] < array[min])  
+                min = j;  
+        }  
+        swap(i, min, array);  
+    }  
+    return array;  
+}
+
+private static void swap(int i, int j, int[] array){  
+    int tmp = array[i];  
+    array[i] = array[j];  
+    array[j] = tmp;  
+}  
+</code></pre>  
+
+<p><strong>希尔排序 (Shell Sort)</strong></p>
+<pre><code>public static int[] shellSort(int [] array){ 
+    int len = array.length;
+    int h = 1;
+    while(h < len/3)
+	    h = h * 3 + 1;  // 1, 4, 13, 40...
+
+    while(h >= 1){
+        for(int i = h; i < len; i++){
+            // insertion sort
+            for(int j = i; j >= h && array[j] < array[j-h]; j-=h){
+                int temp = array[j];
+                array[j] = array[j-h];
+                array[j-h] = temp;
+            }
+        } 
+        h = h/3;
+    } 
+    return array;
+}
+</code></pre>  
+
+<p><strong>归并排序 (Merge Sort)</strong></p>
+<pre><code>public static void mergeSort(int low, int high, int[] array){  
+    if(low < high){  
+        int middle = low + (high - low)/2;  
+        mergeSort(low, middle, array);  
+        mergeSort(middle+1, high, array);  
+        merge(low, middle, high, array);  
+    }  
+}  
+
+private static void merge(int low, int middle, int high, int[] array){  
+    int [] helper = new int [array.length];   
+
+    for(int i=low; i<=high; i++)  
+        helper[i] = array[i];  
+
+    int i = low;  
+    int j = middle + 1;  
+    int k = low;  
+      
+    while (i <= middle && j <= high) {  
+        if (helper[i] <= helper[j]) {  
+            array[k] = helper[i];  
+            i++;  
+        }   
+        else {  
+            array[k] = helper[j];  
+            j++;  
+        }  
+        k++;  
+    }  
+    while (i <= middle) {  
+        array[k] = helper[i];  
+        k++;  
+        i++;  
+    }  
+    while (j <= high) {  
+        array[k] = helper[j];  
+        k++;  
+        j++;  
+    }  
+}  
+</code></pre>  
+
+<p><strong>快速排序 (Quick Sort)</strong></p>
+<pre><code>public static void quickSort(int [] array, int start, int end){  
+    if(start < end){  
+        int partitionIndex = partition(array, start, end);  
+        quickSort(array, start, partitionIndex-1);  
+        quickSort(array, partitionIndex+1, end);  
+    }  
+}  
+
+public static int partition(int [] array, int start, int end){  
+    int pivot = array[end];  
+    int partitionIndex = start;  
+    for (int i = start; i < end; i++) {  
+        if(array[i] <= pivot){  
+            int temp = array[i];  
+            array[i] = array[partitionIndex];  
+            array[partitionIndex] = temp;  
+            partitionIndex++;  
+        }  
+    }  
+    int temp = array[partitionIndex];  
+    array[partitionIndex] = array[end];  
+    array[end] = temp;  
+    return partitionIndex;  
+}  
+</code></pre>  
+
+<p><strong>堆排序 (Heap Sort)</strong></p>
+<pre><code>public static int[] heapSort(int[] a){
+    int len = a.length;
+    //first place a in max-heap order 8,7,5,6,4,1,3,2
+    maxHeap(a, len);
+    int end = len - 1;
+    while(end > 0){
+        //swap the root(maximum value) of the heap with the
+        //last element of the heap
+        int tmp = a[end];
+        a[end] = a[0];
+        a[0] = tmp;
+        //put the heap back in max-heap order
+        siftDown(a, 0, end - 1);
+        //decrement the size of the heap so that the previous
+        //max value will stay in its proper place
+        end--;
+    }
+    return a;
+}
+    
+public static void maxHeap(int[] a, int len){
+    //start is assigned the index in a of the last parent node
+    int start = (len - 2) / 2; //binary heap
+    while(start >= 0){
+    //sift down the node at index start to the proper place
+    //such that all nodes below the start index are in heap
+    //order
+    siftDown(a, start, len - 1);
+    start--;
+    }
+    //after sifting down the root all nodes/elements are in heap order
+}
+	 
+public static void siftDown(int[] a, int start, int end){
+    //end represents the limit of how far down the heap to sift
+    int root = start;
+    while((root * 2 + 1) <= end){      //While the root has at least one child
+        int child = root * 2 + 1;           //root*2+1 points to the left child
+        //if the child has a sibling and the child's value is less than its sibling's...
+        if(child + 1 <= end && a[child] < a[child + 1])
+            child = child + 1;           //... then point to the right child instead
+        if(a[root] < a[child]){     //out of max-heap order
+            int tmp = a[root];
+            a[root] = a[child];
+            a[child] = tmp;
+            root = child;                //repeat to continue sifting down the child now
+        }else
+            return;
+    }
+}
+</code></pre> 
+
+<p><strong>排序算法复杂度</strong></p>
+<table >
+  <thead>
+    <tr>
+      <th>Algorithm</th>
+      <th colspan="3">Time Complexity</th>
+      <th>Space Complexity</th>
+    </tr>
+    <tr>
+      <th></th>
+      <th>Best</th>
+      <th>Average</th>  
+      <th>Worst</th>     
+      <th>Worst</th>            
+    </tr>
+  </thead>
+  <tbody>
+  	 <tr>
+      <td><a href="http://en.wikipedia.org/wiki/Bubble_sort">Bubble Sort</a></td>
+      <td><code class="green">O(n)</code></td>
+      <td><code class="red">O(n^2)</code></td>
+      <td><code class="red">O(n^2)</code></td>
+      <td><code class="green">O(1)</code></td>
+    </tr>
+    <tr>
+      <td><a href="http://en.wikipedia.org/wiki/Insertion_sort">Insertion Sort</a></td>
+      <td><code class="green">O(n)</code></td>
+      <td><code class="red">O(n^2)</code></td>
+      <td><code class="red">O(n^2)</code></td>
+      <td><code class="green">O(1)</code></td>
+    </tr>
+    <tr>
+      <td><a href="http://en.wikipedia.org/wiki/Selection_sort">Selection Sort</a></td>
+      <td><code class="red">O(n^2)</code></td>
+      <td><code class="red">O(n^2)</code></td>
+      <td><code class="red">O(n^2)</code></td>
+      <td><code class="green">O(1)</code></td>
+    </tr>
+    <tr>
+      <td><a href="http://en.wikipedia.org/wiki/Shellsort">Shell Sort</a></td>
+      <td><code class="green">O(n)</code></td>
+      <td><code class="red">O((nlog(n))^2)</code></td>
+      <td><code class="red">O((nlog(n))^2)</code></td>
+      <td><code class="green">O(1)</code></td>
+    </tr>
+    <tr>
+      <td><a href="http://en.wikipedia.org/wiki/Merge_sort">Mergesort</a></td>
+      <td><code class="orange">O(n log(n))</code></td>
+      <td><code class="orange">O(n log(n))</code></td>
+      <td><code class="orange">O(n log(n))</code></td>
+      <td><code class="yellow">O(n)</code></td>
+    </tr>
+    <tr>
+      <td><a href="http://en.wikipedia.org/wiki/Quicksort">Quicksort</a></td>
+      <td><code class="orange">O(n log(n))</code></td>
+      <td><code class="orange">O(n log(n))</code></td>
+      <td><code class="red">O(n^2)</code></td>
+      <td><code class="yellow-green">O(log(n))</code></td>
+    </tr>
+    <tr>
+      <td><a href="http://en.wikipedia.org/wiki/Heapsort">Heapsort</a></td>
+      <td><code class="orange">O(n log(n))</code></td>
+      <td><code class="orange">O(n log(n))</code></td>
+      <td><code class="orange">O(n log(n))</code></td>
+      <td><code class="green">O(1)</code></td>
+    </tr>
+  </tbody>
+</table> 
+</div>
+</div>
+</body>
+</html>

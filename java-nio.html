@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Java NIO</title>
+	<link rel="stylesheet" href="css/bootstrap.min.css" type="text/css" media="screen" charset="utf-8" />
+</head>
+<body>
+<div class="container">
+<div id="header">
+<ul class="pills">
+	<li class="active"><a href="index.html">andrewgyq's blog</a></li>
+	<li><a href="about.html">About</a></li>
+</ul>
+</div>
+
+<div id="post">
+<h1><a href="">深入分析Java NIO</a></h1>
+
+<div class="authoring">2015-05-16</div>
+<p><strong>概述</strong></p>
+<p>BIO即阻塞IO，数据在写入OutputStream或者从InputStream中读取时可能会阻塞。当前的网络IO有一些解决办法，如一个客户端一个处理线程；为了减少系统开销采用线程池减少线程创建与回收。但依然有些问题无法避免，需要一种新的IO方式，JDK1.4提出了NIO即非阻塞IO。</p>
+<p><img src="https://www.ibm.com/developerworks/cn/java/j-lo-javaio/image019.jpg"></p>
+<p>Channel比Socket更加具体，可以比作具体的交通工具，如汽车或高铁</p>
+<p>Selector可以比作车辆运行调度系统，负责监控每辆车是已经出战还是在路上</p>
+<p>Buffer比Stream更加具体，可以比作车上的座位</p>
+
+</div>
+</div>
+</body>
+</html>

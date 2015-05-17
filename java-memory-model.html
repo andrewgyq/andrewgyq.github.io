@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Java Memory Model</title>
+	<link rel="stylesheet" href="css/bootstrap.min.css" type="text/css" media="screen" charset="utf-8" />
+</head>
+<body>
+<div class="container">
+<div id="header">
+<ul class="pills">
+	<li class="active"><a href="index.html">andrewgyq's blog</a></li>
+	<li><a href="about.html">About</a></li>
+</ul>
+</div>
+
+<div id="post">
+<h1><a href="">Java内存模型</a></h1>
+
+<div class="authoring">2015-05-13</div>
+<p><strong>概述</strong></p>
+<p>JVM规范定义了Java内存模型类屏蔽各种操作系统的内存访问差异，实现一次编写、到处运行。</p>
+
+<p><strong>工作内存和主内存</strong></p>
+<p>Java内存模型规定所有的变量都存储在主内存中，每个线程有自己独立的工作内存，它保存了被该线程使用的变量的主内存拷贝，线程对这些变量的操作在工作内存中，不能直接操作主内存和其它线程的工作内存，线程间的变量访问通过主内存来完成。</p>
+<p><img src = "http://tutorials.jenkov.com/images/java-concurrency/java-memory-model-3.png"></p>
+</div>
+</div>
+</body>
+</html>
