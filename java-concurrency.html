@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Java Concurrency</title>
+	<link rel="stylesheet" href="css/bootstrap.min.css" type="text/css" media="screen" charset="utf-8" />
+</head>
+<body>
+<div class="container">
+<div id="header">
+<ul class="pills">
+	<li class="active"><a href="index.html">andrewgyq's blog</a></li>
+	<li><a href="about.html">About</a></li>
+</ul>
+</div>
+
+<div id="post">
+<h1><a href="">Java高级线程同步</a></h1>
+
+<div class="authoring">2015-05-08</div>
+<h3>高级同步机制</h3>
+<p>JDK1.5提出了java.util.concurrent包，里面有更加灵活的锁机制</p>
+<p><strong>Lock</strong></p>
+<p>Lock接口表示一个锁，lock方法来获取锁，unlock方法来释放锁。一般把unlock方法调用放在finally代码块中。ReentrantLock是Lock接口的实现，是可重入的，允许一个线程多次获取同一个锁</p>
+<pre><code>public class LockIdGenerator{
+    private final ReentrantLock lock = new ReentrantLock();
+    private int value = 0;
+    public int getNext(){
+        lock.lock();
+        try{
+            return value++;
+        }finally{
+            lock.unlock();
+        }
+    }
+}</code></pre>
+
+<p><strong>ReadWriteLock</strong></p>
+<p>ReadWriteLock接口实际表示两个锁，一个是读取操作使用的共享锁，另外一个是写入操作使用的排他锁。可以通过readLock和writeLock方法来获取对应的锁。ReadWriteLock适合解决读者-写者问题，进行读取操作时多个线程都可以获取读取锁；进行写入操作时线程只有在获取写入锁之后才能进行写操作。ReenreantReadWriteLock类是该接口的实现</p>
+
+<p><strong>Condition</strong></p>
+<p>Lock接口替代synchronized关键字，相对应的Condition接口替代Object类的wait、notify、notifyAll方法</p>
+<pre><code>Lock lock = new ReentrantLock();
+Condition condition = lock.newCondition();
+
+lock.lock();
+try{
+    while(/*逻辑条件不满足*/){
+        condition.await();  
+    }
+}finally{
+    lock.unlock();
+}</code></pre>
+
+<h3>高级同步对象</h3>
+<p><strong>Semaphore（信号量）</strong></p>
+<p>用于管理数量有限的资源，每类资源有一个对应的信号量。信号量的值表示资源的可用数量。使用资源时先从信号量上获取一个使用许可，完成对资源的使用后释放一个使用许可。这种同步策略可以用来实现生产者消费者问题以及应用在线程池、数据库连接池中。</p>
+<p>Semaphore类初始化时指定权限数，它提供了两个主要的方法acquire()和release()用于获取和释放权限。acquire()方法阻塞至有可用的权限，使用Semaphore可以实现线程间的互斥。</p>
+<pre><code>import java.util.concurrent.Semaphore;
+
+public class SemaphoreTest{
+    Semaphore binary = new Semaphore(1);
+
+    public static void main(String[] args) {
+        final SemaphoreTest test = new SemaphoreTest();
+
+        new Thread(){
+            public void run(){
+                test.mutualExclusion();
+            }
+        }.start();
+
+        new Thread(){
+            public void run(){
+                test.mutualExclusion();
+            }
+        }.start();
+    }
+
+    private void mutualExclusion(){
+        try{
+            binary.acquire();
+
+            // mutual exclusive region
+            System.out.println(Thread.currentThread().getName() + " inside mutual exclusive region");
+
+            Thread.sleep(1000);
+        }catch (InterruptedException ie) {
+            ie.printStackTrace();
+        }finally{
+            binary.release();
+            System.out.println(Thread.currentThread().getName() + " outside of mutual exclusive region");
+        }
+    }
+}</code></pre>
+
+<p><strong>CountDownLatch（倒数闸门）</strong></p>
+<p>多个线程协作时，一个线程需要等待另外的线程来完成某些任务之后才能继续进行。CountDownLatch相当于多个线程等待开启的一个闸门。只有在其它线程完成任务之后，闸门才会打开，等待的线程才能进行。</p>
+<p>通常当主线程调用await()方法后将会等待直到计数器到达0或者被其它线程中断。其它线程通过调用countDown()方法将会在完成任务后将计数器减1。计数器为0是主线程将开始运行。</p>
+<pre><code>import java.util.concurrent.CountDownLatch;
+
+public class CountDownLatchDemo{
+    public static void main(String[] args) {
+        final CountDownLatch latch = new CountDownLatch(3);
+        Thread cacheService = new Thread(new Service("CacheService", 1000, latch));
+        Thread alertService = new Thread(new Service("AlertService", 1000, latch));
+        Thread validationService = new Thread(new Service("ValidationService", 1000, latch));
+
+        cacheService.start(); //separate thread will initialize CacheService
+        alertService.start(); //another thread for AlertService initialization
+        validationService.start();
+
+        try{
+            latch.await();
+            System.out.println("All services are up, Application is starting now");
+        }catch(InterruptedException ie){
+            ie.printStackTrace();
+        }
+    }
+}
+
+class Service implements Runnable{
+    private final String name;
+    private final int timeToStart;
+    private final CountDownLatch latch;
+  
+    public Service(String name, int timeToStart, CountDownLatch latch){
+        this.name = name;
+        this.timeToStart = timeToStart;
+        this.latch = latch;
+    }
+  
+    @Override
+    public void run() {
+        try {
+            Thread.sleep(timeToStart);
+        } catch (InterruptedException ex) {
+            ex.printStackTrace();
+        }
+        System.out.println( name + " is Up");
+        latch.countDown(); //reduce count of CountDownLatch by 1
+    }
+  
+}
+output：
+AlertService is Up
+CacheService is Up
+ValidationService is Up
+All services are up, Application is starting now
+</code></pre>
+
+<p><strong>CyclicBarrier（循环屏障）</strong></p>
+<p>循环屏障不像倒数闸门一样是一次性的，可以循环使用。循环屏障的线程之间是互相平等的，彼此都需要等待对方完成。当一个线程完成自己的任务后，等待其它线程完成。当所有线程都完成任务后，所有线程才可以继续运行。</p>
+<p>所有的线程等待其它线程到达Barrier。CyclicBarrier初始化时指定需要等待的线程数，通过调用CyclicBarrier.await()方法，所有线程阻塞等待直到都调用了await()方法。可以用来实现mapreduce任务，例如多玩家游戏等待所有玩家都加入后才开始游戏。</p>
+<pre><code>import java.util.concurrent.CyclicBarrier;
+
+public class CyclicBarrierTest{
+
+    private static class Task implements Runnable{
+        private CyclicBarrier barrier;
+
+        public Task(CyclicBarrier barrier){
+            this.barrier = barrier;
+        }
+
+        @Override
+        public void run(){
+            try {
+                System.out.println(Thread.currentThread().getName() + " is waiting on barrier");
+                barrier.await();
+                System.out.println(Thread.currentThread().getName() + " has crossed the barrier");
+            } catch (Exception ex){
+
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        // creating CyclicBarrier with 3 parties i.e. 3 Threads needs to call await()
+        final CyclicBarrier cb = new CyclicBarrier(3, new Runnable(){
+            public void run(){
+                // This task will be executed once all thread reaches barrier
+                System.out.println("All parties are arrived at barrier, lets play");
+            }
+        });
+
+        //starting each of thread
+        Thread t1 = new Thread(new Task(cb), "Thread 1");
+        Thread t2 = new Thread(new Task(cb), "Thread 2");
+        Thread t3 = new Thread(new Task(cb), "Thread 3");
+
+        t1.start();
+        t2.start();
+        t3.start();
+    }
+}
+
+output：
+Thread 1 is waiting on barrier
+Thread 3 is waiting on barrier
+Thread 2 is waiting on barrier
+All parties are arrived at barrier, lets play
+Thread 2 has crossed the barrier
+Thread 3 has crossed the barrier
+Thread 1 has crossed the barrier
+</code></pre>
+
+<p><strong>Exchanger（对象交换器）</strong></p>
+<p>适用于两个线程需要进行数据交换的场景，两个线程对共享变量有不同的处理逻辑，都完成处理后交换处理结果，由另一个线程继续进行处理。</p>
+<p>两个线程共享一个Exchanger类的对象，一个线程完成对数据的处理之后，调用Exchanger类的exchange方法把处理后的数据作为参数发送给另一个线程。如果另外一个线程未完成对数据的处理，当前线程进入等待状态，直到另外一个线程也调用了exchange方法。</p>
+<pre><code>public class SendAndReceiver{
+    private final  Exchanger<StringBuffer> exchanger = new Exchanger<StringBuffer>();
+    private class Sender implements Runnable{
+        try{
+            StringBuffer content = new StringBuffer("Hello");
+            content = exchanger.exchange(content);
+        }catch(Exception e){
+            Thread.currentThread().interrupt();
+        }
+    }
+    
+    private class Receiver implements Runnable{
+        try{
+            StringBuffer content = new StringBuffer("World");
+            content = exchanger.exchange(content);
+        }catch(Exception e){
+            Thread.currentThread().interrupt();
+        }
+    }
+
+    public void exchange(){
+        new Thread(new Sender()).start();
+        new Thread(new Receiver()).start();
+    }
+}
+</code></pre>
+</div>
+</div>
+</body>
+</html>

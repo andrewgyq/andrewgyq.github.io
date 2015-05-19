@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Java Multi Thread</title>
+	<link rel="stylesheet" href="css/bootstrap.min.css" type="text/css" media="screen" charset="utf-8" />
+</head>
+<body>
+<div class="container">
+<div id="header">
+<ul class="pills">
+	<li class="active"><a href="index.html">andrewgyq's blog</a></li>
+	<li><a href="about.html">About</a></li>
+</ul>
+</div>
+
+<div id="post">
+<h1><a href="">Java多线程</a></h1>
+
+<div class="authoring">2015-05-06</div>
+<p><strong>进程与线程的区别</strong></p>
+<p>进程是一个计算机程序的运行实例，表示正在执行的指令。进程是资源的组织单位有自己独立的地址空间。</p>
+<p>线程是CPU调度执行的基本单位，有自己的程序计数器、寄存器、堆栈等，同一进程中的线程共用相同的地址空间，同时共享进程拥有的内存和其他资源。</p>
+
+<p><strong>Java创建线程</strong></p>
+<p>第一种是继承Thread类并覆写run方法</p>
+<p>第二种是实现Runnable接口，并在Thread类的构造方法中传入Runnable接口的实现对象</p>
+
+<p><strong>Java线程状态图</strong></p>
+<p><img src = "http://img.my.csdn.net/uploads/201303/27/1364348472_5586.png"></p>
+<ul>
+	<li><strong>Runnable:</strong>线程处于可运行状态，等待拿到CPU资源</li>
+	<li><strong>Running:</strong>线程拿到CPU资源，正在运行</li>
+	<li><strong>Waiting:</strong>调用Object.wait()方法进入线程等待状态，处于这个状态的线程需要等待其它线程来唤醒</li>
+	<li><strong>Sleeping:</strong>调用Thread.sleep()使线程进入睡眠状态</li>
+	<li><strong>Blocked:</strong>线程在等待监视器上的锁，当一个线程尝试执行synchronized方法或代码块，又无法获得对应的锁时，处于Blocked状态</li>
+	<li><strong>Dead:</strong>线程执行完成</li>
+</ul>
+
+<p><strong>Thread类的方法</strong></p>
+<ul>
+	<li><strong>interrupt():</strong>实现可取消的任务，向线程发出中断请求</li>
+	<li><strong>join():</strong>提供了一种简单的同步方式，允许当前线程等待另外一个线程运行结束。线程A调用线程B的join方法等待线程B的运行结束，线程B对共享变量的修改对线程A是可见的</li>
+	<pre><code>public void useJoin(){
+    Thread thread = new Thread(new Runnable(){
+        public void run(){
+
+        }
+	});
+	thread.start(); // 启动线程
+	// 执行其它操作
+	try{
+        thread.join(); // 主线程等待thread线程运行结束
+    } catch(InterruptedException e){
+        e.printStackTrace();
+    }
+}</code></pre>
+	<li><strong>sleep():</strong>让当前线程进入睡眠状态一段时间，线程的代码会暂停执行，但线程不会释放锁。不要把sleep方法调用放在synchronized方法或代码块中</li>
+	<li><strong>yield():</strong>使当前线程释放所占用的CPU资源，让其它线程获得运行的机会。从Running状态变为Runnable状态</li>
+</ul>
+</div>
+</div>
+</body>
+</html>

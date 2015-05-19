@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Java Virtual Machine</title>
+	<link rel="stylesheet" href="css/bootstrap.min.css" type="text/css" media="screen" charset="utf-8" />
+</head>
+<body>
+<div class="container">
+<div id="header">
+<ul class="pills">
+	<li class="active"><a href="index.html">andrewgyq's blog</a></li>
+	<li><a href="about.html">About</a></li>
+</ul>
+</div>
+
+<div id="post">
+<h1><a href="">Java内存区域</a></h1>
+
+<div class="authoring">2015-05-04</div>
+<h3>概述</h3>
+<p>JVM内存分为两个主要区域，一个是所有线程共享的数据区，一个是线程隔离数据区（线程私有）</p>
+<p><img src = "http://images.cnitblog.com/blog/544973/201311/04214113-1fe7e06a42dd4219970f22fe90de7869.jpg"></p>
+
+<p><strong>线程私有数据区</strong></p>
+<ul>
+	<li><strong>程序计数器(Program Counter Register)：</strong>一小块内存空间，单前线程所执行的字节码行号指示器。字节码解释器工作时，通过改变这个计数器的值来选取下一条需要执行的字节码指令，分支、循环、跳转、异常处理、线程恢复等基础功能都需要依赖这个计数器来完成。</li>
+	<li><strong>JVM虚拟机栈(Java Virtual Machine Stacks)：</strong>Java方法执行内存模型，用于存储局部变量，操作数栈，动态链接，方法出口等信息。是线程私有的。</li>
+	<li><strong>本地方法栈(Native Method Stacks)：</strong>为JVM用到的Native方法服务，Sun HotSpot 虚拟机把本地方法栈和JVM虚拟机栈合二为一。是线程私有的。</li>
+</ul>
+
+<p><strong>线程共享的数据区</strong></p>
+<ul>
+	<li><strong>JVM堆（ Java Virtual Machine Heap）：</strong>存放所有对象实例的地方。堆还可以细分为新生代和老年代。</li>
+	<li><strong>方法区（Method Area）：</strong>用于存储JVM加载的类信息、常量、静态变量、即使编译器编译后的代码等数据。</li>
+	<li><strong>运行时常量池（Runtime Constant Pool）：</strong>是方法区的一部分，用于存放编译器生成的各种字面量和符号引用，这部分内容将在类加载后存放到方法取得运行时常量池中。具备动态性，用的比较多的就是String类的intern()方法。</li>
+</ul>
+
+<p><strong>直接内存</strong></p>
+<p>它并不是虚拟机运行时数据区的一部分，也不是JAVA虚拟机规范中定义的内存区域。在JDK1.4中加入了NIO类，引入了一种基于通道(Channel)于缓冲区(Buffer)的I/O方式，他可以使用Native函数库直接分配堆外内存，然后通过一个存储在JAVA堆里面的DirectByteBuffer对象作为这块内存的引用进行操作。这样能在一些场景中显著提高性能，因为避免了在JAVA堆中和Native堆中来回复制数据。</p>
+
+<h3>OutofMemoryError</h3>
+<p><strong>Java堆溢出</strong></p>
+<p>只要不断创建对象，保证GC Roots到对象之间有可达路径来避免垃圾回收</p>
+<pre><code>public class HeapOOM{
+    static class OOMObject{}
+    public static void main(String [] args){
+        List<OOMObject> list = new ArrayList<OOMObject>();
+        while(true){
+            list.add(new OOMObject());
+        }
+    }
+}
+</code></pre>
+
+<p><strong>虚拟机栈和本地方法栈溢出</strong></p>
+<ul>
+	<li>线程请求栈深度大于虚拟机的最大深度，将抛StackOverflowError</li>
+	<li>虚拟机在扩展栈时无法申请到足够的内存空间，将抛OutOfMemoryError</li>
+</ul>
+<pre><code>public class StackOF{
+    private int stackLength = 1;
+    public void stackLeak(){
+        stackLength++;
+        stackLeak();
+    }
+    public static void main(String [] args) throws Throwable{
+        StackOF oom = new StackOF();
+        try{
+            oom.stackLeak();
+        }catch(Throwable e){
+            throw e;
+        }
+    }
+}
+</code></pre>
+
+<pre><code>public class StackOOM{
+    public void stackLeak(){
+        while(true){
+            Thread thread = new Thread(new Runnable(){
+                public void run(){
+                    while(true){}
+                }
+            });
+            thread.start();
+        }
+    }
+    public static void main(String [] args){
+        StackOOM oom = new StackOOM();
+        oom.stackLeak();
+    }
+}
+</code></pre>
+
+<p><strong>常量池溢出</strong></p>
+<p>使用String.intern()这个方法，如果池中包含该String对象则返回，否则在常量池中创建该字符串</p>
+<pre><code>public class ConstantPoolOOM{
+    public static void main(String [] args){
+        List<String> list = new ArrayList<String>();
+        int i = 0;
+        while(true){
+            list.add(String.valueOf(i++).intern());
+        }
+    }
+}
+</code></pre>
+
+<p><strong>方法区溢出</strong></p>
+<p>方法区用于存放Class的相关信息，运行时产生大量的类去填满方法区，直到溢出</p>
+</div>
+</div>
+</body>
+</html>

@@ -22,10 +22,32 @@
 <p>Java中ClassLoader是一种上级委托接待机制。整个JVM中提供三个ClassLoader类：</p>
 <ul>
 	<li>Bootstrap ClassLoader，主要加载JVM自身工作需要的类，没有更高一级的父加载器，也没有子加载器。</li>
-	<li>ExtClassLoader，</li>
+	<li>ExtClassLoader，扩展类加载器</li>
 	<li>AppClassLoader，它的父类是ExtClassLoader，用于加载classpath下的类。</li>
 </ul>
 
+<p><strong>类加载的时机</strong></p>
+<p>类从被加载到虚拟机内存中，到卸载出内存为止，整个生命周期包括了：加载、验证、准备、解析、初始化、使用、卸载七个阶段。</p>
+<p>以下四种情路必须立即初始化类：</p>
+<ul>
+	<li>遇到new、getstatic、putstatic、invokestatic这4条字节码指令</li>
+	<li>使用反射包的方法对类进行反射调用</li>
+	<li>当父类还没有进行初始化</li>
+	<li>虚拟机启动时，用户需要指定一个要执行的主类，虚拟机会先初始化</li>
+</ul>	
+
+<p><strong>类加载的双亲委托机制</strong></p>
+<p>JVM只存在两种不同的类加载器：一种是启动类加载器（Bootstrap ClassLoader），由C++实现是虚拟机的一部分，另一种是所有其它的类加载器，由Java语言实现，独立于虚拟机，全部继承自抽象类java.lang.ClassLoader。</p>
+<ul>
+	<li><strong>启动类加载器（Bootstrap ClassLoader）：</strong>负责将存放在<JAVA_HOME>\lib目录中类加载到虚拟机内存中。</li>
+	<li><strong>扩展类加载器（Extension ClassLoader）：</strong>由sun.misc.Laucher.$ExtClassLoader实现，它负责加载<JAVA_HOME>\lib\ext目录中的类库。</li>
+	<li><strong>应用程序类加载器（Application ClassLoader）：</strong>由sun.misc.Laucher.$AppClassLoader实现，负责加载用户类路径上的类。</li>
+</ul>
+<p><img src = "http://2.bp.blogspot.com/-HCTsr-j_ojw/USTOh1f8JwI/AAAAAAAAAjg/YegPspR5K48/s1600/java_classloader_hierarchy.PNG"></p>
+
+<p>双亲委托机制要求除了顶层的启动类加载器外，其余的类加载器都应当有自己的父加载器。如果一个类加载器收到了类加载的请求，将会把这个请求委派给父类加载器去完成，只有当父加载器无法完成这个请求时，子加载器才会尝试加载。</p>
+
+<p>双亲委托机制的好处是使Java类有了优先级的层次关系。例如Object类存放于rt.jar中，无论哪个类要加载这个类，最终都是委派给启动类加载器，因此Object类在程序的各种类加载器中都是同一个类。
 </div>
 </div>
 </body>

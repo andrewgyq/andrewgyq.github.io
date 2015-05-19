@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Producer Consumer</title>
+	<link rel="stylesheet" href="css/bootstrap.min.css" type="text/css" media="screen" charset="utf-8" />
+</head>
+<body>
+<div class="container">
+<div id="header">
+<ul class="pills">
+	<li class="active"><a href="index.html">andrewgyq's blog</a></li>
+	<li><a href="about.html">About</a></li>
+</ul>
+</div>
+
+<div id="post">
+<h1><a href=""></a></h1>生产者消费者问题
+
+<div class="authoring">2015-05-09</div>
+<p><strong>使用wait、notify</strong></p>
+<pre><code>import java.util.LinkedList;
+import java.util.Queue;
+
+/**
+ * Created by andrewgyq on 2015/2/9.
+ */
+public class WaitNotifyDemo {
+    public static void main(String[] args) {
+        final Queue sharedQ = new LinkedList();
+
+        Thread producer = new Producer(sharedQ);
+        Thread consumer = new Consumer(sharedQ);
+
+        producer.start();
+        consumer.start();
+    }
+}
+
+class Producer extends Thread{
+    private final Queue sharedQ;
+
+    public Producer(Queue sharedQ){
+        this.sharedQ = sharedQ;
+    }
+
+    @Override
+    public void run() {
+        for (int i = 0; i < 4; i++){
+            synchronized (sharedQ){
+                while (sharedQ.size() >= 1){
+                    try {
+                        System.out.println("Queue is full, Producer waiting");
+                        sharedQ.wait();
+                    }catch (InterruptedException ex){
+                        ex.printStackTrace();
+                    }
+                }
+                System.out.println("producing : " + i);
+                sharedQ.add(i);
+                sharedQ.notify();
+            }
+        }
+    }
+}
+
+class Consumer extends Thread{
+    private final Queue sharedQ;
+
+    public Consumer(Queue sharedQ){
+        this.sharedQ = sharedQ;
+    }
+
+    @Override
+    public void run() {
+       while(true){
+            synchronized (sharedQ){
+                while (sharedQ.size() == 0){
+                    try {
+                        System.out.println("Queue is empty, Consumer waiting");
+                        sharedQ.wait();
+                    }catch (InterruptedException ex){
+                        ex.printStackTrace();
+                    }
+                }
+                int number = (Integer)sharedQ.poll();
+                System.out.println("consuming : " + number);
+                sharedQ.notify();
+
+                if(number == 3){break; }
+            }
+        }
+    }
+}
+</code></pre>
+
+<p><strong>使用信号量</strong></p>
+<pre><code>import java.util.concurrent.Semaphore;
+
+/**
+ * Created by andrewgyq on 2015/2/10.
+ */
+public class SemaphoreDemo {
+    public static void main(String[] args) {
+        SharedQ sharedQ = new SharedQ();
+
+        Thread producer = new SProducer(sharedQ);
+        Thread consumer = new SConsumer(sharedQ);
+
+        producer.start();
+        consumer.start();
+    }
+}
+
+class SharedQ{
+    private int value;
+    static Semaphore semCon = new Semaphore(0);
+    static Semaphore semPro = new Semaphore(1);
+
+    public void get(){
+        try{
+            semCon.acquire();
+        }catch (InterruptedException ex){
+            ex.printStackTrace();
+        }
+        System.out.println("consuming: " + value);
+        semPro.release();
+    }
+
+    public void put(int n){
+        try{
+            semPro.acquire();
+        }catch (InterruptedException ex){
+            ex.printStackTrace();
+        }
+        this.value = n;
+        System.out.println("producing: " + n);
+        semCon.release();
+    }
+}
+
+class SProducer extends Thread{
+    private final SharedQ sharedQ;
+
+    public SProducer(SharedQ sharedQ){
+        this.sharedQ = sharedQ;
+    }
+
+    @Override
+    public void run() {
+        for (int i = 0; i < 4; i++){
+            sharedQ.put(i);
+        }
+    }
+}
+
+class SConsumer extends Thread{
+    private final SharedQ sharedQ;
+
+    public SConsumer(SharedQ sharedQ){
+        this.sharedQ = sharedQ;
+    }
+
+    @Override
+    public void run() {
+        for (int i = 0; i < 4; i++){
+            sharedQ.get();
+        }
+    }
+}
+</code></pre>
+
+<p><strong>使用阻塞队列</strong></p>
+<pre><code>import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
+
+/**
+ * Created by andrewgyq on 2015/2/9.
+ */
+public class BlockingQueueDemo {
+    public static void main(String[] args) {
+        BlockingQueue sharedQ = new LinkedBlockingQueue();
+
+        Thread producer = new BQProducer(sharedQ);
+        Thread consumer = new BQConsumer(sharedQ);
+
+        producer.start();
+        consumer.start();
+    }
+}
+
+class BQProducer extends Thread{
+    private final BlockingQueue sharedQ;
+
+    public BQProducer(BlockingQueue sharedQ){
+        this.sharedQ = sharedQ;
+    }
+
+    @Override
+    public void run() {
+        for (int i = 0; i < 4; i++){
+            try{
+                System.out.println("producing :" + i);
+                sharedQ.put(i);
+            }catch (InterruptedException ex){
+                ex.printStackTrace();
+            }
+        }
+    }
+}
+
+class BQConsumer extends Thread{
+    private final BlockingQueue sharedQ;
+
+    public BQConsumer(BlockingQueue sharedQ){
+        this.sharedQ = sharedQ;
+    }
+
+    @Override
+    public void run() {
+        while(true){
+            try{
+                System.out.println("consuming :" + sharedQ.take());
+            }catch (InterruptedException ex){
+                ex.printStackTrace();
+            }
+        }
+    }
+}
+</code></pre>
+</div>
+</div>
+</body>
+</html>

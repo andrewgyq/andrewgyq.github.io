@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>BinaryTree Traversal</title>
+	<link rel="stylesheet" href="css/bootstrap.min.css" type="text/css" media="screen" charset="utf-8" />
+</head>
+<body>
+<div class="container">
+<div id="header">
+<ul class="pills">
+	<li class="active"><a href="index.html">andrewgyq's blog</a></li>
+	<li><a href="about.html">About</a></li>
+</ul>
+</div>
+
+<div id="post">
+<h1><a href="">二叉树遍历汇总</a></h1>
+
+<div class="authoring">2015-05-03</div>
+<p>二叉树的遍历包括前序、中序、后序、层次遍历，前三种都有递归和非递归写法</p>
+<h3>递归解法</h3>
+<p><strong>前序遍历</strong></p>
+<pre><code>public List<Integer> preorderTraversal(TreeNode root){  
+    List<Integer> res = new ArrayList<Integer> ();  
+    helper(root, res);  
+    return res;  
+}
+private void helper(TreeNode root, List<Integer> res){  
+if(root == null)  
+    return;  
+res.add(root.val);  
+helper(root.left, res);  
+helper(root.right, res);  
+}</code></pre>  
+<p><strong>中序遍历</strong></p>
+<pre><code>public ArrayList<Integer> inorderTraversal(TreeNode root){  
+    ArrayList<Integer> res = new ArrayList<Integer>();  
+    helper(root, res);  
+    return res;  
+}  
+  
+private void helper(TreeNode root, ArrayList<Integer> res){  
+    if(root == null)  
+        return;  
+    helper(root.left, res);  
+    res.add(root.val);  
+    helper(root.right, res);  
+}  
+</code></pre>  
+<p><strong>后序遍历</strong></p>
+<pre><code>public List<Integer> postorderTraversal(TreeNode root){  
+    List<Integer> res = new ArrayList<Integer>();  
+    helper(root, res);  
+    return res;  
+}  
+  
+private void helper(TreeNode root, List<Integer> res){  
+    if(root == null)  
+        return;  
+    helper(root.left, res);  
+    helper(root.right, res);  
+    res.add(root.val);  
+}  
+</code></pre>  
+
+<h3>非递归解法</h3>
+<p><strong>前序遍历</strong></p>
+<pre><code>public List<Integer> preorderTraversal(TreeNode root){  
+    List<Integer> res = new ArrayList<Integer>();  
+    Stack<TreeNode> stack = new Stack<TreeNode>();  
+  
+    while(root != null || !stack.isEmpty()){  
+        if(root != null){  
+            stack.push(root);  
+            res.add(root.val);  
+            root = root.left;  
+        }  
+        else{  
+            root = stack.pop();  
+            root = root.right;  
+        }  
+    }  
+  
+    return res;  
+}</code></pre>  
+<p><strong>中序遍历</strong></p>
+<pre><code>public ArrayList<Integer> inorderTraversal(TreeNode root){  
+    ArrayList<Integer> res = new ArrayList<Integer>();  
+    Stack<TreeNode> stack = new Stack<TreeNode>();    
+  
+    while(root != null || !stack.isEmpty()){  
+        if(root != null){  
+            stack.push(root);  
+            root = root.left;  
+        }  
+        else{  
+            root = stack.pop();  
+            res.add(root.val);  
+            root = root.right;  
+        }  
+    }  
+    return res;  
+}  
+</code></pre>  
+<p><strong>后序遍历</strong></p>
+<pre><code>public List<Integer> postorderTraversal(TreeNode root){  
+    List<Integer> res = new ArrayList<Integer>();  
+    Stack<TreeNode> stack = new Stack<TreeNode>();  
+    TreeNode pre = null;  
+  
+    while(root != null || !stack.isEmpty()){  
+        if(root != null){  
+            stack.push(root);  
+            root = root.left;  
+        }  
+        else{  
+            TreeNode peek = stack.peek();  
+            // 如果当前栈顶元素的右结点存在并且还没访问过  
+            //（也就是右结点不等于上一个访问结点），那么就把当前结点移到右结点继续循环  
+            if(peek.right != null && pre != peek.right){  
+                root = peek.right;  
+            }  
+            else{  
+                stack.pop();  
+                res.add(peek.val);  
+                pre = peek;  
+            }  
+        }  
+    }  
+    return res;  
+}  
+</code></pre>  
+
+<p><strong>层次遍历</strong></p>
+<p>类似图的广度优先搜索BFS</p>
+<pre><code>public ArrayList<ArrayList<Integer>> levelOrder(TreeNode root) {  
+    if(root == null)  
+        return null;  
+    ArrayList<ArrayList<Integer>> res = new ArrayList<ArrayList<Integer>>();  
+    LinkedList<TreeNode> queue = new LinkedList<TreeNode>();  
+    queue.add(root);  
+    ArrayList<Integer> list = new ArrayList<Integer>();  
+    int curNum = 0;  
+    int lastNum = 1;  
+    while(!queue.isEmpty()){  
+        TreeNode cur = queue.poll();  
+        list.add(cur.val);  
+        --lastNum;  
+  
+        if(cur.left != null){  
+            queue.add(cur.left);  
+            ++curNum;  
+        }  
+  
+        if(cur.right != null){  
+            queue.add(cur.right);  
+            ++curNum;  
+        }  
+  
+        if(lastNum == 0){  
+            res.add(list);  
+            lastNum = curNum;  
+            curNum = 0;  
+            list = new ArrayList<Integer>();  
+        }  
+    }  
+    return res;  
+}  
+</code></pre>
+</div>
+</div>
+</body>
+</html>
