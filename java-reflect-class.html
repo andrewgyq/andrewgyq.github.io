@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Java Reflect Class</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css" media="screen" charset="utf-8" />
+</head>
+<body>
+<div class="container">
+<div id="header">
+<ul class="pills">
+    <li class="active"><a href="index.html">andrewgyq's blog</a></li>
+    <li><a href="about.html">About</a></li>
+</ul>
+</div>
+
+<div id="post">
+<h1><a href="">Java反射之Class类</a></h1>
+
+<div class="authoring">2015-05-19</div>
+<p><strong>概述</strong></p>
+<p>Java反射的一个重要组成就是java.lang.Class<T>类，获取该类的实例化对象有三种方式：</p>
+<ul>
+    <li>Object类存在一个getClass()方法，此方法不能被子类覆写，所有类的实例化对象都可以调用。</li>
+    <pre><code>String str = "Hello";
+Class<T> cls = str.getClass();
+</code></pre>
+    <li>利用"包.类.class"的形式实例化，例如一些开源框架会用到，Hibernate、MyBatis。</li>
+    <pre><code>Class<T> cls = java.lang.String.class;
+</code></pre>
+    <li>利用Class类中的forName()方法，主要用在工厂类上，如JDBC的驱动程序加载。</li>
+    <pre><code>Class<T> cls = Class.forName("java.lang.String");
+</code></pre>
+</ul>
+
+<p><strong>利用反射实例化对象</strong></p>
+<pre><code>class Book{
+    public Book(){
+        System.out.println("Book类的无参构造函数");
+    }
+    public String toString(){
+        return "这是一本书";
+    }
+}
+
+public class ClassDemo{
+    public static void main(String[] args) throws Exception{
+        Class<?> cls = Class.forName("Book");
+        Object obj = cls.newInstance(); // 表示实例化对象
+        System.out.println(obj); // 调用toString()
+    }
+}</code></pre>
+
+<p>newInstance()方法只能调用类中的无参构造方法，使用反射实例化对象灵活度高。子类需要为父接口进行对象实例化，用new会造成耦合问题</p>
+
+<p><strong>利用反射解决工厂类的设计</strong></p>
+<pre><code>interface Message{
+    public void print(String str);
+}
+
+class News implements Message{
+    public void print(String str){
+        System.out.println("新闻内容" + str);
+    }
+}
+
+class Email implements Message{
+    public void print(String str){
+        System.out.println("邮件内容" + str);
+    }
+}
+
+class Factory{
+    public static Message getInstance(String className){
+        try{
+            return (Message) Class.forName(className).newInstance();
+        }catch(Exception e){}
+        return null;
+    }
+}
+ 
+public class ClassDemo{
+    public static void main(String[] args) throws Exception{
+        Message msg = Factory.getInstance("News");
+        msg.print("你好");
+    }
+}
+</code></pre>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Java Code Segment</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css" media="screen" charset="utf-8" />
+</head>
+<body>
+<div class="container">
+<div id="header">
+<ul class="pills">
+    <li class="active"><a href="index.html">andrewgyq's blog</a></li>
+    <li><a href="about.html">About</a></li>
+</ul>
+</div>
+
+<div id="post">
+<h1><a href="">Java有用的代码片段</a></h1>
+
+<div class="authoring">2015-05-20</div>
+<p><strong>1.字符串有整型的相互转换</strong></p>
+<pre><code>String a = String.valueOf(2);   //integer to numeric string 
+int i = Integer.parseInt(a); //numeric string to an int
+</code></pre>
+
+<p><strong>2.向文件末尾添加内容</strong></p>
+<pre><code>BufferedWriter out = null;  
+try {  
+    out = new BufferedWriter(new FileWriter(”filename”, true));  
+    out.write(”aString”);  
+} catch (IOException e) {  
+    // error processing code  
+} finally {  
+    if (out != null) {  
+        out.close();  
+    }  
+}</code></pre>
+
+<p><strong>3.得到当前方法的名字</strong></p>
+<pre><code>String methodName = Thread.currentThread().getStackTrace()[1].getMethodName();
+</code></pre>
+
+<p><strong>4.转字符串到日期</strong></p>
+<pre><code>SimpleDateFormat format = new SimpleDateFormat( "dd.MM.yyyy" );
+Date date = format.parse( myString );
+</code></pre>
+
+<p><strong>5.使用JDBC链接Oracle</strong></p>
+<pre><code>public class OracleJdbcTest{
+    String driverClass = "oracle.jdbc.driver.OracleDriver"; 
+    Connection con;
+    public void init(FileInputStream fs) throws ClassNotFoundException, SQLException, FileNotFoundException, IOException{
+        Properties props = new Properties();
+        props.load(fs); 
+        String url = props.getProperty("db.url");  
+        String userName = props.getProperty("db.user");
+        String password = props.getProperty("db.password");
+        Class.forName(driverClass);
+        con = DriverManager.getConnection(url, userName, password); 
+    }
+
+    public void fetch() throws SQLException, IOException{
+        PreparedStatement ps = con.prepareStatement("select SYSDATE from dual");  
+        ResultSet rs = ps.executeQuery(); 
+
+        while(rs.next()){
+            // do the thing you do
+        }
+        rs.close();
+        ps.close(); 
+    }
+
+    public static void main(String[] args){
+        OracleJdbcTest test = new OracleJdbcTest();
+        test.init();
+        test.fetch();
+    }
+}
+</code></pre>
+
+</div>
+</div>
+</body>
+</html>

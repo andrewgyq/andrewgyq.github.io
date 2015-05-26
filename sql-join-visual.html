@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SQL Join Visual</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css" media="screen" charset="utf-8" />
+</head>
+<body>
+<div class="container">
+<div id="header">
+<ul class="pills">
+    <li class="active"><a href="index.html">andrewgyq's blog</a></li>
+    <li><a href="about.html">About</a></li>
+</ul>
+</div>
+
+<div id="post">
+<h1><a href="">SQL连接可视化</a></h1>
+
+<div class="authoring">2015-05-21</div>
+<p><strong>Inner JOIN</strong></p>
+<p><img src="http://www.codeproject.com/KB/database/Visual_SQL_Joins/INNER_JOIN.png"></p>
+<pre><code>SELECT <select_list> 
+FROM Table_A A
+INNER JOIN Table_B B
+ON A.Key = B.Key
+</code></pre>
+
+<p><strong>Left JOIN</strong></p>
+<p><img src="http://www.codeproject.com/KB/database/Visual_SQL_Joins/LEFT_JOIN.png"></p>
+<pre><code>SELECT <select_list>
+FROM Table_A A
+LEFT JOIN Table_B B
+ON A.Key = B.Key
+</code></pre>
+
+<p><strong>Right JOIN</strong></p>
+<p><img src="http://www.codeproject.com/KB/database/Visual_SQL_Joins/RIGHT_JOIN.png"></p>
+<pre><code>SELECT <select_list>
+FROM Table_A A
+RIGHT JOIN Table_B B
+ON A.Key = B.Key
+</code></pre>
+
+<p><strong>Outer JOIN</strong></p>
+<p><img src="http://www.codeproject.com/KB/database/Visual_SQL_Joins/FULL_OUTER_JOIN.png"></p>
+<pre><code>SELECT <select_list>
+FROM Table_A A
+FULL OUTER JOIN Table_B B
+ON A.Key = B.Key
+</code></pre>
+
+<p><img src="http://www.codeproject.com/KB/database/Visual_SQL_Joins/Visual_SQL_JOINS_V2.png"></p>
+<p><strong>参考: </strong><a>http://www.codeproject.com/Articles/33052/Visual-Representation-of-SQL-Joins</a></p>
+</div>
+</div>
+</body>
+</html>

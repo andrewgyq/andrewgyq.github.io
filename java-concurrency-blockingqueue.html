@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Java Concurrency BlockingQueue</title>
+	<link rel="stylesheet" href="css/bootstrap.min.css" type="text/css" media="screen" charset="utf-8" />
+</head>
+<body>
+<div class="container">
+<div id="header">
+<ul class="pills">
+	<li class="active"><a href="index.html">andrewgyq's blog</a></li>
+	<li><a href="about.html">About</a></li>
+</ul>
+</div>
+
+<div id="post">
+<h1><a href="">Java高级并发数据结构之阻塞队列</a></h1>
+<div class="authoring">2015-05-09</div>
+<p><strong>概述</strong></p>
+<p>阻塞队列是一个支持两个附加操作的队列。当队列满时，队列会阻塞插入元素的线程，直到队列不满；队列为空时，获取元素的线程会等待队列为非空。</p>
+<p>JDK7里有七个阻塞队列的实现：</p>
+<ul>
+	<li>ArrayBlockingQueue：由数组组成的有界阻塞队列</li>
+	<li>LinkedBlockingQueue：由链表组成的有界阻塞队列</li>
+	<li>PriorityBlockingQueue：支持优先级排序的无界阻塞队列</li>
+	<li>DelayQueue：使用优先级队列实现的无界阻塞队列</li>
+	<li>SynchronousQueue：不存储元素的阻塞队列</li>
+	<li>LinkedTransferQueue：由链表组成的无界阻塞队列</li>
+	<li>LinkedBlockingDeque：由链表组成的双向阻塞队列</li>
+</ul>
+
+<p><strong>ArrayBlockingQueue</strong></p>
+<p>ArrayBlockingQueue默认不保证线程公平的访问队列，所谓公平访问队列是指阻塞的线程可以按照阻塞的先后顺序访问队列；非公平性是指当队列可用时，阻塞的线程都可以争夺访问队列的资格。</p>
+<p>创建一个公平的阻塞队列：</p>
+<pre><code>ArrayBlockingQueue fairQueue = new ArrayBlockingQueue(1000, true);
+</code></pre>
+
+<p>访问公平性是使用重入锁实现的：</p>
+<pre><code>public ArrayBlockingQueue(int capacity, boolean fair){
+    if(capacity <= 0)
+        throw new IllegalArgumentException();
+    this.item = new Object[capacity];
+    lock = new ReentrantLock(fair);
+    notEmpty = lock.newCondition();
+    notFull = lock.newCondition();	
+}
+</code></pre>
+</div>
+</div>
+</body>
+</html>
