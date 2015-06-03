@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Spring Bean</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css" media="screen" charset="utf-8" />
+</head>
+<body>
+<div class="container">
+<div id="header">
+<ul class="pills">
+    <li class="active"><a href="index.html">andrewgyq's blog</a></li>
+    <li><a href="about.html">About</a></li>
+</ul>
+</div>
+
+<div id="post">
+<h1><a href="">Spring管理Bean</a></h1>
+
+<div class="authoring">2015-05-22</div>
+<p><strong>概述</strong></p>
+<p>服务启动时，容器会解析配置文件，通过反射机制实例化配置中的所有的类：</p>
+<pre><code>ApplicationContext ctx = new ClassPathXmlApplicationContext("spring.xml");
+MyService myService = (MyService) ctx.getBean("myService");
+</code></pre>
+
+<p><strong>模拟spring管理Bean</strong></p>
+<p>首先需要两个第三方jar包：dom4j-1.6.1.jar（用于解析xml）；jaxen-1.1-beta-6.jar 这是一个dom4j依赖包</p>
+<p>Bean对象定义封装</p>
+<pre><code>public class BeanDefinition {
+    private String id;
+    private String className;
+
+    public BeanDefinition(String id, String className) {
+        this.id = id;
+        this.className = className;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getClassName() {
+        return className;
+    }
+
+    public void setClassName(String className) {
+        this.className = className;
+    }
+}
+</code></pre>
+
+<p>Bean工厂</p>
+<pre><code>import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.dom4j.Document;
+import org.dom4j.Element;
+import org.dom4j.XPath;
+import org.dom4j.io.SAXReader;
+
+public class ClassPathXMLApplicationContext {
+    private List<BeanDefinition> beanDefines = new ArrayList<BeanDefinition>();
+    private Map<String, Object> sigletons = new HashMap<String, Object>();
+
+    public ClassPathXMLApplicationContext(String filename) {
+        this.readXML(filename);
+        this.instanceBeans();
+    }
+
+    /**
+     * 完成bean的实例化
+     */
+    private void instanceBeans() {
+        for (BeanDefinition beanDefinition : beanDefines) {
+            try {
+                if (beanDefinition.getClassName() != null && !"".equals(beanDefinition.getClassName().trim()))
+                    sigletons.put(beanDefinition.getId(), Class.forName(beanDefinition.getClassName()).newInstance());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
+
+    /**
+     * dom4j读取xml配置文件
+     * @param filename
+     */
+    private void readXML(String filename) {
+        SAXReader saxReader = new SAXReader();
+        Document document = null;
+        try {
+            URL xmlpath = this.getClass().getClassLoader().getResource(filename);
+            document = saxReader.read(xmlpath);
+            Map<String, String> nsMap = new HashMap<String, String>();
+            nsMap.put("ns", "http://www.springframework.org/schema/beans");// 加入命名空间
+            XPath xsub = document.createXPath("//ns:beans/ns:bean");// 创建beans/bean查询路径
+            xsub.setNamespaceURIs(nsMap);// 设置命名空间
+            List<Element> beans = xsub.selectNodes(document);// 获取文档下所有bean节点
+            for (Element element : beans) {
+                String id = element.attributeValue("id");// 获取id属性值
+                String clazz = element.attributeValue("class"); // 获取class属性值
+                BeanDefinition beanDefine = new BeanDefinition(id, clazz);
+                beanDefines.add(beanDefine);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 获取bean实例
+     * @param beanName
+     * @return
+     */
+    public Object getBean(String beanName) {
+        return this.sigletons.get(beanName);
+    }
+}
+</code></pre>
+
+<p>配置文件spring.xml</p>
+<pre>< ?xml version="1.0" encoding="UTF-8"?>
+< beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+    < bean id="myService" class="com.gyq.service.MyService">< /bean>
+< /beans>
+</pre>
+
+<p>测试代码</p>
+<pre><code>public class MyService{
+    public void sayHello() {
+        System.out.println("say hello..."); 
+    }
+    public static void main(String[] args) {
+        ClassPathXMLApplicationContext ctx = new ClassPathXMLApplicationContext("spring.xml");
+        MyService myService = (MyService) ctx.getBean("myService");
+        myService.sayHello();
+    }
+}</code></pre>
+
+<p><strong>参考：</strong><a href="http://blog.csdn.net/zdp072/article/details/25513757">http://blog.csdn.net/zdp072/article/details/25513757</a></p>
+</div>
+</div>
+</body>
+</html>

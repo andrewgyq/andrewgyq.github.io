@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MySQL CommandLine</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css" media="screen" charset="utf-8" />
+</head>
+<body>
+<div class="container">
+<div id="header">
+<ul class="pills">
+    <li class="active"><a href="index.html">andrewgyq's blog</a></li>
+    <li><a href="about.html">About</a></li>
+</ul>
+</div>
+
+<div id="post">
+<h1><a href="">MySQL指令大全</a></h1>
+
+<div class="authoring">2015-06-01</div>
+<p><strong>1.root登录mysql</strong></p>
+<pre><code>mysql -u root -p
+</code></pre>
+
+<p><strong>2.修改root密码</strong></p>
+<pre><code>UPDATE mysql.user SET Password=PASSWORD('root') WHERE User='root';
+FLUSH PRIVILEGES;
+</code></pre>
+
+<p><strong>3.启动mysqld服务</strong></p>
+<pre><code>sudo service mysqld start
+</code></pre>
+
+<p><strong>4.显示数据库</strong></p>
+<pre><code>SHOW DATABASES;
+</code></pre>
+
+<p><strong>5.创建数据库</strong></p>
+<pre><code>CREATE DATABASE sakila;
+</code></pre>
+
+<p><strong>6.使用数据库</strong></p>
+<pre><code>USE sakila 
+</code></pre>
+
+<p><strong>7.运行sql</strong></p>
+<pre><code>mysql -h 127.0.0.1 -u root -p  --default_character_set utf8 sakila < *.sql
+</code></pre>
+
+<p><strong>8.导出sql</strong></p>
+<pre><code>mysqldump -u root -p sakila > sakila.sql
+</code></pre>
+
+</div>
+</div>
+</body>
+</html>
