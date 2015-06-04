@@ -33,6 +33,15 @@
 sudo service iptables restart
 </code></pre>
 
+<p><strong>4.修改DNS</strong></p>
+<pre><code>echo "nameserver 192.168.128.37" >> /etc/resolv.conf
+</code></pre>
+
+<p><strong>5.关闭端口</strong></p>
+<pre><code>sudo netstat -ap | grep :8080
+kill -9 16158
+</code></pre>
+
 </div>
 </div>
 </body>

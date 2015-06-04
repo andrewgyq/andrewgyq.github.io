@@ -43,12 +43,20 @@ FLUSH PRIVILEGES;
 <pre><code>USE sakila 
 </code></pre>
 
-<p><strong>7.运行sql</strong></p>
+<p><strong>7.删除数据库</strong></p>
+<pre><code>DROP DATABASE sakila;
+</code></pre>
+
+<p><strong>8.运行sql</strong></p>
 <pre><code>mysql -h 127.0.0.1 -u root -p  --default_character_set utf8 sakila < *.sql
 </code></pre>
 
-<p><strong>8.导出sql</strong></p>
+<p><strong>9.导出sql</strong></p>
 <pre><code>mysqldump -u root -p sakila > sakila.sql
+</code></pre>
+
+<p><strong>10.删除table</strong></p>
+<pre><code>TRUNCATE TABLE test;
 </code></pre>
 
 </div>
