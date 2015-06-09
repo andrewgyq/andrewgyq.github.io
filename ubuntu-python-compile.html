@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ubuntu Compile Python</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css" media="screen" charset="utf-8" />
+</head>
+<body>
+<div class="container">
+<div id="header">
+<ul class="pills">
+    <li class="active"><a href="index.html">andrewgyq's blog</a></li>
+    <li><a href="about.html">About</a></li>
+</ul>
+</div>
+
+<div id="post">
+<h1><a href="">Ubuntu编译安装Python3.4.3</a></h1>
+
+<div class="authoring">2015-06-03</div>
+<p><strong>Ubuntu14.04中默认安装Python2.7.6在/usr/bin/python2.7，现编译安装Python3.4.3，实现共存互不影响</strong></p>
+<p><strong>1.安装依赖</strong></p>
+<pre><code>sudo apt-get install build-essential libssl-dev libevent-dev libjpeg-dev libxml2-dev libxslt-dev
+</code></pre>
+
+<p><strong>2.下载安装包解压</strong></p>
+<pre><code>wget https://www.python.org/ftp/python/3.4.3/Python-3.4.3.tgz
+tar xf Python-3.4.3.tgz
+rm Python-3.4.3.tgz
+</code></pre>
+
+<p><strong>3.安装</strong></p>
+<pre><code>./configure --prefix=/home/ubuntu
+make && make altinstall
+</code></pre>
+<p>Python3.4.3装在/home/ubuntu/bin/python3.4</p>
+
+<p><strong>4.配置环境变量</strong></p>
+<pre><code>vi .bashrc  
+export PATH=$PATH:/home/ubuntu/bin  
+source .bashrc
+</code></pre>
+
+<p><strong>5.安装virtualenv</strong></p>
+<pre><code>pip2.7 install virtualenv
+</code></pre>
+<p>virtualenv装在/home/ubuntu/lib/python3.4/site-packages</p>
+
+<p><strong>6.创建项目使用Python3.4.3环境</strong></p>
+<pre><code>mkdir app
+cd app  
+virtualenv-3.4 buildenv  
+source buildenv/bin/activate
+</code></pre>
+<p>输入python，将会出现Python3.4.3</p>
+<p>在Python3.4.3环境下安装包，pip install requests，将装在/home/ubuntu/app/buildenv/lib/python3.4/site-packages，为此项目所有</p>
+<p>退出Python3.4.3，输入deactivate</p>
+</div>
+</div>
+</body>
+</html>
