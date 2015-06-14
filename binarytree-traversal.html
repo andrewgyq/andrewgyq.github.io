@@ -22,11 +22,11 @@
 <h3>递归解法</h3>
 <p><strong>前序遍历</strong></p>
 <pre><code>public List<Integer> preorderTraversal(TreeNode root){  
-    List<Integer> res = new ArrayList<Integer> ();  
+    List&lt;Integer&gt; res = new ArrayList&lt;Integer&gt; ();  
     helper(root, res);  
     return res;  
 }
-private void helper(TreeNode root, List<Integer> res){  
+private void helper(TreeNode root, List&lt;Integer&gt; res){  
     if(root == null)  
         return;  
     res.add(root.val);  
@@ -34,13 +34,13 @@ private void helper(TreeNode root, List<Integer> res){
     helper(root.right, res);  
 }</code></pre>  
 <p><strong>中序遍历</strong></p>
-<pre><code>public ArrayList<Integer> inorderTraversal(TreeNode root){  
-    ArrayList<Integer> res = new ArrayList<Integer>();  
+<pre><code>public ArrayList&lt;Integer&gt; inorderTraversal(TreeNode root){  
+    ArrayList&lt;Integer&gt; res = new ArrayList&lt;Integer&gt;();  
     helper(root, res);  
     return res;  
 }  
   
-private void helper(TreeNode root, ArrayList<Integer> res){  
+private void helper(TreeNode root, ArrayList&lt;Integer&gt; res){  
     if(root == null)  
         return;  
     helper(root.left, res);  
@@ -49,13 +49,13 @@ private void helper(TreeNode root, ArrayList<Integer> res){
 }  
 </code></pre>  
 <p><strong>后序遍历</strong></p>
-<pre><code>public List<Integer> postorderTraversal(TreeNode root){  
-    List<Integer> res = new ArrayList<Integer>();  
+<pre><code>public List&lt;Integer&gt; postorderTraversal(TreeNode root){  
+    List&lt;Integer&gt; res = new ArrayList&lt;Integer&gt;();  
     helper(root, res);  
     return res;  
 }  
   
-private void helper(TreeNode root, List<Integer> res){  
+private void helper(TreeNode root, List&lt;Integer&gt; res){  
     if(root == null)  
         return;  
     helper(root.left, res);  
@@ -66,9 +66,9 @@ private void helper(TreeNode root, List<Integer> res){
 
 <h3>非递归解法</h3>
 <p><strong>前序遍历</strong></p>
-<pre><code>public List<Integer> preorderTraversal(TreeNode root){  
-    List<Integer> res = new ArrayList<Integer>();  
-    Stack<TreeNode> stack = new Stack<TreeNode>();  
+<pre><code>public List&lt;Integer&gt; preorderTraversal(TreeNode root){  
+    List&lt;Integer&gt; res = new ArrayList&lt;Integer&gt;();  
+    Stack&lt;TreeNode&gt; stack = new Stack&lt;TreeNode&gt;();  
   
     while(root != null || !stack.isEmpty()){  
         if(root != null){  
@@ -85,9 +85,9 @@ private void helper(TreeNode root, List<Integer> res){
     return res;  
 }</code></pre>  
 <p><strong>中序遍历</strong></p>
-<pre><code>public ArrayList<Integer> inorderTraversal(TreeNode root){  
-    ArrayList<Integer> res = new ArrayList<Integer>();  
-    Stack<TreeNode> stack = new Stack<TreeNode>();    
+<pre><code>public ArrayList&lt;Integer&gt; inorderTraversal(TreeNode root){  
+    ArrayList&lt;Integer&gt; res = new ArrayList&lt;Integer&gt;();  
+    Stack&lt;TreeNode&gt; stack = new Stack&lt;TreeNode&gt;();    
   
     while(root != null || !stack.isEmpty()){  
         if(root != null){  
@@ -104,9 +104,9 @@ private void helper(TreeNode root, List<Integer> res){
 }  
 </code></pre>  
 <p><strong>后序遍历</strong></p>
-<pre><code>public List<Integer> postorderTraversal(TreeNode root){  
-    List<Integer> res = new ArrayList<Integer>();  
-    Stack<TreeNode> stack = new Stack<TreeNode>();  
+<pre><code>public List&lt;Integer&gt; postorderTraversal(TreeNode root){  
+    List&lt;Integer&gt; res = new ArrayList&lt;Integer&gt;();  
+    Stack&lt;TreeNode&gt; stack = new Stack&lt;TreeNode&gt;();  
     TreeNode pre = null;  
   
     while(root != null || !stack.isEmpty()){  
@@ -134,13 +134,13 @@ private void helper(TreeNode root, List<Integer> res){
 
 <p><strong>层次遍历</strong></p>
 <p>类似图的广度优先搜索BFS</p>
-<pre><code>public ArrayList<ArrayList<Integer>> levelOrder(TreeNode root) {  
+<pre><code>public ArrayList&lt;ArrayList&lt;Integer&gt;&gt; levelOrder(TreeNode root) {  
     if(root == null)  
         return null;  
-    ArrayList<ArrayList<Integer>> res = new ArrayList<ArrayList<Integer>>();  
-    LinkedList<TreeNode> queue = new LinkedList<TreeNode>();  
+    ArrayList&lt;ArrayList&lt;Integer&gt;&gt; res = new ArrayList&lt;ArrayList&lt;Integer&gt;&gt;();  
+    LinkedList&lt;TreeNode&gt; queue = new LinkedList&lt;TreeNode&gt;();  
     queue.add(root);  
-    ArrayList<Integer> list = new ArrayList<Integer>();  
+    ArrayList&lt;Integer&gt; list = new ArrayList&lt;Integer&gt;();  
     int curNum = 0;  
     int lastNum = 1;  
     while(!queue.isEmpty()){  
@@ -162,7 +162,7 @@ private void helper(TreeNode root, List<Integer> res){
             res.add(list);  
             lastNum = curNum;  
             curNum = 0;  
-            list = new ArrayList<Integer>();  
+            list = new ArrayList&lt;Integer&gt;();  
         }  
     }  
     return res;  
