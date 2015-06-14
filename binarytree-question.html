@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>BinaryTree Question</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css" media="screen" charset="utf-8" />
+</head>
+<body>
+<div class="container">
+<div id="header">
+<ul class="pills">
+    <li class="active"><a href="index.html">andrewgyq's blog</a></li>
+    <li><a href="about.html">About</a></li>
+</ul>
+</div>
+
+<div id="post">
+<h1><a href="">二叉树面试题汇总</a></h1>
+
+<div class="authoring">2015-06-05</div>
+<p>二叉树的结点定义</p>
+<pre><code>public class TreeNode {
+    int val;
+    TreeNode left;
+    TreeNode right;
+    TreeNode(int x) { val = x; }
+}</code></pre>  
+
+<p><strong>1.判断是否为平衡二叉树</strong></p>
+<pre><code>public class Solution {
+    public boolean isBalanced(TreeNode root) {
+        if(root == null)
+            return true;
+        if(getHeight(root) == -1)
+            return false;
+        return true;  
+    }
+    private int getHeight(TreeNode root){
+        if(root == null)
+            return 0;
+        int left = getHeight(root.left);
+        int right = getHeight(root.right);
+
+        if(left == -1 || right == -1)
+            return -1;
+        if(Math.abs(left - right) > 1)
+            return -1;
+
+        return Math.max(left, right) + 1;
+    }
+}
+</code></pre>  
+
+<p><strong>2.二叉树的最大深度</strong></p>
+<pre><code>public class Solution {
+    public int maxDepth(TreeNode root) {
+        if(root == null)
+            return 0;
+        return getDepth(root, 1);
+        
+    }
+    public int getDepth(TreeNode node, int depth){
+        int left = depth;
+        int right = depth;
+        if(node.left!=null)
+            left = getDepth(node.left, depth+1);
+        if(node.right!=null)
+            right = getDepth(node.right, depth+1);
+        return left > right ? left : right;
+    }
+}
+</code></pre> 
+
+<p><strong>3.二叉树的最小深度</strong></p>
+<pre><code>public class Solution {
+    public int minDepth(TreeNode root) {
+        if(root == null)
+            return 0;
+        if(root.left == null)
+            return minDepth(root.right) + 1;
+        if(root.right == null)
+            return minDepth(root.left) + 1;
+        return Math.min(minDepth(root.left),minDepth(root.right))+1;
+    }
+}
+</code></pre>  
+
+<p><strong>4.判断二叉树是否中心对称</strong></p>
+<pre><code>public class Solution {
+    public boolean isSymmetric(TreeNode root) {
+        if(root == null)
+            return true;
+        return helper(root.left, root.right);
+    }
+    private boolean helper(TreeNode root1, TreeNode root2){
+        if(root1 == null && root2 == null)
+            return true;
+        if(root1 == null || root2 == null)
+            return false;
+        if(root1.val != root2.val)
+            return false;
+        return helper(root1.left,root2.right) && helper(root1.right,root2.left); 
+    }
+}
+</code></pre>  
+
+<p><strong>5.翻转二叉树</strong></p>
+<pre><code>// 递归写法
+public class Solution {
+    public TreeNode invertTree(TreeNode root) {
+        if(root == null)
+            return null;
+        TreeNode tmp = root.left;
+        root.left = invertTree(root.right);
+        root.right = invertTree(tmp);
+        return root;
+    }
+}
+</code></pre> 
+
+<pre><code>// 非递归写法
+public class Solution {
+    public TreeNode invertTree(TreeNode root) {
+        if(root == null)
+            return null;
+        Queue<TreeNode> queue = new LinkedList<TreeNode>();
+        queue.offer(root);
+        while(!queue.isEmpty()){
+            TreeNode node = queue.peek();
+            queue.poll();
+            TreeNode tmp = node.left;
+            node.left = node.right;
+            node.right = tmp;
+            if(node.left != null)
+                queue.offer(node.left);
+            if(node.right != null)
+                queue.offer(node.right);
+        }
+        return root;
+    }
+}
+</code></pre>  
+</div>
+</div>
+</body>
+</html>

@@ -27,11 +27,11 @@
     return res;  
 }
 private void helper(TreeNode root, List<Integer> res){  
-if(root == null)  
-    return;  
-res.add(root.val);  
-helper(root.left, res);  
-helper(root.right, res);  
+    if(root == null)  
+        return;  
+    res.add(root.val);  
+    helper(root.left, res);  
+    helper(root.right, res);  
 }</code></pre>  
 <p><strong>中序遍历</strong></p>
 <pre><code>public ArrayList<Integer> inorderTraversal(TreeNode root){  
