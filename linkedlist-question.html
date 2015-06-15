@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>LinkedList Question</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css" media="screen" charset="utf-8" />
+</head>
+<body>
+<div class="container">
+<div id="header">
+<ul class="pills">
+    <li class="active"><a href="index.html">andrewgyq's blog</a></li>
+    <li><a href="about.html">About</a></li>
+</ul>
+</div>
+
+<div id="post">
+<h1><a href="">链表面试题汇总</a></h1>
+
+<div class="authoring">2015-06-06</div>
+<p>链表的结点定义</p>
+<pre><code>class ListNode {
+    int val;
+    ListNode next;
+    ListNode(int x) {
+        val = x;
+        next = null;
+    }
+}</code></pre>  
+
+<p><strong>1.链表中是否有环</strong></p>
+<pre><code>public class Solution {
+    public boolean hasCycle(ListNode head) {
+        if(head == null || head.next == null)
+            return false;
+        ListNode slow = head;
+        ListNode fast = head;
+        while(fast != null && fast.next != null && fast.next.next != null){
+            slow = slow.next;
+            fast = fast.next.next;
+            if(slow == fast)
+                return true;
+        }
+        return false;
+    }
+}
+</code></pre>  
+
+<p><strong>2.链表中环出现的结点</strong></p>
+<pre><code>public class Solution {
+    public ListNode detectCycle(ListNode head) {
+        if(head == null || head.next == null)
+            return null;
+        ListNode slow = head;
+        ListNode fast = head;
+        ListNode begin = null;
+        while(fast != null && fast.next != null && fast.next.next != null){
+            slow = slow.next;
+            fast = fast.next.next;
+            if(slow == fast){
+                slow = head;
+                while(slow != fast){
+                    slow = slow.next;
+                    fast = fast.next;
+                }
+                begin = slow;
+                break;
+            }
+        }
+        return begin;
+    }
+}
+</code></pre> 
+
+<p><strong>3.合并两个有序的链表</strong></p>
+<pre><code>public class Solution {
+    public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
+        ListNode helper = new ListNode(0);
+        ListNode pre = helper;
+        while(l1 != null && l2 != null){
+            if(l1.val < l2.val){
+                pre.next = l1;
+                l1 = l1.next;
+                pre = pre.next;
+            }else{
+                pre.next = l2;
+                l2 = l2.next;
+                pre = pre.next;
+            }
+        }
+
+        while(l2 != null){
+            pre.next = l2;
+            pre = pre.next;
+            l2 = l2.next;
+        }
+        while(l1 != null){
+            pre.next = l1;
+            pre = pre.next;
+            l1 = l1.next;
+        }
+        return helper.next; 
+    }
+}
+</code></pre>  
+
+<p><strong>4.删除链表倒数第n个结点</strong></p>
+<pre><code>public class Solution {
+    public ListNode removeNthFromEnd(ListNode head, int n) {
+        if(head == null || n < 1)
+            return null;
+        ListNode p = head;
+        ListNode q = head;
+        while(n > 1 && q != null){
+            q = q.next;
+            n--;
+        }
+        if(n > 1 || q == null)
+            return null;
+        ListNode pre = null;
+        while (q.next != null) { 
+            pre = p; 
+            p = p.next;  
+            q = q.next;  
+        }  
+        if(pre == null)
+            head = p.next;
+        else
+            pre.next = p.next; 
+        return head; 
+    }
+}
+</code></pre>  
+
+<p><strong>5.两个链表求交</strong></p>
+<pre><code>public class Solution {
+    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+        HashMap&lt;ListNode,Boolean&gt; map = new HashMap&lt;ListNode,Boolean&gt;();
+        while(headA != null){
+            map.put(headA, true);
+            headA = headA.next;
+        }
+        while(headB != null){
+            if(map.get(headB) != null && map.get(headB)){
+                break;
+            }
+            headB = headB.next;
+        }
+        return headB;
+    }
+}
+</code></pre> 
+
+<p><strong>6.有序链表去重</strong></p>
+<pre><code>public class Solution {
+    public ListNode deleteDuplicates(ListNode head) {
+        if( head == null || head.next == null)
+            return head;
+        ListNode p = head;
+        while(p != null && p.next != null){
+            if(p.val == p.next.val)
+                p.next = p.next.next;
+            else
+                p = p.next;
+        }
+        return head;
+    }
+}
+</code></pre> 
+
+<p><strong>7.链表的插入排序</strong></p>
+<pre><code>public class Solution {
+    public ListNode insertionSortList(ListNode head) {
+        if(head == null || head.next == null)
+            return head;
+        
+        ListNode helper = new ListNode(0);  
+        ListNode pre = helper;  
+        ListNode cur = head;  
+        while(cur != null){  
+            ListNode next = cur.next;  
+            pre = helper;  
+        while(pre.next!=null && pre.next.val<=cur.val){  
+            pre = pre.next;  
+        }  
+            cur.next = pre.next;  
+            pre.next = cur;  
+            cur = next;  
+        }  
+        return helper.next; 
+    }
+}
+</code></pre> 
+
+<p><strong>8.反转链表</strong></p>
+<pre><code>// 非递归
+public class Solution {
+    public ListNode reverseList(ListNode head) {
+        ListNode cur = head;
+        ListNode pre = null;
+        
+        while(cur != null){
+            ListNode next = cur.next;
+            cur.next = pre;
+            pre = cur;
+            cur = next;
+        }
+        return pre;
+    }
+}
+</code></pre> 
+
+<pre><code>// 递归
+public class Solution {
+    public ListNode reverseList(ListNode head) {
+        if (head == null || head.next == null)
+            return head;  
+        ListNode remaining = reverseList(head.next);
+        head.next.next = head;  
+        head.next = null;  
+        return remaining; 
+    }
+}
+</code></pre> 
+
+</div>
+</div>
+</body>
+</html>
