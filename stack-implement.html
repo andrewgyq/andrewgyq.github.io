@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Stack Implement</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css" media="screen" charset="utf-8" />
+</head>
+<body>
+<div class="container">
+<div id="header">
+<ul class="pills">
+    <li class="active"><a href="index.html">andrewgyq's blog</a></li>
+    <li><a href="about.html">About</a></li>
+</ul>
+</div>
+
+<div id="post">
+<h1><a href="">栈的三种实现</a></h1>
+
+<div class="authoring">2015-06-07</div>
+
+<p><strong>1.数组实现</strong></p>
+<pre><code>public class ArrayStack{
+    private int[] s;
+    private int top = -1;
+
+    public ArrayStack(int capacity){
+        s = new int[capacity];
+    }
+
+    public boolean isEmpty(){
+        return top == -1;
+    }
+
+    public void push(int item){
+        if(top == s.length - 1){
+            System.out.println("stack overflow!");
+            return;
+        }
+        s[++top] = item;
+    }
+
+    public int pop(){
+        if(top == -1){
+            System.out.println("no element to pop!");
+            return 0;
+        }
+        return s[top--];
+    }
+
+    public int top(){
+        return s[top];
+    }
+}
+</code></pre>  
+
+<p><strong>2.链表实现</strong></p>
+<pre><code>class Node{
+    int data;
+    Node next;
+    Node(int data){
+        this.data = data;
+    }
+}
+public class LinkedListStack{
+    private Node top;
+
+    public boolean isEmpty(){
+        return top == null;
+    }
+
+    public void push(int item){
+        Node temp = new Node(item);
+        temp.next = top;
+        top = temp;
+    }
+
+    public void pop(){
+        if(top == null)
+            return;
+        top = top.next;
+    }
+
+    public int top(){
+        return top.data;
+    }
+}
+</code></pre> 
+
+<p><strong>3.两个队列实现</strong></p>
+<pre><code>import java.util.LinkedList;
+import java.util.Queue;
+
+public class TwoQueueStack {
+    private Queue&lt;Integer&gt; queueFirst = new LinkedList&lt;Integer&gt;();
+    private Queue&lt;Integer&gt; queueSecond = new LinkedList&lt;Integer&gt;();
+    
+    public int push(int val){
+        if(queueSecond.isEmpty()){
+            queueFirst.offer(val);
+        }else if(queueFirst.isEmpty()){
+            queueSecond.offer(val);
+        }
+        return val;
+    }
+    
+    public int pop(){
+        if(!queueFirst.isEmpty()){
+            while(queueFirst.size() > 1){
+                queueSecond.offer(queueFirst.poll());
+            }
+            return queueFirst.poll();
+        }else if(!queueSecond.isEmpty()){
+            while(queueSecond.size() > 1){
+                queueFirst.offer(queueSecond.poll());
+            }
+            return queueSecond.poll();
+        }
+        return 0;
+    }
+    
+    public boolean empty(){
+        if(queueFirst.isEmpty() && queueSecond.isEmpty())
+            return true;
+        return false;
+    }
+}
+</code></pre>  
+</div>
+</div>
+</body>
+</html>
