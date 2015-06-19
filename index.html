@@ -3,16 +3,33 @@
 <head>
 	<meta charset="UTF-8">
 	<title>andrewgyq's blog</title>
+	<!-- Bootstrap core CSS -->
 	<link rel="stylesheet" href="css/bootstrap.min.css" type="text/css" media="screen" charset="utf-8" />
+	<script src="js/jquery-1.11.3.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
 </head>
 <body>
-<div class="container">
-<div id="header">
-<ul class="pills">
-<li class="active"><a href="index.html">andrewgyq's blog</a></li>
-<li><a href="about.html" target="_blank">About</a></li>
-</ul>
-</div>
+
+<!-- Static navbar -->
+<nav class="navbar navbar-default navbar-static-top">
+  <div class="container">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="index.html"><strong>andrewgyq</strong></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="index.html"><strong>Home</strong></a></li>
+        <li><a href="about.html"><strong>About</strong></a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a  target="_blank" href="https://github.com/andrewgyq"><strong>Github</strong></a></li>
+        <li><a  target="_blank" href="http://weibo.com/hiphop4life"><strong>Weibo</strong></a></li>
+        <li><a  target="_blank" href="http://blog.csdn.net/guyuqinggu"><strong>Blog</strong></a></li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div>
+</nav>
+
 
 <div class="container">
 <ul class="posts">
@@ -46,7 +63,6 @@
 <li><span>2015-05-01</span> &raquo; <a href="java-interview.html">Java面试基础</a></li>
 <li><span>2015-05-01</span> &raquo; <a href="knowledge-from-other-link.html">外链知识点</a></li>
 </ul>
-</div>
 </div>
 </body>
 </html>
