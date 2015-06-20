@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>andrewgyq's blog</title>
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css" media="screen" charset="utf-8" />
+    <script src="js/jquery-1.11.3.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/d3.min.js"></script>
+    <style>
+
+      .node {
+        cursor: pointer;
+      }
+
+      .node circle {
+        fill: #fff;
+        stroke: steelblue;
+        stroke-width: 1.5px;
+      }
+
+      .node text {
+        font: 10px sans-serif;
+      }
+
+      .link {
+        fill: none;
+        stroke: #ccc;
+        stroke-width: 1.5px;
+      }
+</style>
+</head>
+<body>
+
+<!-- Static navbar -->
+<nav class="navbar navbar-default navbar-static-top">
+  <div class="container">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="index.html"><strong>andrewgyq</strong></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="index.html"><strong>Home</strong></a></li>
+        <li><a href="about.html"><strong>About</strong></a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a  target="_blank" href="https://github.com/andrewgyq"><strong>Github</strong></a></li>
+        <li><a  target="_blank" href="http://weibo.com/hiphop4life"><strong>Weibo</strong></a></li>
+        <li><a  target="_blank" href="http://blog.csdn.net/guyuqinggu"><strong>Blog</strong></a></li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div>
+</nav>
+
+<div class="container">
+</div>
+</body>
+</html>
+<script>
+var json = {
+ "name": "Java-Core",
+ "children": [
+  {
+   "name": "集合",
+   "children": [
+    {
+     "name": "List",
+     "children": [
+      {"name": "ArrayList", "size": 3938},
+      {"name": "LinkedList", "size": 3812},
+      {"name": "SkipList", "size": 6714},
+      {"name": "?存储方式,如何扩展,分别用在哪些地方", "size": 743},
+      {"name": "线程安全", 
+        "children":[ 
+         {"name": "CopyOnWriteArrayList", "size": 3938},
+         {"name": "Collections.synchronizedList(list)", "size": 3938},
+         {"name": "Vector", "size": 3938},
+         {"name": "?有何区别", "size": 3938}
+        ]
+      }
+     ]
+    },
+    {
+     "name": "Map",
+     "children": [
+      {"name": "?如何存储,如何保证散列均衡,如何扩展", "size": 3534},
+      {"name": "HashMap", "size": 5731},
+      {"name": "LinkedHashMap", "size": 7840},
+      {"name": "TreeMap(红黑树)", "size": 5914},
+      {"name": "ConcurrentHashMap", "size": 3416},
+      {"name": "ConcurrentSkipListMap", "size": 3416}
+     ]
+    },
+    {
+     "name": "Set",
+     "children": [
+      {"name": "HashSet", "size": 7074},
+      {"name": "LinkedHashSet", "size": 7074},
+      {"name": "TreeSet", "size": 7074},
+      {"name": "ConcurrentSkipListSet", "size": 7074},
+      {"name": "CopyOnWriteArraySet", "size": 7074}
+     ]
+    },
+    {
+     "name": "Tree",
+     "children": [
+     ]
+    },
+    {
+     "name": "Queue",
+     "children": [
+      {"name": "LinkedList(双向链表)", "size": 7074},
+      {"name": "ArrayDeque(数组,FIFO)", "size": 7074},
+      {"name": "PriorityQueue(二叉堆实现的优先级队列)", "size": 7074},
+      {"name": "线程安全", 
+        "children":[ 
+         {"name": "PriorityBlockingQueue", "size": 3938},
+         {"name": "DelayQueue", "size": 3938},
+         {"name": "ArrayBlockingQueue", "size": 3938},
+         {"name": "LinkedBlockingQueue", "size": 3938}
+        ]
+      }
+     ]
+    },
+    {
+     "name": "Stack",
+     "children": [
+     ]
+    }
+   ]
+  },
+  {
+   "name": "反射",
+   "children": [
+    {"name": "class.getInstance()", "size": 17010},
+    {"name": "getMethod(是否带declare有何区别)", "size": 5842},
+    {"name": "getField", "size": 5842},
+    {"name": "setAccess", "size": 1041},
+    {"name": "method.invoke()", "size": 6006}
+   ]
+  },
+  {
+   "name": "JVM",
+   "children": [
+    {
+     "name": "内存模型",
+     "children": [
+      {"name": "Perm永久代(方法区)", "children": [{"name":"OutOfMemory"}]},
+      {"name": "heap(堆)", 
+       "children": [
+          {"name":"old老年代"},
+          {"name":"new新生代(eden, from, to)"},
+          {"name":"OutOfMemory"}
+        ]
+      },
+      {"name": "运行时常量池"},
+      {"name": "栈空间的分配", 
+       "children":[
+         {"name":"每个线程固定大小"},
+         {"name":"共享堆中的对象", "children":[{"name":"主内存和工作内存"},{"name":"内存交互协议"}]},
+         {"name":"OutOfMemory"},
+         {"name":"StackOverFlow"} 
+       ]
+      },
+     ]
+    },
+    {"name": "类加载机制", 
+     "children":[
+        {"name":"加载,验证,准备,解析,初始化"},
+        {"name":"双亲委托机制"},
+        {"name":"如何破坏双亲委托机制"},
+        {"name":"自定义类加载器"}
+     ]
+    },
+    {"name": "GC", 
+     "children": [
+        {"name":"算法", 
+         "children": [
+            {"name":"引用计数"},
+            {"name":"标记清除"},
+            {"name":"标记压缩"},
+            {"name":"复制算法"},
+            {"name":"分代收集算法"}
+         ]
+        },
+        {"name":"垃圾收集器",
+         "children": [
+            {"name":"Serial收集器"},
+            {"name":"ParNew收集器"},
+            {"name":"CMS收集器"},
+            {"name":"G1收集器"}
+         ]
+        }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "IO",
+   "children": [
+    {"name": "API(装饰着模式)", 
+     "children":[
+        {"name":"字节流",
+         "children":[
+            {"name":"InputStream"},
+            {"name":"OutputStream"}
+         ]
+        },
+        {"name":"字符流",
+         "children":[
+            {"name":"Reader"},
+            {"name":"Writer"}
+         ]
+        },
+        {"name":"附加功能",
+         "children":[
+            {"name":"Filter"},
+            {"name":"Piped"},
+            {"name":"Buffered"},
+            {"name":"ByteArray"},
+            {"name":"RandomAccessFile"}
+         ]
+        }
+     ]
+    },
+    {"name": "NIO", 
+     "children":[
+        {"name":"Selector"},
+        {"name":"Channel"}
+     ]
+    },
+    {"name": "NIO2",
+     "children":[
+        {"name":"操作系统级别并发"},
+        {"name":"Reactor/Proactor"},
+        {"name":"netty/mina"}
+     ]
+    },
+    {"name": "对象序列化", 
+     "children":[
+        {"name":"原理"},
+        {"name":"自定义序列化方式"}
+     ]
+    }
+   ]
+  },
+  {
+   "name": "并发",
+   "children": [
+    {"name": "Excutors", 
+     "children":[
+        {"name":"Callable"},
+        {"name":"Future"},
+        {"name":"ThreadFoctory"},
+        {"name":"newFixedThreadPool"},
+        {"name":"newCachedThreadPool"},
+        {"name":"Fork/Join"}
+     ]
+    },
+    {"name": "线程间安全共享", 
+     "children":[
+        {"name":"Lock",
+         "children":[
+            {"name":"ReentrantLock"},
+            {"name":"ReadWriteLock"},
+            {"name":"ReentrantReadWriteLock"},
+            {"name":"Condition"}
+         ]
+        },
+        {"name":"Atomic",
+         "children":[
+            {"name":"compareAndSet"},
+            {"name":"lazySet"},
+            {"name":"incrementAndGet"}
+         ]
+        },
+        {"name":"volatile原理"}
+     ]
+    },
+    {"name": "线程内共享", "children":[{"name":"ThreadLocal"}]},
+    {"name": "concurrent包", 
+     "children":[
+        {"name":"Semaphore（信号量）"},
+        {"name":"CountDownLatch（倒数闸门）"},
+        {"name":"CyclicBarrier（循环屏障）"}
+     ]
+    }
+   ]
+  },
+  {
+   "name": "泛型",
+   "children": [
+    {"name": "声明在对象上", "size": 1082},
+    {"name": "方法返回值", "size": 1336},
+    {"name": "方法参数", "size": 319},
+    {"name": "泛型的继承", "size": 10498},
+    {"name": "通配符", "size": 2822},
+    {"name": "发生在编译时，运行时不存在", "size": 9983}
+   ]
+  },
+  {
+   "name": "设计模式GOF",
+   "children": [
+    {"name": "责任链", "size": 1616},
+    {"name": "策略", "size": 1027},
+    {"name": "动态代理", 
+     "children":[
+        {"name":"Proxy.newProxyInstance()"},
+        {"name":"method.invoke()"},
+        {"name":"cglib的实现"}
+     ]
+    },
+    {"name": "适配", "size": 891},
+    {"name": "桥接", "size": 2893},
+    {"name": "......", "size": 1101}
+   ]
+  }
+ ]
+}
+var margin = {top: 20, right: 120, bottom: 20, left: 120},
+    width = 960 - margin.right - margin.left,
+    height = 800 - margin.top - margin.bottom;
+
+var i = 0,
+    duration = 750,
+    root;
+
+var tree = d3.layout.tree()
+    .size([height, width]);
+
+var diagonal = d3.svg.diagonal()
+    .projection(function(d) { return [d.y, d.x]; });
+
+var svg = d3.select(".container").append("svg")
+    .attr("width", width + margin.right + margin.left)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+root = json;
+root.x0 = height / 2;
+root.y0 = 0;
+
+function collapse(d) {
+  if (d.children) {
+    d._children = d.children;
+    d._children.forEach(collapse);
+    d.children = null;
+  }
+}
+
+root.children.forEach(collapse);
+update(root);
+
+d3.select(self.frameElement).style("height", "800px");
+
+function update(source) {
+
+  // Compute the new tree layout.
+  var nodes = tree.nodes(root).reverse(),
+      links = tree.links(nodes);
+
+  // Normalize for fixed-depth.
+  nodes.forEach(function(d) { d.y = d.depth * 180; });
+
+  // Update the nodes…
+  var node = svg.selectAll("g.node")
+      .data(nodes, function(d) { return d.id || (d.id = ++i); });
+
+  // Enter any new nodes at the parent's previous position.
+  var nodeEnter = node.enter().append("g")
+      .attr("class", "node")
+      .attr("transform", function(d) { return "translate(" + source.y0 + "," + source.x0 + ")"; })
+      .on("click", click);
+
+  nodeEnter.append("circle")
+      .attr("r", 1e-6)
+      .style("fill", function(d) { return d._children ? "lightsteelblue" : "#fff"; });
+
+  nodeEnter.append("text")
+      .attr("x", function(d) { return d.children || d._children ? -10 : 10; })
+      .attr("dy", ".35em")
+      .attr("text-anchor", function(d) { return d.children || d._children ? "end" : "start"; })
+      .text(function(d) { return d.name; })
+      .style("fill-opacity", 1e-6);
+
+  // Transition nodes to their new position.
+  var nodeUpdate = node.transition()
+      .duration(duration)
+      .attr("transform", function(d) { return "translate(" + d.y + "," + d.x + ")"; });
+
+  nodeUpdate.select("circle")
+      .attr("r", 4.5)
+      .style("fill", function(d) { return d._children ? "lightsteelblue" : "#fff"; });
+
+  nodeUpdate.select("text")
+      .style("fill-opacity", 1);
+
+  // Transition exiting nodes to the parent's new position.
+  var nodeExit = node.exit().transition()
+      .duration(duration)
+      .attr("transform", function(d) { return "translate(" + source.y + "," + source.x + ")"; })
+      .remove();
+
+  nodeExit.select("circle")
+      .attr("r", 1e-6);
+
+  nodeExit.select("text")
+      .style("fill-opacity", 1e-6);
+
+  // Update the links…
+  var link = svg.selectAll("path.link")
+      .data(links, function(d) { return d.target.id; });
+
+  // Enter any new links at the parent's previous position.
+  link.enter().insert("path", "g")
+      .attr("class", "link")
+      .attr("d", function(d) {
+        var o = {x: source.x0, y: source.y0};
+        return diagonal({source: o, target: o});
+      });
+
+  // Transition links to their new position.
+  link.transition()
+      .duration(duration)
+      .attr("d", diagonal);
+
+  // Transition exiting nodes to the parent's new position.
+  link.exit().transition()
+      .duration(duration)
+      .attr("d", function(d) {
+        var o = {x: source.x, y: source.y};
+        return diagonal({source: o, target: o});
+      })
+      .remove();
+
+  // Stash the old positions for transition.
+  nodes.forEach(function(d) {
+    d.x0 = d.x;
+    d.y0 = d.y;
+  });
+}
+
+// Toggle children on click.
+function click(d) {
+  if (d.children) {
+    d._children = d.children;
+    d.children = null;
+  } else {
+    d.children = d._children;
+    d._children = null;
+  }
+  update(d);
+}
+
+</script>
