@@ -59,261 +59,172 @@
 </html>
 <script>
 var json = {
- "name": "Java-Core",
+ "name": "前端",
  "children": [
   {
-   "name": "集合",
+   "name": "JavaScript",
    "children": [
     {
-     "name": "List",
+     "name": "基本逻辑",
      "children": [
-      {"name": "ArrayList", "size": 3938},
-      {"name": "LinkedList", "size": 3812},
-      {"name": "SkipList", "size": 6714},
-      {"name": "?存储方式,如何扩展,分别用在哪些地方", "size": 743},
-      {"name": "线程安全", 
-        "children":[ 
-         {"name": "CopyOnWriteArrayList", "size": 3938},
-         {"name": "Collections.synchronizedList(list)", "size": 3938},
-         {"name": "Vector", "size": 3938},
-         {"name": "?有何区别", "size": 3938}
-        ]
-      }
+      {"name": "if", "size": 3938},
+      {"name": "for/while,break", "size": 3812}
      ]
     },
     {
-     "name": "Map",
+     "name": "函数",
      "children": [
-      {"name": "?如何存储,如何保证散列均衡,如何扩展", "size": 3534},
-      {"name": "HashMap", "size": 5731},
-      {"name": "LinkedHashMap", "size": 7840},
-      {"name": "TreeMap(红黑树)", "size": 5914},
-      {"name": "ConcurrentHashMap", "size": 3416},
-      {"name": "ConcurrentSkipListMap", "size": 3416}
+      {"name": "闭包", "size": 3534},
+      {"name": "作用域", "size": 5731},
+      {"name": "this(call/apply)", "size": 7840}
      ]
     },
     {
-     "name": "Set",
+     "name": "对象",
      "children": [
-      {"name": "HashSet", "size": 7074},
-      {"name": "LinkedHashSet", "size": 7074},
-      {"name": "TreeSet", "size": 7074},
-      {"name": "ConcurrentSkipListSet", "size": 7074},
-      {"name": "CopyOnWriteArraySet", "size": 7074}
+      {"name": "原型", "size": 7074},
+      {"name": "new的过程", "size": 7074}
      ]
     },
     {
-     "name": "Tree",
+     "name": "内置对象",
      "children": [
-     ]
-    },
-    {
-     "name": "Queue",
-     "children": [
-      {"name": "LinkedList(双向链表)", "size": 7074},
-      {"name": "ArrayDeque(数组,FIFO)", "size": 7074},
-      {"name": "PriorityQueue(二叉堆实现的优先级队列)", "size": 7074},
-      {"name": "线程安全", 
-        "children":[ 
-         {"name": "PriorityBlockingQueue", "size": 3938},
-         {"name": "DelayQueue", "size": 3938},
-         {"name": "ArrayBlockingQueue", "size": 3938},
-         {"name": "LinkedBlockingQueue", "size": 3938}
-        ]
-      }
-     ]
-    },
-    {
-     "name": "Stack",
-     "children": [
+      {"name": "Array", "size": 7074},
+      {"name": "Function", "size": 7074}
      ]
     }
    ]
   },
   {
-   "name": "反射",
+   "name": "CSS",
    "children": [
-    {"name": "class.getInstance()", "size": 17010},
-    {"name": "getMethod(是否带declare有何区别)", "size": 5842},
-    {"name": "getField", "size": 5842},
-    {"name": "setAccess", "size": 1041},
-    {"name": "method.invoke()", "size": 6006}
+    {"name": "排版", 
+     "children":[
+        {"name":"position"},
+        {"name":"display",
+         "children":[
+            {"name":"inline/block"},
+            {"name":"inline-block"},
+            {"name":"flex"}
+         ]
+        },
+        {"name":"float,clear"},
+        {"name":"盒子模型",
+         "children":[
+            {"name":"padding,margin,border,width/height"},
+            {"name":"box-sizing"}
+         ]
+        },
+        {"name":"行",
+         "children":[
+            {"name":"line-height"},
+            {"name":"vertical-align"}
+         ]
+        },
+        {"name":"文本",
+         "children":[
+            {"name":"whitespace"},
+            {"name":"wordbreak"}
+         ]
+        }
+     ]
+    },
+    {"name": "绘制", 
+     "children":[
+        {"name":"background"},
+        {"name":"color"},
+        {"name":"transform"}
+     ]
+    },
+    {"name": "动画", 
+     "children":[
+        {"name":"transition"},
+        {"name":"keyframes,animation"}
+     ]
+    }
    ]
   },
   {
-   "name": "JVM",
+   "name": "Web API",
    "children": [
     {
-     "name": "内存模型",
+     "name": "DOM API",
      "children": [
-      {"name": "Perm永久代(方法区)", "children": [{"name":"OutOfMemory"}]},
-      {"name": "heap(堆)", 
-       "children": [
-          {"name":"old老年代"},
-          {"name":"new新生代(eden, from, to)"},
-          {"name":"OutOfMemory"}
-        ]
-      },
-      {"name": "运行时常量池"},
-      {"name": "栈空间的分配", 
+      {"name": "insertBefore"},
+      {"name": "appendChild"},
+      {"name": "childNodes/parentNode"},
+      {"name": "document.createElement/document.createTextNode"},
+      {"name": "事件",
        "children":[
-         {"name":"每个线程固定大小"},
-         {"name":"共享堆中的对象", "children":[{"name":"主内存和工作内存"},{"name":"内存交互协议"}]},
-         {"name":"OutOfMemory"},
-         {"name":"StackOverFlow"} 
+         {"name":"冒泡和捕获"},
+         {"name":"addEventListener/removeEventListener"},
+         {"name":"document.createEvent/dispatchEvent"} 
        ]
-      },
+      }
      ]
     },
-    {"name": "类加载机制", 
+    {"name": "CSSOM", 
      "children":[
-        {"name":"加载,验证,准备,解析,初始化"},
-        {"name":"双亲委托机制"},
-        {"name":"如何破坏双亲委托机制"},
-        {"name":"自定义类加载器"}
+        {"name":"window.getComputedStyle"},
+        {"name":"getBoundingClientRect"},
+        {"name":"getClientRects"}
      ]
     },
-    {"name": "GC", 
+    {"name": "canvas", 
      "children": [
-        {"name":"算法", 
-         "children": [
-            {"name":"引用计数"},
-            {"name":"标记清除"},
-            {"name":"标记压缩"},
-            {"name":"复制算法"},
-            {"name":"分代收集算法"}
-         ]
-        },
-        {"name":"垃圾收集器",
-         "children": [
-            {"name":"Serial收集器"},
-            {"name":"ParNew收集器"},
-            {"name":"CMS收集器"},
-            {"name":"G1收集器"}
-         ]
-        }
      ]
     }
    ]
   },
   {
-   "name": "IO",
+   "name": "HTML",
    "children": [
-    {"name": "API(装饰者模式)", 
+    {"name": "viewport meta", 
      "children":[
-        {"name":"字节流",
-         "children":[
-            {"name":"InputStream"},
-            {"name":"OutputStream"}
-         ]
-        },
-        {"name":"字符流",
-         "children":[
-            {"name":"Reader"},
-            {"name":"Writer"}
-         ]
-        },
-        {"name":"附加功能",
-         "children":[
-            {"name":"Filter"},
-            {"name":"Piped"},
-            {"name":"Buffered"},
-            {"name":"ByteArray"},
-            {"name":"RandomAccessFile"}
-         ]
-        }
      ]
     },
-    {"name": "NIO", 
+    {"name": "语义", 
      "children":[
-        {"name":"Selector"},
-        {"name":"Channel"}
+        {"name":"ol/ul"},
+        {"name":"dl,dt,dd"},
+        {"name":"strong/b"},
+        {"name":"strong/em"},
      ]
     },
-    {"name": "NIO2",
+    {"name": "form",
      "children":[
-        {"name":"操作系统级别并发"},
-        {"name":"Reactor/Proactor"},
-        {"name":"netty/mina"}
-     ]
-    },
-    {"name": "对象序列化", 
-     "children":[
-        {"name":"原理"},
-        {"name":"自定义序列化方式"}
+        {"name":"select"},
+        {"name":"input(number,date"}
      ]
     }
    ]
   },
   {
-   "name": "并发",
+   "name": "HTTP",
    "children": [
-    {"name": "Excutors", 
+    {"name": "状态码", 
      "children":[
-        {"name":"Callable"},
-        {"name":"Future"},
-        {"name":"ThreadFoctory"},
-        {"name":"newFixedThreadPool"},
-        {"name":"newCachedThreadPool"},
-        {"name":"Fork/Join"}
+        {"name":"404"},
+        {"name":"302"},
+        {"name":"304"},
+        {"name":"5??"}
      ]
     },
-    {"name": "线程间安全共享", 
+    {"name": "头", 
      "children":[
-        {"name":"Lock",
-         "children":[
-            {"name":"ReentrantLock"},
-            {"name":"ReadWriteLock"},
-            {"name":"ReentrantReadWriteLock"},
-            {"name":"Condition"}
-         ]
-        },
-        {"name":"Atomic",
-         "children":[
-            {"name":"compareAndSet"},
-            {"name":"lazySet"},
-            {"name":"incrementAndGet"}
-         ]
-        },
-        {"name":"volatile原理"}
+        {"name":"allow-cross-domain"},
+        {"name":"e-tag,expires,cache"},
+        {"name":"content-security-policy"}
      ]
     },
-    {"name": "线程内共享", "children":[{"name":"ThreadLocal"}]},
-    {"name": "concurrent包", 
+    {"name": "方法", 
      "children":[
-        {"name":"Semaphore（信号量）"},
-        {"name":"CountDownLatch（倒数闸门）"},
-        {"name":"CyclicBarrier（循环屏障）"}
+        {"name":"post"},
+        {"name":"get"},
+        {"name":"delete/put"},
+        {"name":"head"}
      ]
     }
-   ]
-  },
-  {
-   "name": "泛型",
-   "children": [
-    {"name": "声明在对象上", "size": 1082},
-    {"name": "方法返回值", "size": 1336},
-    {"name": "方法参数", "size": 319},
-    {"name": "泛型的继承", "size": 10498},
-    {"name": "通配符", "size": 2822},
-    {"name": "发生在编译时，运行时不存在", "size": 9983}
-   ]
-  },
-  {
-   "name": "设计模式GOF",
-   "children": [
-    {"name": "责任链", "size": 1616},
-    {"name": "策略", "size": 1027},
-    {"name": "动态代理", 
-     "children":[
-        {"name":"Proxy.newProxyInstance()"},
-        {"name":"method.invoke()"},
-        {"name":"cglib的实现"}
-     ]
-    },
-    {"name": "适配", "size": 891},
-    {"name": "桥接", "size": 2893},
-    {"name": "......", "size": 1101}
    ]
   }
  ]
