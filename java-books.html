@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>andrewgyq's blog</title>
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css" media="screen" charset="utf-8" />
+    <link rel="stylesheet" href="css/java-books.css" type="text/css" media="screen" charset="utf-8" />
+    <script src="js/modernizr.js"></script> <!-- Modernizr -->
+    <style type="text/css">
+        html, body, div, span, applet, object, iframe,
+        h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+        a, abbr, acronym, address, big, cite, code,
+        del, dfn, em, img, ins, kbd, q, s, samp,
+        small, strike, strong, sub, sup, tt, var,
+        b, u, i, center,
+        dl, dt, dd, ol, ul, li,
+        fieldset, form, label, legend,
+        table, caption, tbody, tfoot, thead, tr, th, td,
+        article, aside, canvas, details, embed, 
+        figure, figcaption, footer, header, hgroup, 
+        menu, nav, output, ruby, section, summary,
+        time, mark, audio, video {
+            margin: 0;
+            padding: 0;
+            border: 0;
+            font-size: 100%;
+            font: inherit;
+            vertical-align: baseline;
+        }
+        /* HTML5 display-role reset for older browsers */
+        article, aside, details, figcaption, figure, 
+        footer, header, hgroup, menu, nav, section {
+            display: block;
+        }
+        body {
+            line-height: 1;
+        }
+        ol, ul {
+            list-style: none;
+        }
+        blockquote, q {
+            quotes: none;
+        }
+        blockquote:before, blockquote:after,
+        q:before, q:after {
+            content: '';
+            content: none;
+        }
+        table {
+            border-collapse: collapse;
+            border-spacing: 0;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Static navbar -->
+<nav class="navbar navbar-default navbar-static-top">
+  <div class="container">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="index.html"><strong>andrewgyq</strong></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="index.html"><strong>Home</strong></a></li>
+        <li><a href="about.html"><strong>About</strong></a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a  target="_blank" href="https://github.com/andrewgyq"><strong>Github</strong></a></li>
+        <li><a  target="_blank" href="http://weibo.com/hiphop4life"><strong>Weibo</strong></a></li>
+        <li><a  target="_blank" href="http://blog.csdn.net/guyuqinggu"><strong>Blog</strong></a></li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div>
+</nav>
+
+<div class="container">
+ <div class="cd-gallery-container">
+        <nav class="cd-filter" style="margin-top: -60px">
+            <ul>
+                <li class="placeholder"> 
+                    <a data-type="red" href="#0">Java</a> <!-- selected option on mobile -->
+                </li> 
+
+                <li>
+                    <a class="selected" data-type="red" href="#0">Java</a>
+                </li>
+
+                <li>
+                    <a data-type="blue" href="#0">JavaScript</a>
+                </li>
+
+                <li>
+                    <a data-type="green" href="#0">程序员修炼</a>
+                </li>
+            </ul>
+        </nav>
+
+        <ul class="cd-gallery cd-container" style="margin-top: 25px">
+            <li>
+                <ul class="cd-item-wrapper">
+                    <li data-type="red" class="is-visible">
+                        <img src="http://img6.douban.com/lpic/s7663093.jpg" height="300" alt="thumbnail">
+                    </li>
+
+                    <li data-type="blue" class="is-hidden">
+                        <img src="http://img6.douban.com/lpic/s1504052.jpg" height="300" alt="thumbnail">
+                    </li>
+
+                    <li data-type="green" class="is-hidden">
+                        <img src="http://img6.douban.com/lpic/s4437258.jpg" height="300" alt="thumbnail">
+                    </li>
+                </ul>
+            </li>
+
+            <li>
+                <ul class="cd-item-wrapper">
+                    <li data-type="red" class="is-visible">
+                        <img src="http://img6.douban.com/lpic/s3479802.jpg" height="300" alt="thumbnail">
+                    </li>
+
+                    <li data-type="blue" class="is-hidden">
+                        <img src="http://img6.douban.com/lpic/s8958650.jpg" height="300" alt="thumbnail">
+                    </li>
+                    
+                    <li data-type="green" class="is-hidden">
+                        <img src="http://img6.douban.com/lpic/s6096698.jpg" height="300" alt="thumbnail">
+                    </li>
+                </ul>
+            </li>
+
+            <li>
+                <ul class="cd-item-wrapper">
+                    <li data-type="red" class="is-visible">
+                        <img src="http://img6.douban.com/lpic/s27458236.jpg" height="300" alt="thumbnail">
+                    </li>
+
+                    <li data-type="blue" class="is-hidden">
+                        <img src="http://img6.douban.com/lpic/s4677623.jpg" height="300" alt="thumbnail">
+                    </li>
+                    
+                    <li data-type="green" class="is-hidden">
+                        <img src="http://img6.douban.com/lpic/s25648004.jpg" height="300" alt="thumbnail">
+                    </li>
+                </ul>
+            </li>
+
+            <li>
+                <ul class="cd-item-wrapper">
+                    <li data-type="red" class="is-visible">
+                        <img src="http://img6.douban.com/lpic/s27298846.jpg" height="300" alt="thumbnail">
+                    </li>
+
+                    <li data-type="blue" class="is-hidden">
+                        <img src="http://img6.douban.com/lpic/s27371758.jpg" height="300" alt="thumbnail">
+                    </li>
+                    
+                    <li data-type="green" class="is-hidden">
+                        <img src="http://img6.douban.com/lpic/s1470003.jpg" height="300" alt="thumbnail">
+                    </li>
+                </ul>
+            </li>
+
+            <li>
+                <ul class="cd-item-wrapper">
+                    <li data-type="red" class="is-visible">
+                        <img src="http://img6.douban.com/lpic/s24407073.jpg" height="300" alt="thumbnail">
+                    </li>
+
+                   <!--  <li data-type="blue" class="is-hidden">
+                        <img src="img/thumb-blue.jpg" alt="thumbnail">
+                    </li> -->
+                    
+                    <li data-type="green" class="is-hidden">
+                        <img src="http://img6.douban.com/lpic/s27991506.jpg" height="300" alt="thumbnail">
+                    </li>
+                </ul>
+            </li>
+
+            <li>
+                <ul class="cd-item-wrapper">
+                    <li data-type="red" class="is-visible">
+                        <img src="http://img6.douban.com/lpic/s28047189.jpg" height="300" width="320" alt="thumbnail">
+                    </li>
+
+                    <!-- <li data-type="blue" class="is-hidden">
+                        <img src="img/thumb-blue.jpg" alt="thumbnail">
+                    </li> -->
+                    
+                    <li data-type="green" class="is-hidden">
+                        <img src="http://img6.douban.com/lpic/s6584764.jpg" height="300" alt="thumbnail">
+                    </li>
+                </ul>
+            </li>   
+        </ul> <!-- cd-gallery -->
+    </div> <!-- cd-gallery-container -->
+</div>
+<script src="js/jquery-1.11.3.min.js"></script>
+<script type="text/javascript">
+    jQuery(document).ready(function($){
+    //wrap each one of your filter in a .cd-gallery-container
+    bouncy_filter($('.cd-gallery-container'));
+
+    function bouncy_filter($container) {
+        $container.each(function(){
+            var $this = $(this);
+            var filter_list_container = $this.children('.cd-filter'),
+                filter_values = filter_list_container.find('li:not(.placeholder) a'),
+                filter_list_placeholder = filter_list_container.find('.placeholder a'),
+                filter_list_placeholder_text = filter_list_placeholder.text(), 
+                filter_list_placeholder_default_value = 'Select',
+                gallery_item_wrapper = $this.children('.cd-gallery').find('.cd-item-wrapper');
+
+            //store gallery items
+            var gallery_elements = {};
+            filter_values.each(function(){
+                var filter_type = $(this).data('type');
+                gallery_elements[filter_type] = gallery_item_wrapper.find('li[data-type="'+filter_type+'"]');
+            });
+
+            //detect click event
+            filter_list_container.on('click', function(event){
+                event.preventDefault();
+                //detect which filter item was selected
+                var selected_filter = $(event.target).data('type');
+                    
+                //check if user has clicked the placeholder item (for mobile version)
+                if( $(event.target).is(filter_list_placeholder) || $(event.target).is(filter_list_container) ) {
+
+                    (filter_list_placeholder_default_value == filter_list_placeholder.text()) ? filter_list_placeholder.text(filter_list_placeholder_text) : filter_list_placeholder.text(filter_list_placeholder_default_value) ;
+                    filter_list_container.toggleClass('is-open');
+
+                //check if user has clicked a filter already selected 
+                } else if( filter_list_placeholder.data('type') == selected_filter ) {
+                    
+                    filter_list_placeholder.text($(event.target).text()) ;
+                    filter_list_container.removeClass('is-open');   
+
+                } else {
+                    //close the dropdown (mobile version) and change placeholder text/data-type value
+                    filter_list_container.removeClass('is-open');
+                    filter_list_placeholder.text($(event.target).text()).data('type', selected_filter);
+                    filter_list_placeholder_text = $(event.target).text();
+                    
+                    //add class selected to the selected filter item
+                    filter_values.removeClass('selected');
+                    $(event.target).addClass('selected');
+
+                    //give higher z-index to the gallery items selected by the filter
+                    show_selected_items(gallery_elements[selected_filter]);
+
+                    //rotate each item-wrapper of the gallery
+                    //at the end of the animation hide the not-selected items in the gallery amd rotate back the item-wrappers
+                    
+                    // fallback added for IE9
+                    var is_explorer_9 = navigator.userAgent.indexOf('MSIE 9') > -1;
+                    
+                    if( is_explorer_9 ) {
+                        hide_not_selected_items(gallery_elements, selected_filter);
+                        gallery_item_wrapper.removeClass('is-switched');
+                    } else {
+                        gallery_item_wrapper.addClass('is-switched').eq(0).one('webkitAnimationEnd oanimationend msAnimationEnd animationend', function() {     
+                            hide_not_selected_items(gallery_elements, selected_filter);
+                            gallery_item_wrapper.removeClass('is-switched');
+                        });
+                    }
+                }
+            });
+        });
+    }
+});
+
+function show_selected_items(selected_elements) {
+    selected_elements.addClass('is-selected');
+}
+
+function hide_not_selected_items(gallery_containers, filter) {
+    $.each(gallery_containers, function(key, value){
+        if ( key != filter ) {  
+            $(this).removeClass('is-visible is-selected').addClass('is-hidden');
+
+        } else {
+            $(this).addClass('is-visible').removeClass('is-hidden is-selected');
+        }
+    });
+}
+</script> <!-- Resourc
+</body>
+</html>
