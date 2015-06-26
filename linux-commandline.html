@@ -75,6 +75,19 @@ sudo apt-get autoremove
 <p><strong>9.压缩文件夹</strong></p>
 <pre><code>tar czf folder.tar.gz folder
 </code></pre>
+
+<p><strong>10.建立一个不同的链接</strong></p>
+<pre><code>ln -s /opt/ibm/java-ppc64-71 java
+</code></pre>
+
+<p><strong>11.后台定时任务</strong></p>
+<pre><code>crontab –e
+#每隔一分钟执行一次
+* * * * * /home/andrewgyq/test_cron.sh
+#test_cron.sh
+#!/bin/sh      
+date >> time.txt
+</code></pre>
 </div>
 </div>
 </body>
