@@ -35,52 +35,56 @@
 <h1><a href="">Linux指令大全</a></h1>
 
 <div class="authoring">2015-06-02</div>
-<p><strong>1.脚本添加执行权限</strong></p>
+<p><strong>脚本添加执行权限</strong></p>
 <pre><code>chmod +x start.sh
 </code></pre>
 
-<p><strong>2.从该机器拷贝文件夹到远程主机</strong></p>
+<p><strong>从该机器拷贝文件夹到远程主机</strong></p>
 <pre><code>scp -r folder root@192.168.0.1:/home/andrewgyq/test
 </code></pre>
 
-<p><strong>3.开端口远程访问</strong></p>
+<p><strong>从远程主机拷贝文件夹到该机器</strong></p>
+<pre><code>scp -r root@192.168.0.1:/home/andrewgyq/test /home/andrewgyq
+</code></pre>
+
+<p><strong>开端口远程访问</strong></p>
 <pre><code>sudo vi /etc/sysconfig/iptables
 -A INPUT -p tcp -m tcp --dport 8000 -j ACCEPT
 -A INPUT -p tcp -m tcp --dport 8080 -j ACCEPT
 sudo service iptables restart
 </code></pre>
 
-<p><strong>4.修改DNS</strong></p>
+<p><strong>修改DNS</strong></p>
 <pre><code>echo "nameserver 192.168.128.37" >> /etc/resolv.conf
 </code></pre>
 
-<p><strong>5.关闭端口</strong></p>
+<p><strong>关闭端口</strong></p>
 <pre><code>sudo netstat -ap | grep :8080
 kill -9 16158
 </code></pre>
 
-<p><strong>6.查看服务是否开启</strong></p>
+<p><strong>查看服务是否开启</strong></p>
 <pre><code>ps -ef | grep mysqld
 </code></pre>
 
-<p><strong>7.查看安装包</strong></p>
+<p><strong>查看安装包</strong></p>
 <pre><code>sudo dpkg -l
 </code></pre>
 
-<p><strong>8.删除安装包</strong></p>
+<p><strong>删除安装包</strong></p>
 <pre><code>sudo apt-get purge sougoupinyin
 sudo apt-get autoremove
 </code></pre>
 
-<p><strong>9.压缩文件夹</strong></p>
+<p><strong>压缩文件夹</strong></p>
 <pre><code>tar czf folder.tar.gz folder
 </code></pre>
 
-<p><strong>10.建立一个不同的链接</strong></p>
+<p><strong>建立一个不同的链接</strong></p>
 <pre><code>ln -s /opt/ibm/java-ppc64-71 java
 </code></pre>
 
-<p><strong>11.后台定时任务</strong></p>
+<p><strong>后台定时任务</strong></p>
 <pre><code>crontab –e
 #每隔一分钟执行一次
 * * * * * /home/andrewgyq/test_cron.sh

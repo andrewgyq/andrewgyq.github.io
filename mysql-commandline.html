@@ -35,57 +35,52 @@
 <h1><a href="">MySQL指令大全</a></h1>
 
 <div class="authoring">2015-06-01</div>
-<p><strong>1.root登录mysql</strong></p>
+<p><strong>root登录mysql</strong></p>
 <pre><code>mysql -u root -p
 </code></pre>
 
-<p><strong>2.修改root密码</strong></p>
-<pre><code>UPDATE mysql.user SET Password=PASSWORD('root') WHERE User='root';
-FLUSH PRIVILEGES;
-</code></pre>
-
-<p><strong>3.启动mysqld服务</strong></p>
+<p><strong>启动mysqld服务</strong></p>
 <pre><code>sudo service mysqld start
 </code></pre>
 
-<p><strong>4.重启mysql</strong></p>
+<p><strong>重启mysql</strong></p>
 <pre><code>sudo /etc/init.d/mysql stop
 sudo /etc/init.d/mysql start
 </code></pre>
 
-<p><strong>5.查看数据库状态</strong></p>
-<pre><code>status;
+<p><strong>查看数据库状态</strong></p>
+<pre><code>mysql>status;
 </code></pre>
    
-<p><strong>6.显示数据库</strong></p>
-<pre><code>SHOW DATABASES;
+<p><strong>显示数据库</strong></p>
+<pre><code>mysql>SHOW DATABASES;
 </code></pre>
 
-<p><strong>7.创建数据库</strong></p>
-<pre><code>CREATE DATABASE sakila;
+<p><strong>创建数据库</strong></p>
+<pre><code>mysql>CREATE DATABASE sakila CHARACTER SET utf8;
 </code></pre>
 
-<p><strong>8.使用数据库</strong></p>
-<pre><code>USE sakila;
+<p><strong>使用数据库</strong></p>
+<pre><code>mysql>USE sakila;
 </code></pre>
 
-<p><strong>9.删除数据库</strong></p>
-<pre><code>DROP DATABASE sakila;
+<p><strong>删除数据库</strong></p>
+<pre><code>mysql>DROP DATABASE sakila;
 </code></pre>
 
-<p><strong>10.运行sql</strong></p>
+<p><strong>导入sql</strong></p>
 <pre><code>mysql -h 127.0.0.1 -u root -p  --default_character_set utf8 sakila < *.sql
 </code></pre>
 
-<p><strong>11.导出sql</strong></p>
+<p><strong>导出sql</strong></p>
 <pre><code>mysqldump -u root -p --default_character_set utf8 sakila > sakila.sql
 </code></pre>
 
-<p><strong>12.删除table</strong></p>
-<pre><code>TRUNCATE TABLE test;
+<p><strong>删除table</strong></p>
+<pre><code>mysql>TRUNCATE TABLE test;
 </code></pre>
 
-<p><strong>13.修改mysql编码</strong></p>
+<p><strong>修改mysql编码</strong></p>
 <pre><code>sudo vi /etc/mysql/my.cnf
 [client]
 default-character-set=utf8
@@ -100,6 +95,19 @@ skip-character-set-client-handshake
 sudo /etc/init.d/mysqld restart
 show variables like '%character%';
 show variables like '%collation%';
+</code></pre>
+
+<p><strong>忘记root密码</strong></p>
+<pre><code>sudo vi /etc/mysql/my.cnf
+[mysqld]
+skip-grant-tables 
+
+sudo /etc/init.d/mysqld restart
+mysql
+mysql>USE mysql;
+mysql>UPDATE user SET Password = password ('root') WHERE User = 'root';
+mysql>FLUSH PRIVILEGES;
+mysql>quit   
 </code></pre>
 
 </div>
