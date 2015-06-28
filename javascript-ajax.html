@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>andrewgyq's blog</title>
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css" media="screen" charset="utf-8" />
+    <script src="js/jquery-1.11.3.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<!-- Static navbar -->
+<nav class="navbar navbar-default navbar-static-top">
+  <div class="container">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="index.html"><strong>andrewgyq</strong></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="index.html"><strong>Home</strong></a></li>
+        <li><a href="about.html"><strong>About</strong></a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a  target="_blank" href="https://github.com/andrewgyq"><strong>Github</strong></a></li>
+        <li><a  target="_blank" href="http://weibo.com/hiphop4life"><strong>Weibo</strong></a></li>
+        <li><a  target="_blank" href="http://blog.csdn.net/guyuqinggu"><strong>Blog</strong></a></li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div>
+</nav>
+
+<div class="container">
+<div id="post">
+<h1><a href="">Ajax原理</a></h1>
+
+<div class="authoring">2015-06-12</div>
+<p><strong>概述</strong></p>
+<p>Ajax指的是不刷新页面，发出异步请求，向服务器端要求数据，然后再进行处理的方法。XMLHttpRequest对象用于从JavaScript发出HTTP请求。</p>
+
+<p><strong>原生Ajax</strong></p>
+<pre><code>if (window.XMLHttpRequest) {
+    // 非IE内核
+    var XHR = new XMLHttpRequest();
+} else if (window.ActiveXObject) {
+    // IE内核,这里早期IE的版本写法不同,具体可以查询下
+    var XHR = new ActiveXObject("Microsoft.XMLHTTP");
+} 
+
+if(XHR){
+    XHR.open("GET", "/");
+
+    XHR.onreadystatechange = function () {
+        // readyState值说明
+        // 0,初始化,XHR对象已经创建,还未执行open
+        // 1,载入,已经调用open方法,但是还没发送请求
+        // 2,载入完成,请求已经发送完成
+        // 3,交互,可以接收到部分数据
+
+        // status值说明
+        // 200:成功
+        // 404:没有发现文件、查询或URl
+        // 500:服务器产生内部错误
+        if (XHR.readyState == 4 && XHR.status == 200) {
+            // 这里可以对返回的内容做处理
+            // 一般会返回JSON或XML数据格式
+            console.log(XHR.responseText);
+            // 主动释放,JS本身也会回收的
+            XHR = null;
+        }
+    };
+    XHR.send();
+}
+</code></pre>
+<button type="button" onclick="ajaxTest()">点击测试Ajax</button>
+
+<p><strong>JSONP</strong></p>
+<p>JSONP用于服务器与客户端之间的数据传输，主要为了规避浏览器的同域限制。因为Ajax只能向当前网页所在的域名发出HTTP请求,所以JSONP就采用在网页中动态插入script元素的做法，向服务器请求脚本文件。</p>
+<pre><code>function addScriptTag(src){
+    var script = document.createElement('script');
+    script.setAttribute("type","text/javascript");
+    script.src = src;
+    document.body.appendChild(script);
+}
+
+window.onload = function(){
+    addScriptTag("http://example.com/ip?callback=foo");
+}
+
+function foo(data) {
+    console.log(data);
+};
+</code></pre>
+</div>
+</div>
+</body>
+<script type="text/javascript">
+  var ajaxTest = function(){
+    if (window.XMLHttpRequest) {
+    // 非IE内核
+    var XHR = new XMLHttpRequest();
+    } else if (window.ActiveXObject) {
+        // IE内核,这里早期IE的版本写法不同,具体可以查询下
+        var XHR = new ActiveXObject("Microsoft.XMLHTTP");
+    } 
+
+    if(XHR){
+        XHR.open("GET", "/index.html");
+
+        XHR.onreadystatechange = function () {
+            if (XHR.readyState == 4 && XHR.status == 200) {
+                // 这里可以对返回的内容做处理
+                // 一般会返回JSON或XML数据格式
+                console.log(XHR.responseText);
+                alert(XHR.responseText);
+                // 主动释放,JS本身也会回收的
+                XHR = null;
+            }
+        };
+        XHR.send();
+    }
+  }
+</script>
+</html>

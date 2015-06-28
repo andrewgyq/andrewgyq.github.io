@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>andrewgyq's blog</title>
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css" media="screen" charset="utf-8" />
+    <script src="js/jquery-1.11.3.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<!-- Static navbar -->
+<nav class="navbar navbar-default navbar-static-top">
+  <div class="container">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="index.html"><strong>andrewgyq</strong></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="index.html"><strong>Home</strong></a></li>
+        <li><a href="about.html"><strong>About</strong></a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a  target="_blank" href="https://github.com/andrewgyq"><strong>Github</strong></a></li>
+        <li><a  target="_blank" href="http://weibo.com/hiphop4life"><strong>Weibo</strong></a></li>
+        <li><a  target="_blank" href="http://blog.csdn.net/guyuqinggu"><strong>Blog</strong></a></li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div>
+</nav>
+
+<div class="container">
+<div id="post">
+<h1><a href="">Spring AOP</a></h1>
+
+<div class="authoring">2015-06-11</div>
+<p><strong>概述</strong></p>
+<p>AOP也称面向切面编程，是Spring框架的特色之一，经常用来作为java web项目的事务控制、日志处理。在Spring中，AOP是利用java动态代理特性实现的。要说动态代理首先要说设计模式中的代理模式。</p>
+
+<p><strong>代理模式类图</strong></p>
+<p><img src="http://dl2.iteye.com/upload/attachment/0087/3798/6ff41c2f-c788-3ab8-83e0-1daf15e60b78.png"></p>
+
+<p><strong>静态代理实现代理模式</strong></p>
+<pre><code>public interface Subject {
+    public void doSomething();
+}
+public class RealSubject implements Subject {
+
+    @Override
+    public void doSomething() {
+        System.out.println("doSomething....");
+    }
+}
+public class ProxySubject implements Subject{
+    private RealSubject realSubject; // 目标类
+
+    public ProxySubject (RealSubject realSubject){
+        this.realSubject = realSubject;
+    }
+
+    @Override
+    public void doSomething() {
+        System.out.println("before do something");
+        realSubject.doSomething();
+        System.out.println("after do something");
+    }
+}
+public class StaticProxyTest {
+    public static void main(String[] args) {
+        RealSubject realSubject = new RealSubject();
+        ProxySubject staticProxy = new ProxySubject(realSubject);
+        staticProxy.doSomething();
+    }
+}
+</code></pre>
+
+<p><strong>动态代理实现代理模式</strong></p>
+<p>Subject类和RealSubject类同上</p>
+
+<pre><code>public class DynamicProxy implements InvocationHandler {
+
+    // 代理的真实对象
+    private Object subject;
+
+    public DynamicProxy(Object subject){
+        this.subject = subject;
+    }
+
+    @Override
+    public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+        // 在代理真实对象前我们可以添加一些自己的操作
+        System.out.println("before do something");
+        System.out.println("Method:" + method);
+
+        // 当代理对象调用真实对象的方法时，其会自动的跳转到代理对象关联的handler对象的invoke方法来进行调用
+        method.invoke(subject, args);
+        // 在代理真实对象后我们也可以添加一些自己的操作
+        System.out.println("after do something");
+        return null;
+    }
+}
+
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Proxy;
+
+/**
+ * Created by andrewgyq on 2015/2/9.
+ */
+public class DynamicProxyTest {
+    public static void main(String[] args) {
+        // 代理的真实对象
+        Subject realSubject = new RealSubject();
+        // 我们要代理哪个真实对象，就将该对象传进去，最后是通过该真实对象来调用其方法的
+        InvocationHandler handler = new DynamicProxy(realSubject);
+
+         /*
+         * 通过Proxy的newProxyInstance方法来创建我们的代理对象，我们来看看其三个参数
+         * 第一个参数handler.getClass().getClassLoader() ，我们这里使用handler这个类的ClassLoader对象来加载我们的代理对象
+         * 第二个参数realSubject.getClass().getInterfaces()，我们这里为代理对象提供的接口是真实对象所实行的接口，表示我要代理的是该真实对象，这样我就能调用这组接口中的方法了
+         * 第三个参数handler， 我们这里将这个代理对象关联到了上方的 InvocationHandler 这个对象上
+         */
+        Subject subject = (Subject) Proxy.newProxyInstance(handler.getClass().getClassLoader(), realSubject
+                .getClass().getInterfaces(), handler);
+        System.out.println("代理类名称：" + subject.getClass().getName()); // $Proxy0
+        System.out.println("代理类名称：" + subject.getClass().getName() + "的父类：" + subject.getClass().getSuperclass().getName());
+        subject.doSomething();
+    }
+}
+</code></pre>
+
+<p><strong>Spring AOP实现</strong></p>
+<pre><code>public interface Advisor {
+    public void doInAdvisor(Object proxy, Method method, Object[] args);
+}
+public class BeforeMethodAdvisor implements Advisor {
+    /**
+     * 在方法执行前所进行的操作
+     */
+    public void doInAdvisor(Object proxy, Method method, Object[] args) {
+        System.out.println("before process... ");
+    }
+}
+</code></pre>
+
+<pre><code>public interface BusinessService {
+    public void process();
+}
+public class BusinessServiceImpl implements BusinessService {
+    public void process(){
+        System.out.println("process business logic...");
+    }
+}
+</code></pre>
+
+<pre><code>public class AopHandler implements InvocationHandler {
+    private Object target; // 需要代理的目标对象
+    Advisor beforeAdvisor; // 方法前置通知
+    Advisor afterAdvisor; // 方法后置通知
+
+    /**
+     * 设置代理目标对象，并生成动态代理对象.
+     * @param target 代理目标对象
+     * @return 返回动态代理对象
+     */
+    public Object setObject(Object target) {
+        this.target = target; // 设置代理目标对象
+        Object proxy = Proxy.newProxyInstance(target.getClass().getClassLoader(), target.getClass().getInterfaces(), this); // 根据代理目标对象生成动态代理对象
+        return proxy;
+    }
+
+    /**
+     * 若定义了前置处理，则在方法执行前执行前置处理， 若定义了后置处理，则在方法调用后调用后置处理.
+     *
+     * @param proxy 代理对象
+     * @param method 调用的业务方法
+     * @param args 方法的参数
+     * @return 返回结果信息
+     * @throws Throwable
+     */
+    public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+        if (beforeAdvisor != null) {
+            beforeAdvisor.doInAdvisor(proxy, method, args); // 进行业务方法的前置处理
+        }
+        method.invoke(target, args); // 执行业务方法
+        if (afterAdvisor != null) {
+            afterAdvisor.doInAdvisor(proxy, method, args); // 进行业务方法的后置处理
+        }
+        return null; // 返回结果对象
+    }
+
+    /**
+     * 设置方法的前置通知
+     * @param advisor 方法的前置通知
+     */
+    public void setBeforeAdvisor(Advisor advisor) {
+        this.beforeAdvisor = advisor;
+    }
+
+    /**
+     * 设置方法的后置通知
+     * @param advisor 方法的后置通知
+     */
+    public void setAfterAdvisor(Advisor advisor) {
+        this.afterAdvisor = advisor;
+    }
+}
+    
+</code></pre>
+
+<pre><code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;beans&gt; 
+    &lt;bean id="businessService" class="com.andrewgyq.spring.aop.service.BusinessServiceImpl"
+          aopClass="com.andrewgyq.spring.aop.advisor.BeforeMethodAdvisor" aopType="before"&gt;&lt;/bean&gt; 
+&lt;/beans&gt; 
+</code></pre>
+
+<pre><code>public class BeanFactory {
+    private Map<String, Object> beansMap = new HashMap<String, Object>();
+
+    /**
+     * Bean工厂的初始化
+     */
+    public void init(String xml) {
+        try {
+            SAXReader reader = new SAXReader();
+            ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+            InputStream ins = classLoader.getResourceAsStream(xml); // 读取指定的配置文件
+            Document doc = reader.read(ins);
+            Element root = doc.getRootElement();
+            AopHandler aopHandler = new AopHandler(); // 创建AOP处理器(动态生成的proxy类中持有了aopHandle的引用)
+            for (Iterator iter = root.elementIterator("bean"); iter.hasNext();) { // 遍历bean
+                Element element = (Element) iter.next();
+                Attribute id = element.attribute("id"); // 获取bean的属性id、class、aopClass、aopType
+                Attribute cls = element.attribute("class");
+                Attribute aopClass = element.attribute("aopClass");
+                Attribute aopType = element.attribute("aopType");
+
+                if (aopClass != null && aopType != null) { // 如果配置了aopClass和aopType属性时，需进行拦截操作
+                    Class advisorClass = Class.forName(aopClass.getText()); // 根据aopClass字符串获取对应的类
+                    Advisor advisor = (Advisor) advisorClass.newInstance(); // 创建该类的对象
+                    if ("before".equals(aopType.getText())) { // 根据aopType的类型来设置前置或后置顾问
+                        aopHandler.setBeforeAdvisor(advisor);
+                    } else if ("after".equals(aopType.getText())) {
+                        aopHandler.setAfterAdvisor(advisor);
+                    }
+                }
+
+                Class clazz = Class.forName(cls.getText()); // 利用Java反射机制，通过class的名称获取Class对象
+                Object obj = clazz.newInstance(); // 创建一个对象
+
+                Object proxy = (Object) aopHandler.setObject(obj); // 产生代理对象proxy
+                beansMap.put(id.getText(), proxy); // 将对象放入beansMap中，其中id为key，对象为value
+            }
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
+    }
+
+    /**
+     * 通过bean的id获取bean的对象.
+     * @param beanName bean的id
+     * @return 返回对应对象
+     */
+    public Object getBean(String beanName) {
+        Object obj = beansMap.get(beanName);
+        return obj;
+    }
+}
+</code></pre>
+
+<pre><code>public class Client {
+    public static void main(String[] args) {
+        BeanFactory beanFactory = new BeanFactory();
+        beanFactory.init("beans.xml");
+        BusinessService proxy = (BusinessService) beanFactory.getBean("businessService");
+        proxy.process();
+    }
+}
+</code></pre>
+</div>
+</div>
+</body>
+</html>
