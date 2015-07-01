@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>andrewgyq's blog</title>
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css" media="screen" charset="utf-8" />
+    <script src="js/jquery-1.11.3.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<!-- Static navbar -->
+<nav class="navbar navbar-default navbar-static-top">
+  <div class="container">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="index.html"><strong>andrewgyq</strong></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="index.html"><strong>Home</strong></a></li>
+        <li><a href="about.html"><strong>About</strong></a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a  target="_blank" href="https://github.com/andrewgyq"><strong>Github</strong></a></li>
+        <li><a  target="_blank" href="http://weibo.com/hiphop4life"><strong>Weibo</strong></a></li>
+        <li><a  target="_blank" href="http://blog.csdn.net/guyuqinggu"><strong>Blog</strong></a></li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div>
+</nav>
+
+<div class="container">
+<div id="post">
+<h1><a href="">JavaScript正则表达式</a></h1>
+
+<div class="authoring">2015-06-13</div>
+<p><strong>提取p标签里的内容</strong></p>
+
+<pre><code>&lt;p&gt;this is the content&lt;/p&gt;
+</code></pre>
+<pre><code>var html = '&lt;p&gt;this is the content&lt;/p&gt;';
+html.replace(/&lt;p.*?>(.*?)<\/p>/g, function () {
+    var text = arguments[1].trim();
+    // this is the content
+}
+</code></pre>
+<button type="button" onclick="test()">点击测试</button>
+</div>
+</div>
+</body>
+<script type="text/javascript">
+  var test = function(){
+      var html = '<p>this is the content</p>';
+      html.replace(/<p.*?>(.*?)<\/p>/g, function () {
+        var text = arguments[1].trim();
+        alert(text);
+      });
+  };
+</script>
+</html>

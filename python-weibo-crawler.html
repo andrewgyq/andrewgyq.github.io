@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>andrewgyq's blog</title>
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css" media="screen" charset="utf-8" />
+    <script src="js/jquery-1.11.3.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<!-- Static navbar -->
+<nav class="navbar navbar-default navbar-static-top">
+  <div class="container">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="index.html"><strong>andrewgyq</strong></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="index.html"><strong>Home</strong></a></li>
+        <li><a href="about.html"><strong>About</strong></a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a  target="_blank" href="https://github.com/andrewgyq"><strong>Github</strong></a></li>
+        <li><a  target="_blank" href="http://weibo.com/hiphop4life"><strong>Weibo</strong></a></li>
+        <li><a  target="_blank" href="http://blog.csdn.net/guyuqinggu"><strong>Blog</strong></a></li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div>
+</nav>
+
+<div class="container">
+<div id="post">
+<h1><a href="">Python获取微博数据</a></h1>
+
+<div class="authoring">2015-06-14</div>
+<p><strong>工具</strong></p>
+<ul>
+  <li>Python2.7.6</li>
+  <li>Requests</li>
+  <li>Beautiful Soup 4</li>
+</ul>
+
+<pre><code>sudo pip install requests
+sudo pip install beautifulsoup4
+</code></pre>
+
+<pre><code>import requests
+from bs4 import BeautifulSoup
+
+headers = {
+           'Host':'m.weibo.cn',
+           'User-Agent':'Mozilla/5.0 (X11; Linux i686) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2062.120 Safari/537.36',
+           'Accept':'application/json, text/javascript, */*; q=0.01',
+           'Cookie': '***********'
+          }
+
+r = requests.get('http://m.weibo.cn/n/andrewgyq', headers=headers)
+if r.status_code == 404:
+  print 'requests url is invalid!'
+
+soup = BeautifulSoup(r.text)
+containerid = soup.find_all('script')[1].get_text()[42:58]
+
+if containerid.isdigit():
+  i = 1
+  while True:
+    try:
+      r = requests.get('http://m.weibo.cn/page/json?containerid='+str(containerid)+'_-_WEIBO_SECOND_PROFILE_WEIBO&page='+str(i), headers=headers)
+      card_group = r.json()['cards'][0]['card_group']
+      for card in card_group:
+          print card['mblog']
+      i = i + 1
+    except KeyError, e:
+      print 'KeyError'
+      break
+    except:
+      continue
+else:
+  print 'containerid is invalid!'</code></pre>
+</div>
+</div>
+</body>
+</html>
