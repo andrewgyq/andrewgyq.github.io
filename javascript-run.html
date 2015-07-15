@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>andrewgyq's blog</title>
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css" media="screen" charset="utf-8" />
+    <script src="js/jquery-1.11.3.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<!-- Static navbar -->
+<nav class="navbar navbar-default navbar-static-top">
+  <div class="container">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="index.html"><strong>andrewgyq</strong></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="index.html"><strong>Home</strong></a></li>
+        <li><a href="about.html"><strong>About</strong></a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a  target="_blank" href="https://github.com/andrewgyq"><strong>Github</strong></a></li>
+        <li><a  target="_blank" href="http://weibo.com/hiphop4life"><strong>Weibo</strong></a></li>
+        <li><a  target="_blank" href="http://blog.csdn.net/guyuqinggu"><strong>Blog</strong></a></li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div>
+</nav>
+
+<div class="container">
+<div id="post">
+<h1><a href="">JavaScript运行机制</a></h1>
+<div class="authoring">2015-06-17</div>
+<h3><strong>引言</strong></h3>
+<pre><code>setTimeout(function() {
+    console.log('hello world');
+}, 1000);
+ 
+while(true) {};
+</code></pre>
+<p>1s中之后，控制台并没有输出字符串，网页陷入while(true){}的死循环中了，这就要扯到JavaScript运行机制了。</p>
+
+<h3><strong>JavaScript运行机制</strong></h3>
+<p>一段js代码（里面可能包含一些setTimeout、鼠标点击、ajax等事件），从上到下开始执行，遇到setTimeout、鼠标点击等事件，异步执行它们，此时并不会影响代码主体继续往下执行(当线程中没有执行任何同步代码的前提下才会执行异步代码)，一旦异步事件执行完，回调函数返回，将它们按次序加到执行队列中，这时要注意了，如果主体代码没有执行完的话，是永远也不会触发callback的，这也就是上面的一段代码导致浏览器假死的原因（主体代码中的while(true){}还没执行完）。</p>
+<p><img src="http://ww1.sinaimg.cn/mw690/6941baebjw1etwe5r81ffj20sg0lcte0.jpg"></p>
+</div>
+</div>
+</body>
+</html>
