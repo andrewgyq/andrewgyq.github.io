@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>andrewgyq's blog</title>
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css" media="screen" charset="utf-8" />
+    <script src="js/jquery-1.11.3.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<!-- Static navbar -->
+<nav class="navbar navbar-default navbar-static-top">
+  <div class="container">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="index.html"><strong>andrewgyq</strong></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="index.html"><strong>Home</strong></a></li>
+        <li><a href="about.html"><strong>About</strong></a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a  target="_blank" href="https://github.com/andrewgyq"><strong>Github</strong></a></li>
+        <li><a  target="_blank" href="http://weibo.com/hiphop4life"><strong>Weibo</strong></a></li>
+        <li><a  target="_blank" href="http://blog.csdn.net/guyuqinggu"><strong>Blog</strong></a></li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div>
+</nav>
+
+<div class="container">
+<div id="post">
+<h1><a href="">数据库事务</a></h1>
+<div class="authoring">2015-08-11</div>
+<h3><strong>事务ACID属性</strong></h3>
+<ul>
+    <li>原子性（atomicity）：整个事务中的所有操作要么全部提交成功，要么全部失败回滚</li>
+    <li>一致性（consistency）：数据库总是从一个一致性的状态转换到另外一个一致性的状态</li>
+    <li>隔离性（isolation）：一个事务所做的修改在最终提交前，对其它事务是不可见的</li>
+    <li>持久性（durability）：一旦事务提交，其所做的修改将永久保存在数据库中</li>
+</ul>
+
+<h3><strong>事务隔离级别</strong></h3>
+<ul>
+    <li>READ UNCOMMITTED(未提交读)：事务的修改，即使没有提交，对其他事务也是可见的，出现脏读</li>
+    <li>READ COMMITTED(提交读)：一个事务从开始知道提交之前，所做的修改对其它事务是不可见的。也叫不可重复读</li>
+    <li>REPEATABLE READ(可重复读)：保证了在同一个事务中多次读取同样的记录的结果是一致的，但是无法解决幻读的问题</li>
+    <li>SERIALIZABLE(可串行化)：最高的隔离级别，强制事务串行执行</li>
+</ul>
+<p>MySQL的默认隔离级别是可重复读</p>
+
+</div>
+</div>
+</body>
+</html>

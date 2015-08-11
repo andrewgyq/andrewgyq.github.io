@@ -80,6 +80,15 @@ sudo /etc/init.d/mysql start
 <pre><code>mysql>TRUNCATE TABLE test;
 </code></pre>
 
+<p><strong>显示慢查询次数</strong></p>
+<pre><code>mysql>show status like 'slow_queries';
+</code></pre>
+
+<p><strong>修改慢查询</strong></p>
+<pre><code>mysql>show variables like 'long_query_time';
+mysql>set long_query_time = 1;
+</code></pre>
+
 <p><strong>修改mysql编码</strong></p>
 <pre><code>sudo vi /etc/mysql/my.cnf
 [client]
