@@ -34,12 +34,11 @@
 <div id="post">
 <h1><a href="">数据库索引</a></h1>
 <div class="authoring">2015-08-10</div>
-<h3><strong>事务ACID属性</strong></h3>
+<p><strong>如何选择合适的列建立索引</strong></p>
 <ul>
-    <li>原子性（atomicity）：整个事务中的所有操作要么全部提交成功，要么全部失败回滚</li>
-    <li>一致性（consistency）：数据库总是从一个一致性的状态转换到另外一个一致性的状态</li>
-    <li>隔离性（isolation）：一个事务所做的修改在最终提交前，对其它事务是不可见的</li>
-    <li>持久性（durability）：一旦事务提交，其所做的修改将永久保存在数据库中</li>
+    <li>where从句，group by从句，order by从句，on从句中出现的列</li>
+    <li>索引字段越小越好</li>
+    <li>离散度大的列放到联合索引的前面</li>
 </ul>
 
 </div>
