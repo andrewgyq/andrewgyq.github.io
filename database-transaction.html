@@ -34,22 +34,24 @@
 <div id="post">
 <h1><a href="">数据库事务</a></h1>
 <div class="authoring">2015-08-11</div>
-<h3><strong>事务ACID属性</strong></h3>
+<p>事务的本质是锁和并发</p>
+<p><strong>事务ACID属性</strong></p>
 <ul>
     <li>原子性（atomicity）：整个事务中的所有操作要么全部提交成功，要么全部失败回滚</li>
     <li>一致性（consistency）：数据库总是从一个一致性的状态转换到另外一个一致性的状态</li>
-    <li>隔离性（isolation）：一个事务所做的修改在最终提交前，对其它事务是不可见的</li>
+    <li>隔离性（isolation）：多个用户并发访问数据库时，一个用户的事务不能被其他用户的事务所干扰，多个并发事务之间的数据要相互隔离</li>
     <li>持久性（durability）：一旦事务提交，其所做的修改将永久保存在数据库中</li>
 </ul>
 
-<h3><strong>事务隔离级别</strong></h3>
+<p><strong>事务隔离级别</strong></p>
 <ul>
-    <li>READ UNCOMMITTED(未提交读)：事务的修改，即使没有提交，对其他事务也是可见的，出现脏读</li>
-    <li>READ COMMITTED(提交读)：一个事务从开始知道提交之前，所做的修改对其它事务是不可见的。也叫不可重复读</li>
+    <li>READ UNCOMMITTED(未提交读)：事务的修改，即使没有提交，对其他事务也是可见的，出现脏读。<strong>事务B更新了一条记录，但是没有提交，此时事务A可以查询出未提交记录。造成脏读现象。未提交读是最低的隔离级别</strong></li>
+    <li>READ COMMITTED(提交读)：一个事务从开始知道提交之前，所做的修改对其它事务是不可见的。也叫不可重复读。<strong>已提交读隔离级别解决了脏读的问题，但是出现了不可重复读的问题，即事务A在两次查询的数据不一致，因为在两次查询之间事务B更新了一条数据。已提交读只允许读取已提交的记录，但不要求可重复读</strong></li>
     <li>REPEATABLE READ(可重复读)：保证了在同一个事务中多次读取同样的记录的结果是一致的，但是无法解决幻读的问题</li>
-    <li>SERIALIZABLE(可串行化)：最高的隔离级别，强制事务串行执行</li>
+    <li>SERIALIZABLE(可串行化)：最高的隔离级别，强制事务串行执行。<strong>serializable完全锁定字段，若一个事务来查询同一份数据就必须等待，直到前一个事务完成并解除锁定为止 。是完整的隔离级别，会锁定对应的数据表格，因而会有效率的问题。</strong></li>
 </ul>
-<p>MySQL的默认隔离级别是可重复读</p>
+<p><img src="http://dl.iteye.com/upload/picture/pic/72610/af5b9c1e-4517-3df2-ad62-af25d1672d12.jpg" /></p>
+<p><strong>MySQL的默认隔离级别是可重复读</strong></p>
 
 </div>
 </div>

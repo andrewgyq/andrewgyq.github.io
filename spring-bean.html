@@ -166,6 +166,17 @@ public class ClassPathXMLApplicationContext {
     }
 }</code></pre>
 
+<p><strong>spring管理Bean的作用域</strong></p>
+<p>&lt;bean id="xxx" class="xxx" scope="singleton" /&gt;</p>
+<p>只有一个对象实例, 默认情况下回再容器启动时初始化Bean, 但我们可以配置延迟初始化Bean</p>
+<p>&lt;bean id="xxx" class="xxx" scope="prototype" /&gt;</p>
+<p>每次从容器中获取Bean都是新的对象</p>
+<p>&lt;bean id="xxx" class="xxx" scope="request" /&gt;</p>
+<p>作用域基于web下有效</p>
+<p>&lt;bean id="xxx" class="xxx" scope="session" /&gt;</p>
+<p>作用域基于web下有效</p>
+
+
 <p><strong>参考：</strong><a href="http://blog.csdn.net/zdp072/article/details/25513757">http://blog.csdn.net/zdp072/article/details/25513757</a></p>
 </div>
 </div>

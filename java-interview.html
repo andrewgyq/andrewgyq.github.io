@@ -73,6 +73,9 @@ HashMap在Map.Entry静态内部类实现中存储key-value对。HashMap使用哈
 <p><strong>Java中的wait()方法和sleep()方法的区别</strong></p>
 <p>sleep是Thread类的方法,wait是Object类的方法;Thread.sleep不会释放锁，Object.wait会释放锁;wait，notify和notifyAll只能在同步控制方法或者同步控制块里面使用，而sleep可以在任何地方使用;sleep必须捕获异常，而wait，notify和notifyAll不需要捕获异常。</p>
 
+<p><strong>现在有T1、T2、T3三个线程，你怎样保证T2在T1执行完后执行，T3在T2执行完后执行</strong></p>
+<p>可以用join方法实现</p>
+
 </div>
 </div>
 </body>
