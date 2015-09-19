@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>andrewgyq's blog</title>
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css" media="screen" charset="utf-8" />
+    <script src="js/jquery-1.11.3.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<!-- Static navbar -->
+<nav class="navbar navbar-default navbar-static-top">
+  <div class="container">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="index.html"><strong>andrewgyq</strong></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="index.html"><strong>Home</strong></a></li>
+        <li><a href="about.html"><strong>About</strong></a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a  target="_blank" href="https://github.com/andrewgyq"><strong>Github</strong></a></li>
+        <li><a  target="_blank" href="http://weibo.com/hiphop4life"><strong>Weibo</strong></a></li>
+        <li><a  target="_blank" href="http://blog.csdn.net/guyuqinggu"><strong>Blog</strong></a></li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div>
+</nav>
+
+<div class="container">
+<div id="post">
+<h1><a href="">NodeJS虾米</a></h1>
+
+<div class="authoring">2015-09-19</div>
+<p><strong>工具</strong></p>
+<ul>
+  <li>NodeJS v0.12.5</li>
+  <li>npm 2.11.2</li>
+</ul>
+
+<pre><code>npm install request
+</code></pre>
+
+<pre><code>var request = require('request');
+
+var options = {
+    url: 'http://api.musicase.me/tracks/search/amazing?accessToken=5590d3c692156deb620c0348b1d5d580440deae2',
+    headers: {
+    'User-Agent': 'Mozilla/5.0 (X11; Linux i686) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/41.0.2272.76 Chrome/41.0.2272.76 Safari/537.36',
+    'Referer': 'http://musicase.me/',
+    'Origin': 'http://musicase.me',
+    'Host':'api.musicase.me',
+    'Connection':'keep-alive',
+    'Accept-Language':'en-US,en;q=0.8',
+    'Accept':'application/json, text/javascript, */*; q=0.01'
+    }
+};
+
+function callback(error, response, body) {
+    if (!error && response.statusCode == 200) {
+        body = JSON.parse(body);
+        console.log(body);  
+    }
+}
+
+request(options, callback);
+</code></pre>
+</div>
+</div>
+</body>
+</html>
