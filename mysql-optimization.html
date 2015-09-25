@@ -64,7 +64,24 @@
 <pre><code>最小化你要查询的数据，只获取你需要的数据，通常来说不要使用*
 </code></pre>
 
+<p><strong>开启慢查询日志</strong></p>
+<pre><code>mysql> set global log_queries_not_using_indexes = on;
+// 开启慢查询日志
+mysql> set global slow_query_log = on;
+// 查看慢查询日志位置
+mysql> show variables like 'slow_query_log_file';
+</code></pre>
 
+<p><strong>MAX()优化</strong></p>
+<pre><code>mysql> explain select max(payment_date) from payment \G
+// payment_date上建立索引
+mysql> create index idx_payment_date on payment(payment_date);
+</code></pre>
+
+<p><strong>COUNT()优化</strong></p>
+<pre><code>mysql> select count(release_year = '2006' or null) from film;
+// count(*)包含null值，count(release_year)不包含null
+</code></pre>
 </div>
 </div>
 </body>

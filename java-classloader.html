@@ -64,7 +64,20 @@
 
 <p>双亲委托机制要求除了顶层的启动类加载器外，其余的类加载器都应当有自己的父加载器。如果一个类加载器收到了类加载的请求，将会把这个请求委派给父类加载器去完成，只有当父加载器无法完成这个请求时，子加载器才会尝试加载。</p>
 
-<p>双亲委托机制的好处是使Java类有了优先级的层次关系。例如Object类存放于rt.jar中，无论哪个类要加载这个类，最终都是委派给启动类加载器，因此Object类在程序的各种类加载器中都是同一个类。
+<p>双亲委托机制的好处是使Java类有了优先级的层次关系。例如Object类存放于rt.jar中，无论哪个类要加载这个类，最终都是委派给启动类加载器，因此Object类在程序的各种类加载器中都是同一个类。</p>
+
+<pre><code>
+public class ClassLoaderDemo{
+    public static void main(String[] args) {
+        System.out.println(ClassLoaderDemo.class.getClassLoader());
+        System.out.println(ClassLoaderDemo.class.getClassLoader().getParent());
+        System.out.println(ClassLoaderDemo.class.getClassLoader().getParent().getParent());
+    }
+}
+// sun.misc.Launcher$AppClassLoader@281d4b
+// sun.misc.Launcher$ExtClassLoader@19b5217
+// null
+</code></pre>
 </div>
 </div>
 </body>
