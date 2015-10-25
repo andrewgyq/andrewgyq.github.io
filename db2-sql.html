@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>andrewgyq's blog</title>
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css" media="screen" charset="utf-8" />
+    <script src="js/jquery-1.11.3.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<!-- Static navbar -->
+<nav class="navbar navbar-default navbar-static-top">
+  <div class="container">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="index.html"><strong>andrewgyq</strong></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="index.html"><strong>Home</strong></a></li>
+        <li><a href="about.html"><strong>About</strong></a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a  target="_blank" href="https://github.com/andrewgyq"><strong>Github</strong></a></li>
+        <li><a  target="_blank" href="http://weibo.com/hiphop4life"><strong>Weibo</strong></a></li>
+        <li><a  target="_blank" href="http://blog.csdn.net/guyuqinggu"><strong>Blog</strong></a></li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div>
+</nav>
+
+<div class="container">
+<div id="post">
+<h1><a href="">DB2 SQL</a></h1>
+
+<div class="authoring">2015-10-19</div>
+<h3>DB2 数据类型</h3>
+<pre><code>DATE        4Byte        0001-01-01 ~ 9999-12-31
+TIME        3Byte        00:00:00 ~ 23:59:59
+TIMESTAMP   10Byte       
+SMALLINT    2Byte        -32768 ~ 32767
+INTEGER     4Byte        -2147483648 ~ 2147483647
+BIGINT      8Byte        -9223372036854775808 ~ 9223372036854775807
+DECIMAL                  (-10^31) + 1 ~ (10^31) - 1
+CHAR                     存储的字符数为1至254
+VARCHAR                  存储的字符数为1至32672
+CLOB                     存储的字符数最多为2GB
+</code></pre>
+
+<h3>DB2 寄存器常量</h3>
+<pre><code>CURRENT DATE
+CURRENT TIME
+CURRENT TIMESTAMP
+</code></pre>
+
+<h3>DB2 DDL</h3>
+<pre><code>CREATE/ALTER/DROP TABLE
+CREATE/ALTER/DROP INDEX
+CREATE/ALTER/DROP VIEW
+CREATE/ALTER/DROP PROCEDURE
+COMMENT 
+</code></pre>
+
+<h3>DB2 DCL</h3>
+<pre><code>GRANT SELECT,UPDATE ON TABLE xxxx TO xxx;
+REVOKE UPDATE ON TABLE xxxx FROM xxx;
+</code></pre>
+
+<h3>DB2 临时表申明</h3>
+<pre><code>DECLARE GLOBAL TEMPORARY TABLE (临时表名)
+(列名   数据定义
+ ……
+)IN (用户临时表空间)
+WITH REPLACE NOT LOGGED
+ON COMMIT PRESERVE ROWS
+PARTITIONING KEY (列名列表)
+;
+</code></pre>
+
+<h3>DB2 存储过程</h3>
+<pre><code>CREATE PROCEDURE PROC_VARRAY_test() 
+BEGIN
+    DECLARE v_count INT DEFAULT 0; 
+    DECLARE v_at_end , v_counter INTEGER DEFAULT 0;
+    DECLARE v_lastname VARCHAR(15);
+    DECLARE v_birthd, v_hired DATE;
+    SET v_count = 1;
+
+    CASE
+        WHEN *** THEN
+            ***;
+        ELSE
+            ***;
+    END CASE;
+
+    IF *** THEN
+        ***;
+    ELSEIF *** THEN
+        ***;
+    ELSE
+        ***;
+    END IF;
+
+    DECLARE cur CURSOR
+        FOR SELECT lastname, hiredate, birthdate FROM employee;
+    OPEN cur;
+    FETCH_LOOP: LOOP
+    FETCH cur INTO v_lastname, v_hired, v_birthd;
+        ***;
+    END LOOP FETCH_LOOP;
+END
+</code></pre>
+</div>
+</div>
+</body>
+</html>
