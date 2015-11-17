@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>andrewgyq's blog</title>
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css" media="screen" charset="utf-8" />
+    <script src="js/jquery-1.11.3.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<!-- Static navbar -->
+<nav class="navbar navbar-default navbar-static-top">
+  <div class="container">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="index.html"><strong>andrewgyq</strong></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="index.html"><strong>Home</strong></a></li>
+        <li><a href="about.html"><strong>About</strong></a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a target="_blank" href="https://github.com/andrewgyq"><strong>Github</strong></a></li>
+        <li><a target="_blank" href="http://weibo.com/hiphop4life"><strong>Weibo</strong></a></li>
+        <li><a target="_blank" href="http://blog.csdn.net/guyuqinggu"><strong>Blog</strong></a></li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div>
+</nav>
+
+<div class="container">
+<div id="post">
+<h1><a href="">Hibernate缓存</a></h1>
+
+<div class="authoring">2015-11-15</div>
+<p><strong>什么是缓存</strong></p>
+<p>缓存是指为了降低应用程序对物理数据源访问的频次，从而提高应用程序的运行性能一种策略。</p>
+<p>ORM框架访问数据库的效率直接影响应用程序的运行速度，提升和优化ORM框架的执行效率至关重要。</p>
+
+<p><strong>Hibernate一级缓存</strong></p>
+<ul>
+    <li>Hibernate一级缓存又称为"Session缓存"、"会话级缓存"</li>
+    <li>通过Session从数据库查询实体时会把实体在内存中存储起来，下一次查询同一实体时不再从数据库获取，而从内存中获取，这就是缓存</li>
+    <li>一级缓存的生命周期和Session相同;Session销毁，它也销毁</li>
+</ul>
+
+<p><strong>Hibernate二级缓存</strong></p>
+<ul>
+    <li>Hibernate二级缓存又称为"SessionFactory缓存"</li>
+</ul>
+
+</div>
+</div>
+</body>
+</html>
