@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>andrewgyq's blog</title>
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css" media="screen" charset="utf-8" />
+    <script src="js/jquery-1.11.3.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<!-- Static navbar -->
+<nav class="navbar navbar-default navbar-static-top">
+  <div class="container">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="index.html"><strong>andrewgyq</strong></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="index.html"><strong>Home</strong></a></li>
+        <li><a href="about.html"><strong>About</strong></a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a  target="_blank" href="https://github.com/andrewgyq"><strong>Github</strong></a></li>
+        <li><a  target="_blank" href="http://weibo.com/hiphop4life"><strong>Weibo</strong></a></li>
+        <li><a  target="_blank" href="http://blog.csdn.net/guyuqinggu"><strong>Blog</strong></a></li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div>
+</nav>
+
+<div class="container">
+<div id="post">
+<h1><a href="">MySQL行转列</a></h1>
+
+<div class="authoring">2015-11-28</div>
+<p><strong>需求</strong></p>
+<pre><code>姓名   打怪数
+猪八戒  10
+猪八戒  2
+猪八戒  12
+沙僧    3                      孙悟空  猪八戒  沙僧
+沙僧    5                        47      24     9
+沙僧    1
+孙悟空  20
+孙悟空  10
+孙悟空  17
+</code></pre>
+
+
+<p><strong>建表语句</strong></p>
+<pre><code>create table user_kills(
+user_name varchar(10),
+kills     int
+)ENGINE=InnoDB DEFAULT CHARSET utf8 COLLATE utf8_general_ci;
+</code></pre>
+
+<p><strong>插入测试数据</strong></p>
+<pre><code>insert into user_kills values('猪八戒',10);
+insert into user_kills values('猪八戒',2);
+insert into user_kills values('猪八戒',12);
+insert into user_kills values('沙僧',3);
+insert into user_kills values('沙僧',5);
+insert into user_kills values('沙僧',1);
+insert into user_kills values('孙悟空',20);
+insert into user_kills values('孙悟空',10);
+insert into user_kills values('孙悟空',17);
+</code></pre>
+
+<p><strong>自连接行转列</strong></p>
+<pre><code>select *
+from
+(select sum(kills) '孙悟空' from user_kills where user_name = '孙悟空') a 
+cross join
+(select sum(kills) '猪八戒' from user_kills where user_name = '猪八戒') b
+cross join
+(select sum(kills) '沙僧' from user_kills where user_name = '沙僧') c
+;
+</code></pre>
+
+<p><strong>CASE行转列</strong></p>
+<pre><code>select sum(case when user_name = '孙悟空' then kills end) '孙悟空',
+sum(case when user_name = '猪八戒' then kills end) '猪八戒',
+sum(case when user_name = '沙僧' then kills end) '沙僧'
+from user_kills
+;
+</code></pre>
+</div>
+</div>
+</html>
