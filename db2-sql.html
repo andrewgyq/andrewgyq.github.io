@@ -56,6 +56,7 @@ CURRENT TIMESTAMP
 
 <h3>DB2 DDL</h3>
 <pre><code>CREATE TABLE TMP_LOG(CRE_NAM VARCHER(10) NOT NULL) COMPRESS YES;
+COMMENT ON TABLE TMP_LOG IS '日志表';
 COMMENT ON COLUMN TMP_LOG.CRE_NAM IS '创建人';
 
 ALTER TABLE TMP_LOG ADD COLUMN CRE_NAM VARCHAR(10);
@@ -109,6 +110,34 @@ BEGIN
         ***;
     END LOOP FETCH_LOOP;
 END
+</code></pre>
+
+<h3>DB2 常用SQL</h3>
+<pre><code>-- 连接字符串
+VALUES 'A' || 'B';
+-- 字符串中输入单引号
+VALUES 'hello, i''m andrewgyq';
+-- 采集样本数据
+SELECT * FROM xxx FETCH FIRST 10 ROWS ONLY;
+</code></pre>
+
+<h3>DB2 在线分析处理</h3>
+<pre><code>SELECT 
+    ROW_NUMBER() OVER(ORDER BY SALARY) AS 序号,
+    NAME AS 姓名,
+    DEPT AS 部门,
+    SALARY AS 工资
+FROM 
+(
+    VALUES
+    ('张三','市场部',4000),
+    ('李四','技术部',2000),
+    ('王五','市场部',NULL)
+) AS EMPOLY (NAME,DEPT,SALARY);
+-- 结果
+1    李四    技术部    2000
+2    张三    市场部    4000
+3    王五    市场部    NULL
 </code></pre>
 </div>
 </div>
