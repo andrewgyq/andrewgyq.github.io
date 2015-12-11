@@ -111,6 +111,7 @@ BEGIN
     END LOOP FETCH_LOOP;
 END
 </code></pre>
+<p><strong>使用游标时要特别注意如果没有加WITH HOLD选项,在COMMIT和ROLLBACK时,该游标将被关闭</strong></p>
 
 <h3>DB2 常用SQL</h3>
 <pre><code>-- 连接字符串
@@ -119,6 +120,10 @@ VALUES 'A' || 'B';
 VALUES 'hello, i''m andrewgyq';
 -- 采集样本数据
 SELECT * FROM xxx FETCH FIRST 10 ROWS ONLY;
+-- 导入CSV文件
+DB2 IMPORT FROM 'c:\tset.csv' OF DEL INSERT INTO xxx;
+-- 账号加引号
+SELECT ''''||xxx||''',' FROM TABLE_NAME;
 </code></pre>
 
 <h3>DB2 在线分析处理</h3>
