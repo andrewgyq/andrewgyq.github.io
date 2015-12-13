@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>andrewgyq's blog</title>
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css" media="screen" charset="utf-8" />
+    <script src="js/jquery-1.11.3.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<!-- Static navbar -->
+<nav class="navbar navbar-default navbar-static-top">
+  <div class="container">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="index.html"><strong>andrewgyq</strong></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="index.html"><strong>Home</strong></a></li>
+        <li><a href="about.html"><strong>About</strong></a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a  target="_blank" href="https://github.com/andrewgyq"><strong>Github</strong></a></li>
+        <li><a  target="_blank" href="http://weibo.com/hiphop4life"><strong>Weibo</strong></a></li>
+        <li><a  target="_blank" href="http://blog.csdn.net/guyuqinggu"><strong>Blog</strong></a></li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div>
+</nav>
+
+<div class="container">
+<div id="post">
+<h1><a href="">JDK设计模式</a></h1>
+
+<div class="authoring">2015-12-01</div>
+<h3><strong>1.创建型模式</strong></h3>
+<p><strong>抽象工厂模式(Abstract Factory)</strong></p>
+<ul>
+    <li>java.util.Arrays#asList()</li>
+    <li>java.util.ResourceBundle#getBundle()</li>
+    <li>java.sql.DriverManager#getConnection()</li>
+    <li>java.nio.charset.Charset#forName()</li>
+    <li>java.net.URL#openConnection()</li>
+</ul>
+
+<p><strong>建造者模式(Builder)</strong></p>
+<ul>
+    <li>java.lang.StringBuffer#append()</li>
+    <li>java.nio.ByteBuffer#put()</li>
+    <li>java.sql.PreparedStatement</li>
+</ul>
+
+<p><strong>工厂方法模式(Factory Method)</strong></p>
+<ul>
+    <li>java.lang.Class#newInstance()</li>
+    <li>java.lang.Class#forName()</li>
+    <li>java.lang.reflect.Constructor#newInstance()</li>
+</ul>
+
+<p><strong>原型模式(Prototype)</strong></p>
+<ul>
+    <li>java.lang.Object#clone()(支持浅克隆的类必须实现java.lang.Cloneable
+接口)</li>
+</ul>
+
+<h3><strong>2.结构型模式</strong></h3>
+<p><strong>适配器模式(Adapter)</strong></p>
+<ul>
+    <li>java.io.InputStreamReader(InputStream)</li>
+    <li>java.io.OutputStreamWriter(OutputStream)</li>
+</ul>
+
+<p><strong>桥接模式(Bridge)</strong></p>
+<ul><li>JDBC</li></ul>
+
+<p><strong>组合模式(Composite)</strong></p>
+<ul>
+    <li>java.util.Map#putAll(Map)</li>
+    <li>java.util.List#addAll(Collection)</li>
+</ul>
+
+<p><strong>装饰模式(Decorator)</strong></p>
+<ul>
+    <li>java.io.BufferedInputStream(InputStream)</li>
+    <li>java.io.BufferedOutputStream(OutputStream)</li>
+</ul>
+
+<p><strong>享元模式(Flyweight)</strong></p>
+<ul>
+    <li>java.lang.Integer#valueOf(int)</li>
+</ul>
+
+<p><strong>代理模式(Proxy)</strong></p>
+<ul><li>java.lang.reflect.Proxy</li></ul>
+
+<h3><strong>3.行为型模式</strong></h3>
+<p><strong>职责链模式(Chain of Responsibility)</strong></p>
+<ul>
+    <li>javax.servlet.Filter#doFilter()</li>
+    <li>java.util.logging.Logger#log()</li>
+</ul>
+
+<p><strong>命令模式(Command)</strong></p>
+<ul>
+    <li>java.lang.Runnable</li>
+</ul>
+
+<p><strong>解释器模式(Interpreter)</strong></p>
+<ul>
+    <li>java.util.Pattern</li>
+    <li>java.text.Format</li>
+</ul>
+
+<p><strong>迭代器模式(Iterator)</strong></p>
+<ul>
+    <li>java.util.Iterator</li>
+</ul>
+
+<p><strong>中介者模式(Mediator)</strong></p>
+<ul>
+    <li>java.util.Timer (所有 scheduleXXX()方法)</li>
+    <li>java.util.concurrent.Executor#execute()</li>
+</ul>
+
+<p><strong>备忘录模式(Memento)</strong></p>
+<ul>
+    <li>java.util.Date</li>
+    <li>java.io.Serializable</li>
+</ul>
+
+<p><strong>观察者模式(Observer)</strong></p>
+<ul>
+    <li>java.util.Observer/java.util.Observable</li>
+    <li>javax.servlet.http.HttpSessionAttributeListener</li>
+</ul>
+
+<p><strong>状态模式(State)</strong></p>
+<ul>
+    <li>java.util.Iterator</li>
+</ul>
+
+<p><strong>策略模式(Strategy)</strong></p>
+<ul>
+    <li>java.util.Comparator#compare()</li>
+    <li>javax.servlet.http.HttpServlet</li>
+</ul>
+
+<p><strong>模板方法模式(Template Method)</strong></p>
+<ul>
+    <li>java.io.InputStream, java.io.OutputStream, java.io.Reader 和 java.io.Writer
+的所有非抽象方法</li>
+    <li>javax.servlet.http.HttpServlet#doXXX()</li>
+</ul>
+
+<p><strong>访问者模式(Visitor)</strong></p>
+<ul>
+    <li>javax.lang.model.element.Element 和 ElementVisitor</li>
+</ul>
+</div>
+</div>
+</body>
+</html>
