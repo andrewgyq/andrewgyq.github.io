@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>iTunes Searcher</title>
+    <script src="js/jquery-1.11.3.min.js"></script>
+    <style type="text/css">
+    li{
+        float: left;
+        list-style:none; 
+        /*border:1px solid #b4b4b4;*/
+        margin:2px 8px 8px 2px;
+        height:250px;
+    }
+    #title{
+        border:solid 1px red;
+        text-align:center;
+        background:pink;
+    }
+
+    #artist{
+        text-align:center;
+        width: 100px;
+    }
+
+    #album{
+        text-align:center;
+        width: 100px;
+    }
+
+    #date{
+        text-align:center;
+        width: 100px;
+    }
+    </style>
+</head>
+<body>
+    <input id="input" ><button>搜索</button>
+    <div id="result">
+    
+    </div>
+</body>
+<script type="text/javascript">
+    $("button").click(function(){
+        var term = document.getElementById('input').value;
+        var iTunesAPI = "https://itunes.apple.com/search?callback=?";
+        $.getJSON( iTunesAPI, {
+            term: term,
+            country: 'sg',
+            limit: 200,
+            entity: 'album'
+        })
+        .done(function( data ) {
+            var results = data.results;
+            var html = '<ul>';
+            for(var i in results){
+                console.log(results[i]);
+                html = html + '<li><img src="' + results[i].artworkUrl100 + '"><div id="artist"><a href="'
+                            + results[i].artistViewUrl + '" target="_blank">'
+                            + results[i].artistName + '</a></div><div id="album"><a href="'
+                            + results[i].collectionViewUrl + '" target="_blank">'
+                            + results[i].collectionName + '</a></div><div id="date">'
+                            + results[i].releaseDate.substring(0,10) + '</div></li>'
+            }
+            html = html + '</ul>';
+            document.getElementById('result').innerHTML = html;
+        });
+        });
+</script>
+</html>
