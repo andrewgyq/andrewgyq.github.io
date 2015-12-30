@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>andrewgyq's blog</title>
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css" media="screen" charset="utf-8" />
+    <script src="js/jquery-1.11.3.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<!-- Static navbar -->
+<nav class="navbar navbar-default navbar-static-top">
+  <div class="container">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="index.html"><strong>andrewgyq</strong></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="index.html"><strong>Home</strong></a></li>
+        <li><a href="about.html"><strong>About</strong></a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a  target="_blank" href="https://github.com/andrewgyq"><strong>Github</strong></a></li>
+        <li><a  target="_blank" href="http://weibo.com/hiphop4life"><strong>Weibo</strong></a></li>
+        <li><a  target="_blank" href="http://blog.csdn.net/guyuqinggu"><strong>Blog</strong></a></li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div>
+</nav>
+
+<div class="container">
+<div id="post">
+<h1><a href="">Solr安装</a></h1>
+<div class="authoring">2015-12-29</div>
+<h3><strong>基础安装</strong></h3>
+<p>1.下载Solr</p>
+<pre><code>http://archive.apache.org/dist/lucene/solr/4.9.0/solr-4.9.0.zip
+</code></pre>
+
+<p>2.解压Solr，将solr-4.9.0\example\webapps的solr.war复制到tomcat\webapps下</p>
+
+<p>3.启动tomcat将solr.war解压</p>
+
+<p>4.新建solr_home文件夹，solr-4.9.0\example\solr文件夹下的所有文件复制到solr_home里</p>
+
+<p>5.配置tomcat\webapps\solr\WEB-INF\web.xml</p>
+<pre><code>&lt;env-entry&gt;
+       &lt;env-entry-name&gt;solr/home&lt;/env-entry-name&gt;
+       &lt;env-entry-value&gt;D:/solr_home&lt;/env-entry-value&gt;
+       &lt;env-entry-type&gt;java.lang.String&lt;/env-entry-type&gt;
+&lt;/env-entry></code></pre>
+
+<p>6.配置\solr_home\collection1\conf\solrconfig.xml</p>
+<pre><code>&lt;dataDir&gt;${solr.data.dir:D:/solr_home/collection1/data}&lt;/dataDir&gt;</code></pre>
+
+<p>7.将solr-4.9.0\example\lib\ext\*.jar复制到tomcat\webapps\solr\WEB-INF\lib下</p>
+
+<p>8.启动tomcat</p>
+<pre><code>http://localhost:8080/solr</code></pre>
+</div>
+</div>
+</body>
+</html>

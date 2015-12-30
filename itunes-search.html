@@ -35,18 +35,28 @@
     </style>
 </head>
 <body>
-    <input id="input" ><button>搜索</button>
-    <div id="result">
-    
-    </div>
+    <input id="input" >
+    <select id='select'>
+        <option value="us">美国</option>
+        <option value="gb">英国</option>
+        <option value="de">德国</option>
+        <option value="fr">法国</option>
+        <option value="jp">日本</option>
+        <option value="hk">香港</option>
+        <option value="tw">台湾</option>
+        <option value="sg">新加坡</option>
+    </select>
+    <button>搜索</button>
+    <div id="result">iTunes搜索器，请输入歌手名和区域，然后点击搜索，然后耐心等待</div>
 </body>
 <script type="text/javascript">
     $("button").click(function(){
         var term = document.getElementById('input').value;
+        var country = document.getElementById('select').value;
         var iTunesAPI = "https://itunes.apple.com/search?callback=?";
         $.getJSON( iTunesAPI, {
             term: term,
-            country: 'sg',
+            country: country,
             limit: 200,
             entity: 'album'
         })

@@ -121,9 +121,11 @@ VALUES 'hello, i''m andrewgyq';
 -- 采集样本数据
 SELECT * FROM xxx FETCH FIRST 10 ROWS ONLY;
 -- 导入CSV文件
-DB2 IMPORT FROM 'c:\tset.csv' OF DEL INSERT INTO xxx;
+DB2 IMPORT FROM 'c:\test.csv' OF DEL INSERT INTO xxx;
 -- 账号加引号
 SELECT ''''||xxx||''',' FROM TABLE_NAME;
+-- Date to Char
+To_char(CRE_DTE,'YYYYMMDD');
 </code></pre>
 
 <h3>DB2 在线分析处理</h3>
