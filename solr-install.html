@@ -36,6 +36,34 @@
 <div class="authoring">2015-12-29</div>
 <h3><strong>基础安装</strong></h3>
 <p>1.下载Solr</p>
+<pre><code>http://mirrors.cnnic.cn/apache/lucene/solr/4.10.4/solr-4.10.4.zip</code></pre>
+
+<p>2.启动Solr</p>
+<pre><code>cd solr-4.10.4\example
+java -jar start.jar
+</code></pre>
+
+<pre><code>http://localhost:8983/solr/</code></pre>
+
+<p>3.向Solr中添加文档</p>
+<pre><code>cd solr-4.10.4\example\exampledocs
+java -jar post.jar solr.xml monitor.xml
+
+--------------------------------------------
+SimplePostTool version 1.5
+Posting files to base url http://localhost:8983/solr/update using content-type application/xml..
+POSTing file solr.xml
+POSTing file monitor.xml
+2 files indexed.
+COMMITting Solr index changes to http://localhost:8983/solr/update..
+Time spent: 0:00:01.000
+</code></pre>
+
+<p>4.执行搜索</p>
+<pre><code>http://localhost:8983/solr/collection1/select?q=solr&wt=json&indent=true</code></pre>
+
+<h3><strong>整合tomcat</strong></h3>
+<p>1.下载Solr</p>
 <pre><code>http://archive.apache.org/dist/lucene/solr/4.9.0/solr-4.9.0.zip
 </code></pre>
 
