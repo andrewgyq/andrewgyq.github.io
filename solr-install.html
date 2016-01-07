@@ -62,6 +62,59 @@ Time spent: 0:00:01.000
 <p>4.执行搜索</p>
 <pre><code>http://localhost:8983/solr/collection1/select?q=solr&wt=json&indent=true</code></pre>
 
+<h3><strong>整合IK Analyzer中文分词组件</strong></h3>
+<p>1.下载IK Analyzer 2012FF_hf1.zip</p>
+<pre><code>http://pan.baidu.com/share/link?uk=2486780169</code></pre>
+
+<p>2.解压IKAnalyzer2012FF_u1.jar</p>
+<pre><code>IKAnalyzer2012FF_u1.jar复制到solr-4.9.0\example\solr-webapp\webapp\WEB-INF\lib</code></pre>
+
+<p>3.修改solr-4.9.0\example\solr\collection1\conf\schema.xml</p>
+<pre><code>&lt;field name="ik" type="text_ik" indexed="true" stored="true"/&gt;
+&lt;fieldType name="text_ik" class="solr.TextField"&gt;
+    &lt;analyzer type="index" isMaxWordLength="false" class="org.wltea.analyzer.lucene.IKAnalyzer"/&gt;
+    &lt;analyzer type="query" isMaxWordLength="true" class="org.wltea.analyzer.lucene.IKAnalyzer"/&gt;
+&lt;/fieldType&gt;
+</code></pre>
+
+<p>4.重启Solr</p>
+<pre><code>java -jar start.jar</code></pre>
+
+<p>5.新建xml文档chinese.xml</p>
+<pre><code>&lt;add&gt;
+&lt;doc&gt;
+  &lt;field name="id"&gt;1&lt;/field&gt;
+  &lt;field name="name"&gt;公司&lt;/field&gt;
+  &lt;field name="ik"&gt;招银网络科技&lt;/field&gt;
+&lt;/doc&gt;
+&lt;/add></code></pre>
+
+<p>6.添加到Solr</p>
+<pre><code>cd solr-4.10.4\example\exampledocs
+java -jar post.jar chinese.xml</code></pre>
+
+<p>7.执行搜索</p>
+<pre><code>http://localhost:8983/solr/collection1/select?q=ik%3A科技&wt=json&indent=true</code></pre>
+
+<p>8.返回结果</p>
+<pre><code>{
+  "responseHeader":{
+    "status":0,
+    "QTime":1,
+    "params":{
+      "indent":"true",
+      "q":"ik:科技",
+      "wt":"json"}},
+  "response":{"numFound":1,"start":0,"docs":[
+      {
+        "id":"1",
+        "name":"公司",
+        "ik":"招银网络科技",
+        "_version_":1522537050462486528}]
+  }}</code></pre>
+
+
+
 <h3><strong>整合tomcat</strong></h3>
 <p>1.下载Solr</p>
 <pre><code>http://archive.apache.org/dist/lucene/solr/4.9.0/solr-4.9.0.zip
@@ -87,27 +140,6 @@ Time spent: 0:00:01.000
 
 <p>8.启动tomcat</p>
 <pre><code>http://localhost:8080/solr</code></pre>
-
-<h3><strong>整合IK Analyzer中文分词组件</strong></h3>
-<p>1.下载IK Analyzer 2012FF_hf1.zip</p>
-<pre><code>http://pan.baidu.com/share/link?uk=2486780169</code></pre>
-
-<p>2.解压IKAnalyzer2012FF_u1.jar</p>
-<pre><code>IKAnalyzer2012FF_u1.jar复制到solr-4.9.0\example\solr-webapp\webapp\WEB-INF\lib</code></pre>
-
-<p>3.修改solr-4.9.0\example\solr\collection1\conf\schema.xml</p>
-<pre><code>&lt;field name="ik_analyzer" type="text_ik" indexed="true" stored="true"/&gt;
-&lt;fieldType name="text_ik" class="solr.TextField"&gt;
-    &lt;analyzer type="index" isMaxWordLength="false" class="org.wltea.analyzer.lucene.IKAnalyzer"/&gt;
-    &lt;analyzer type="query" isMaxWordLength="true" class="org.wltea.analyzer.lucene.IKAnalyzer"/&gt;
-&lt;/fieldType&gt;
-</code></pre>
-
-<p>4.新建文件夹solr-4.9.0\example\solr-webapp\webapp\WEB-INF\classes</p>
-<pre><code>IKAnalyzer.cfg.xml, stopword.dic复制到上述文件夹</code></pre>
-
-<p>5.重启Solr</p>
-<pre><code>java -jar start.jar</code></pre>
 </div>
 </div>
 </body>

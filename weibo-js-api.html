@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:wb="http://open.weibo.com/wb">
+<head>
+    <meta charset="UTF-8">
+    <title>andrewgyq weibo</title>
+    <script src="js/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript">
+        $(function(){
+            var weiboAPI = "http://m.weibo.cn/page/json?callback=?";
+            $.getJSON(weiboAPI, {
+                containerid: '1005051748611153_-_WEIBO_SECOND_PROFILE_WEIBO',
+                page: 1
+            })
+            .done(function( data ) {
+                alert(data);
+            });
+        });
+    </script>
+</head>
+<body>
+
+    http://m.weibo.cn/1748611153/3928625952782308/rcMod?format=cards&type=comment&hot=1
+
+    http://m.weibo.cn/single/likeList?id=3928625952782308&format=cards
+</body>
+</html>
+
