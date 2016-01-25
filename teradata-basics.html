@@ -34,6 +34,10 @@
 <div id="post">
 <h1><a href="">Teradata基础</a></h1>
 <div class="authoring">2015-12-20</div>
+<h3>Teradata 常用SQL</h3>
+<pre><code>-- 依次参考各参数表达式，遇到非null值即停止并返回该值
+SELECT CAST(COALESCE('','20151220') AS DATE FORMAT 'YYYYMMDD');
+</code></pre>
 
 </div>
 </div>
