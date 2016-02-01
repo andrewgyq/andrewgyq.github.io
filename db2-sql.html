@@ -67,6 +67,32 @@ ALTER TABLE TMP_LOG ADD COLUMN CRE_NAM VARCHAR(10);
 REVOKE UPDATE ON TABLE xxxx FROM xxx;
 </code></pre>
 
+<h3>DB2 常用SQL</h3>
+<pre><code>-- 连接字符串
+VALUES 'A' || 'B';
+-- 字符串中输入单引号
+VALUES 'hello, i''m andrewgyq';
+-- 采集样本数据
+SELECT * FROM xxx FETCH FIRST 10 ROWS ONLY;
+-- 导入CSV文件
+DB2 IMPORT FROM 'c:\test.csv' OF DEL INSERT INTO xxx;
+</code></pre>
+
+<h3>表的赋权</h3>
+<pre><code>GRANT SELECT ON TABLE TO USER;</code></pre>
+
+<h3>账号加引号</h3>
+<pre><code>SELECT ''''||xxx||''',' FROM TABLE_NAME;</code></pre>
+
+<h3>月末日期</h3>
+<pre><code>date('2016-01-01') + 1 month - 1day;</code></pre>
+
+<h3>Date to Char</h3>
+<pre><code>To_char(CRE_DTE,'YYYYMMDD');</code></pre>
+
+<h3>字符串替换</h3>
+<pre><code>replace('andrew@gyq','@','');</code></pre>
+
 <h3>DB2 临时表申明</h3>
 <pre><code>DECLARE GLOBAL TEMPORARY TABLE (临时表名)
 (列名   数据定义
@@ -113,20 +139,6 @@ END
 </code></pre>
 <p><strong>使用游标时要特别注意如果没有加WITH HOLD选项,在COMMIT和ROLLBACK时,该游标将被关闭</strong></p>
 
-<h3>DB2 常用SQL</h3>
-<pre><code>-- 连接字符串
-VALUES 'A' || 'B';
--- 字符串中输入单引号
-VALUES 'hello, i''m andrewgyq';
--- 采集样本数据
-SELECT * FROM xxx FETCH FIRST 10 ROWS ONLY;
--- 导入CSV文件
-DB2 IMPORT FROM 'c:\test.csv' OF DEL INSERT INTO xxx;
--- 账号加引号
-SELECT ''''||xxx||''',' FROM TABLE_NAME;
--- Date to Char
-To_char(CRE_DTE,'YYYYMMDD');
-</code></pre>
 
 <h3>DB2 在线分析处理</h3>
 <pre><code>SELECT 
