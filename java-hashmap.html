@@ -120,6 +120,16 @@ static class Entry&lt;K,V&gt; implements Map.Entry&lt;K,V&gt; {
 
 <p><strong>HashMap的扩容</strong></p>
 <p>当HashMap中的元素个数超过数组大小*loadFactor时，就会进行数组扩容，loadFactor的默认值为0.75，这是一个折中的取值。默认情况下，数组大小为16，当HashMap中元素个数超过16*0.75=12的时候，就把数组的大小扩展为2*16=32，然后重新计算每个元素在数组中的位置，而这是一个非常消耗性能的操作</p>
+
+<h3>常见面试题</h3>
+<p><strong>在多线程环境中使用HashMap会有什么问题？在什么情况下使用get()方法会产生无限循环？</strong></p>
+<p>HashMap本身没有什么问题，有没有问题取决于你是如何使用它的。比如，你在一个线程里初始化了一个HashMap然后在多个其他线程里对其进行读取，这肯定没有任何问题。有个例子就是使用HashMap来存储系统配置项。当有多于一个线程对HashMap进行修改操作的时候才会真正产生问题，比如增加、删除、更新键值对的时候。因为put()操作可以造成重新分配存储大小（re-sizeing）的动作，因此有可能造成无限循环的发生，所以这时需要使用Hashtable或者ConcurrentHashMap，而后者更优。</p>
+
+<p><strong>能否写一段用Java 4或5来遍历一个HashMap的代码？</strong></p>
+<p>事实上，用Java可以有四种方式来遍历任何一个Map，一种是使用keySet()方法获取所有的键，然后遍历这些键，再依次通过get()方法来获取对应的值。第二种方法可以使用entrySet()来获取键值对的集合，然后使用for each语句来遍历这个集合，遍历的时候获得的每个键值对已经包含了键和值。这种算是一种更优的方式，因为每轮遍历的时候同时获得了key和value，无需再调用get()方法，get()方法在那种如果bucket位置有一个巨大的链表的时候的性能开销是O(n)。第三种方法是获取entrySet之后用iterator依次获取每个键值对。第四种方法是获得key set之后用iterator依次获取每个key，然后再根据key来调用get方法。</p>
+
+<p><strong>HashMap，在调用get()方法的时候equals()和hashCode()方法都起了什么样的作用？</strong></p>
+<p>当你向HashMap插入一个key的时候，首先，这个对象的hashCode()方法会被调用，调用结果用来计算将要存储的位置(bucket)。因为某个位置上可能以链表的方式已经包含了多个Map.Entry对象，所以HashMap会使用equals()方法来将此对象与所有这些Map.Entry所包含的key进行对比，以确定此key对象是否已经存在。</p>
 </div>
 </div>
 </body>
