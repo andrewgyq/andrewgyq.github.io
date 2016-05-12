@@ -33,6 +33,7 @@
 <body>
 <div class="container">
 <div id="post">
+<h3>概念</h3>
 <p><strong>抽象类和接口的区别</strong></p>
 <p>按三点答：先答属性：抽象类可以有普通成员变量，接口不行； 然后答方法：抽象类有非抽象的方法和构造方法，并且修饰符可以是私有的，接口只能是抽象的方法，并且修饰符是public，最后说一句只能继承一个抽象类，但能实现多个接口。</p>
 
@@ -40,6 +41,7 @@
 <p>服务器实例化后，容器运行init方法，请求到达时运行其service方法，service方法自动派遣运行与请求对应的doGet或doPost方法，服务器将实例销毁的时调用其destroy方法。
 与cgi的区别在于servlet处于服务器进程中，它通过多线程方式运行其service方法，一个实例可以服务于多个请求，并且其实例一般不会销毁，而CGI对每个请求都产生新的进程，服务完成后就销毁，所以效率上低于servlet。</p>
 
+<h3>集合类</h3>
 <p><strong>HashMap是如何工作的</strong></p>
 <p>
 HashMap在Map.Entry静态内部类实现中存储key-value对。HashMap使用哈希算法，在put和get方法中，它使用hashCode()和equals()方法。当我们通过传递key-value对调用put方法的时候，HashMap使用Key hashCode()和哈希算法来找出存储key-value对的索引。Entry存储在LinkedList中，所以如果存在entry，它使用equals()方法来检查传递的key是否已经存在，如果存在，它会覆盖value，如果不存在，它会创建一个新的entry然后保存。当我们通过传递key调用get方法时，它再次使用hashCode()来找到数组中的索引，然后使用equals()方法找出正确的Entry，然后返回它的值。下面的图片解释了详细内容。
@@ -64,6 +66,21 @@ HashMap在Map.Entry静态内部类实现中存储key-value对。HashMap使用哈
 <p>（2）与ArrayList相比，在LinkedList中插入、添加和删除一个元素会更快，因为在一个元素被插入到中间的时候，不会涉及改变数组的大小，或更新索引。</p>
 <p>（3）LinkedList比ArrayList消耗更多的内存，因为LinkedList中的每个节点存储了前后节点的引用。</p>
 
+
+<h3>volatile</h3>
+<p><strong>Java 中能创建 volatile 数组吗</strong></p>
+<p>能，Java 中可以创建 volatile 类型数组，不过只是一个指向数组的引用，而不是整个数组。我的意思是，如果改变引用指向的数组，将会受到 volatile 的保护，但是如果多个线程同时改变数组的元素，volatile 标示符就不能起到之前的保护作用了。</p>
+
+<p><strong>volatile 能使得一个非原子操作变成原子操作吗</strong></p>
+<p>一个典型的例子是在类中有一个 long 类型的成员变量。如果你知道该成员变量会被多个线程访问，如计数器、价格等，你最好是将其设置为 volatile。为什么？因为 Java 中读取 long 类型变量不是原子的，需要分成两步，如果一个线程正在修改该 long 变量的值，另一个线程可能只能看到该值的一半（前 32 位）。但是对一个 volatile 型的 long 或 double 变量的读写是原子。</p>
+
+<p><strong>volatile 修饰符的有过什么实践</strong></p>
+<p>一种实践是用 volatile 修饰 long 和 double 变量，使其能按原子类型来读写。double 和 long 都是64位宽，因此对这两种类型的读是分为两部分的，第一次读取第一个 32 位，然后再读剩下的 32 位，这个过程不是原子的，但 Java 中 volatile 型的 long 或 double 变量的读写是原子的。volatile 修复符的另一个作用是提供内存屏障（memory barrier），例如在分布式框架中的应用。简单的说，就是当你写一个 volatile 变量之前，Java 内存模型会插入一个写屏障（write barrier），读一个 volatile 变量之前，会插入一个读屏障（read barrier）。意思就是说，在你写一个 volatile 域时，能保证任何线程都能看到你写的值，同时，在写之前，也能保证任何数值的更新对所有线程是可见的，因为内存屏障会将其他所有写的值更新到缓存。</p>
+
+<p><strong>volatile 类型变量提供什么保证</strong></p>
+<p>volatile 变量提供顺序和可见性保证，例如，JVM 或者 JIT为了获得更好的性能会对语句重排序，但是 volatile 类型变量即使在没有同步块的情况下赋值也不会与其他语句重排序。 volatile 提供 happens-before 的保证，确保一个线程的修改能对其他线程是可见的。某些情况下，volatile 还能提供原子性，如读 64 位数据类型，像 long 和 double 都不是原子的，但 volatile 类型的 double 和 long 就是原子的。</p>
+
+<h3>多线程</h3>
 <p><strong>进程和线程的区别</strong></p>
 <p>一个进程是一个独立(self contained)的运行环境，它可以被看作一个程序或者一个应用。而线程是在进程中执行的一个任务。Java运行环境是一个包含了不同的类和程序的单一进程。线程可以被称为轻量级进程。线程需要较少的资源来创建和驻留在进程中，并且可以共享进程中的资源。</p>
 
@@ -75,6 +92,20 @@ HashMap在Map.Entry静态内部类实现中存储key-value对。HashMap使用哈
 
 <p><strong>现在有T1、T2、T3三个线程，你怎样保证T2在T1执行完后执行，T3在T2执行完后执行</strong></p>
 <p>可以用join方法实现</p>
+
+<p><strong>你是如何调用 wait（）方法的？使用 if 块还是循环？为什么？</strong></p>
+<p>wait() 方法应该在循环调用，因为当线程获取到 CPU 开始执行的时候，其他条件可能还没有满足，所以在处理前，循环检测条件是否满足会更好。下面是一段标准的使用 wait 和 notify 方法的代码：</p>
+<pre><code>// The standard idiom for using the wait method
+synchronized (obj) {
+while (condition does not hold)
+obj.wait(); // (Releases lock, and reacquires on wakeup)
+... // Perform action appropriate to condition
+}
+</code></pre>
+
+<p><strong>什么是线程局部变量</strong></p>
+<p>线程局部变量是局限于线程内部的变量，属于线程自身所有，不在多个线程间共享。Java 提供 ThreadLocal 类来支持线程局部变量，是一种实现线程安全的方式。但是在管理环境下（如 web 服务器）使用线程局部变量的时候要特别小心，在这种情况下，工作线程的生命周期比任何应用变量的生命周期都要长。任何线程局部变量一旦在工作完成后没有释放，Java 应用就存在内存泄露的风险。</p>
+
 
 </div>
 </div>
