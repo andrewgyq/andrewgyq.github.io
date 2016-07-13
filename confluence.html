@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>andrewgyq's blog</title>
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css" media="screen" charset="utf-8" />
+    <script src="js/jquery-1.11.3.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<!-- Static navbar -->
+<nav class="navbar navbar-default navbar-static-top">
+  <div class="container">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="index.html"><strong>andrewgyq</strong></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="index.html"><strong>Home</strong></a></li>
+        <li><a href="about.html"><strong>About</strong></a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a  target="_blank" href="https://github.com/andrewgyq"><strong>Github</strong></a></li>
+        <li><a  target="_blank" href="http://weibo.com/hiphop4life"><strong>Weibo</strong></a></li>
+        <li><a  target="_blank" href="http://blog.csdn.net/guyuqinggu"><strong>Blog</strong></a></li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div>
+</nav>
+
+<div class="container">
+<div id="post">
+<h1><a href="">Confluence</a></h1>
+
+<div class="authoring">2016-07-09</div>
+<h3>Confluence安装</h3>
+<p>1.下载atlassian-confluence-5.8.8.zip</p>
+<p>2.解压文件准备绿色安装</p>
+<p>3.配置环境变量，jdk要安装1.8版本，且安装目录名没有空格</p>
+<pre><code>JAVA_HOME = C:\Java\jdk1.8.0_91
+JRE_HOME = C:\Java\jre8
+</code></pre>
+<p>4.编辑.\bin\setenv.bat，注释掉含有-Xloggc的行</p>
+<p>5.编辑.\confluence\WEB-INF\classes\confluence-init.properties</p>
+<pre><code>confluence.home=d:/confluence/data
+</code></pre>
+<p>6.启动.\bin\start-confluence.bat</p>
+<p>7.浏览器输入http://localhost:8090</p>
+
+<h3>MySQL集成</h3>
+<pre><code>mysql>create database confluence character set UTF8;  
+mysql>grant all on confluence.* to confluence@"%" identified by "confluence"; 
+mysql>grant all on confluence.* to confluence@"localhost" identified by "confluence";
+jdbc:mysql://localhost:3306/confluence?sessionVariables=storage_engine%3DInnoDB&useUnicode=true&characterEncoding=utf8
+</code></pre>
+<p></p>
+</div>
+</div>
+</body>
+</html>
