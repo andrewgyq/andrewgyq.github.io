@@ -49,6 +49,48 @@ JRE_HOME = C:\Java\jre8
 <p>6.启动.\bin\start-confluence.bat</p>
 <p>7.浏览器输入http://localhost:8090</p>
 
+<h3>Confluence Linux Install</h3>
+<p>1.下载atlassian-confluence-5.10.4-x64.bin</p>
+<p>2.添加可执行权限</p>
+<pre><code>chmod +x atlassian-confluence-5.10.4-x64.bin
+</code></pre>
+
+<p>3.执行安装</p>
+<pre><code>./atlassian-confluence-5.10.4-x64.bin
+
+Installation Directory: /opt/atlassian/confluence
+Home Directory: /var/atlassian/application-data/confluence
+HTTP Port: 8090
+RMI Port: 8000
+Install as service: Yes
+</code></pre>
+
+<p>4.关闭应用</p>
+<pre><code>cd /opt/atlassian/confluence/bin
+./stop-confluence.sh
+</code></pre>
+
+<p>5.添加mysql驱动</p>
+<pre><code>cp mysql-connector-java-5.1.15.jar /opt/atlassian/confluence/confluence/WEB-INF/lib
+chmod 644 /opt/atlassian/confluence/confluence/WEB-INF/lib/mysql-connector-java-5.1.15.jar
+</code></pre>
+
+<p>6.启动应用</p>
+<pre><code>cd /opt/atlassian/confluence/bin
+./start-confluence.sh
+</code></pre>
+
+<p>7.查看日志</p>
+<pre><code>cat /opt/atlassian/confluence/logs/catalina.out
+</code></pre>
+
+<p>8.卸载confluence</p>
+<pre><code>./uninstall
+rm -rf /opt/atlassian/
+rm -rf /var/atlassian/
+</code></pre>
+
+
 <h3>MySQL集成</h3>
 <pre><code>mysql>create database confluence character set UTF8;  
 mysql>grant all on confluence.* to confluence@"%" identified by "confluence"; 

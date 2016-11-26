@@ -35,6 +35,77 @@
 <h1><a href="">MySQL指令大全</a></h1>
 
 <div class="authoring">2015-06-01</div>
+<p><strong>mysql linux install</strong></p>
+<pre><code>1.检查是否已安装
+rpm -qa | grep mysql
+rpm -e --nodeps mysql-libs-5.1.*
+rpm -e --nodeps php-mysql-5.3.3-22.el6.x86_64
+
+2.解压并安装
+tar -xvf MySQL-community-5.1.72-1.rhel5.x86_64.rpm-bundle.tar
+rpm -ivh MySQL-devel-community-5.1.72-1.rhel5.x86_64.rpm
+rpm -ivh MySQL-client-community-5.1.72-1.rhel5.x86_64.rpm
+rpm -ivh MySQL-server-community-5.1.72-1.rhel5.x86_64.rpm
+
+3.mysql安装目录
+/var/lib/mysql     数据库目录
+/usr/share/mysql   配置文件
+/usr/bin           相关命令
+/etc/my.conf       mysql配置文件
+/etc/init.d/mysql  mysql启动脚本
+
+4.关闭mysql
+service mysql stop
+
+5.转移mysql数据文件目录
+cd /opt/app
+mkdir mysqldata
+mv /var/lib/mysql /opt/app/mysqldata
+
+cp /usr/share/mysql/my-medium.cnf /etc/my.cnf
+vi /etc/my.cnf
+[client]
+socket = /opt/app/mysqldata/mysql/mysql.sock
+
+[mysqld]
+socket = /opt/app/mysqldata/mysql/mysql.sock
+character-set-server=utf8
+collation-server=utf8_bin
+
+vi /etc/init.d/mysql
+datadir = /opt/app/mysqldata/mysql
+
+service mysql status
+/etc/init.d/mysql start
+
+6.修改root密码
+mysql -u root 
+set password=password('cmb@999');
+quit;
+
+7.允许远程连接
+mysql -u root -p
+use mysql;
+update user set host='%' where user = 'root' and host='127.0.0.1';
+grant all privileges on *.* to 'root'@'%' identified by '*****' with grant option; 
+flush privileges;
+
+8.删除mysql
+rpm -qa | grep -i mysql
+
+rpm -ev MySQL-devel-community-5.1.72-1.rhel5.x86_64
+rpm -ev MySQL-server-community-5.1.72-1.rhel5.x86_64
+rpm -ev MySQL-client-community-5.1.72-1.rhel5.x86_64
+
+find / -name mysql
+
+rm -rf /usr/lib64/mysql
+rm -rf /opt/atlassian/data/mysql
+rm -rf /opt/atlassian/data/mysql/mysql
+rm -rf /var/lib/mysql
+rm -rf /var/lib/mysql/mysql
+</code></pre>
+
 <p><strong>root登录mysql</strong></p>
 <pre><code>mysql -u root -p
 </code></pre>
