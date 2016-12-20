@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>iTunes Searcher</title>
+    <script src="js/jquery-1.11.3.min.js"></script>
+    <style type="text/css">
+    li{
+        float: left;
+        list-style:none; 
+        /*border:1px solid #b4b4b4;*/
+        margin:2px 8px 8px 2px;
+        height:250px;
+    }
+    #title{
+        border:solid 1px red;
+        text-align:center;
+        background:pink;
+    }
+
+    #artist{
+        text-align:center;
+        width: 100px;
+    }
+
+    #album{
+        text-align:center;
+        width: 100px;
+    }
+
+    #date{
+        text-align:center;
+        width: 100px;
+    }
+    </style>
+</head>
+<body>
+    <input id="input" >
+    <select id='select'>
+        <option value="us">美国</option>
+        <option value="gb">英国</option>
+        <option value="de">德国</option>
+        <option value="fr">法国</option>
+        <option value="jp">日本</option>
+        <option value="hk">香港</option>
+        <option value="tw">台湾</option>
+        <option value="sg">新加坡</option>
+    </select>
+    <button>搜索</button>
+    <div id="result">iTunes搜索器，请输入歌手名和区域，然后点击搜索，然后耐心等待</div>
+</body>
+<script type="text/javascript">
+    $("button").click(function(){
+        var term = document.getElementById('input').value;
+        var country = document.getElementById('select').value;
+        var iTunesAPI = "https://itunes.apple.com/search?callback=?";
+        $.getJSON( iTunesAPI, {
+            term: term,
+            country: country,
+            limit: 200,
+            entity: 'album'
+        })
+        .done(function( data ) {
+            var results = data.results;
+            var html = '<ul>';
+            for(var i in results){
+                console.log(results[i]);
+                html = html + '<li><img src="' + results[i].artworkUrl100 + '"><div id="artist"><a href="'
+                            + results[i].artistViewUrl + '" target="_blank">'
+                            + results[i].artistName + '</a></div><div id="album"><a href="'
+                            + results[i].collectionViewUrl + '" target="_blank">'
+                            + results[i].collectionName + '</a></div><div id="date">'
+                            + results[i].releaseDate.substring(0,10) + '</div></li>'
+            }
+            html = html + '</ul>';
+            document.getElementById('result').innerHTML = html;
+        });
+        });
+</script>
+</html>
