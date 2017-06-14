@@ -96,6 +96,23 @@ date >> time.txt
 <p><strong>查看磁盘使用情况</strong></p>
 <pre><code>df -h
 </code></pre>
+
+<p><strong>RedHat磁盘挂载</strong></p>
+<pre><code>1.查看是否已经分配
+fdisk -l
+
+2.使用fdisk命令进行建立分区
+fdisk /dev/sdc1
+m
+n
+p
+w
+
+3.mkfs.ext4 /dev/sdc1
+
+4.文件系统就建好了，然后选择一个挂载点挂上
+mount /dev/sdc1 /home/confluence
+</code></pre>
 </div>
 </div>
 </body>
