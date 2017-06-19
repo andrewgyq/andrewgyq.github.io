@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>andrewgyq's blog</title>
+	<!-- Bootstrap core CSS -->
+	<link rel="stylesheet" href="css/bootstrap.min.css" type="text/css" media="screen" charset="utf-8" />
+	<script src="js/jquery-1.11.3.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<!-- Static navbar -->
+<nav class="navbar navbar-default navbar-static-top">
+  <div class="container">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="index.html"><strong>andrewgyq</strong></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="index.html"><strong>Home</strong></a></li>
+        <li><a href="about.html"><strong>About</strong></a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a  target="_blank" href="https://github.com/andrewgyq"><strong>Github</strong></a></li>
+        <li><a  target="_blank" href="http://weibo.com/hiphop4life"><strong>Weibo</strong></a></li>
+        <li><a  target="_blank" href="http://blog.csdn.net/guyuqinggu"><strong>Blog</strong></a></li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div>
+</nav>
+
+<div class="container">
+<div id="post">
+<h1><a href="">Kafka Consumer开发</a></h1>
+
+<div class="authoring">2017-06-17</div>
+<p><strong>环境</strong></p>
+<pre><code>Kafka版本: 0.10.0.1
+jar包版本: kafka-clients-0.10.1.0.jar
+javadoc: http://kafka.apache.org/0100/javadoc/
+</code></pre>
+
+<p><strong>Consumer配置</strong></p>
+<pre><code>Kafka 0.9.0.0以后采用新的消费者配置
+bootstrap.servers        不需要指定所有的kafka broker，其中一台host:port即可
+key.deserializer         kafka消息的key值反序列化方式
+value.deserializer       kafka消息的value值反序列化方式
+group.id                 消费者属于的组
+auto.offset.reset        未指定offset时的策略 [latest, earliest, none]，只是初始时有效
+enable.auto.commit       true时消费者的offset将会后台自动提交
+auto.commit.interval.ms  自动提交offset的周期
+</code></pre>
+
+<p><strong>Java Consumer 自动提交offset</strong></p>
+<pre><code>Properties props = new Properties();
+props.put("bootstrap.servers", "localhost:9092");
+props.put("group.id", "test");
+props.put("enable.auto.commit", "true");
+props.put("auto.commit.interval.ms", "1000");
+props.put("key.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
+props.put("value.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
+KafkaConsumer&lt;String, String&gt; consumer = new KafkaConsumer<>(props);
+consumer.subscribe(Arrays.asList("foo", "bar"));
+while (true) {
+   ConsumerRecords&lt;String, String&gt; records = consumer.poll(100);
+   for (ConsumerRecord&lt;String, String&gt; record : records)
+       System.out.printf("topic = %d, partition = %d, offset = %d, key = %s, value = %s", 
+       record.topic(), record.partition(), record.offset(), record.key(), record.value());
+}
+</code></pre>
+
+<p><strong>Java Consumer 手动提交offset</strong></p>
+<pre><code>Properties props = new Properties();
+props.put("bootstrap.servers", "localhost:9092");
+props.put("group.id", "test");
+props.put("enable.auto.commit", "false");
+props.put("key.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
+props.put("value.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
+KafkaConsumer&lt;String, String&gt; consumer = new KafkaConsumer<>(props);
+ consumer.subscribe(Arrays.asList("foo", "bar"));
+     final int minBatchSize = 200;
+     List&lt;ConsumerRecord&lt;String, String&gt;&gt; buffer = new ArrayList<>();
+     while (true) {
+         ConsumerRecords&lt;String, String&gt; records = consumer.poll(100);
+         for (ConsumerRecord&lt;String, String&gt; record : records) {
+             buffer.add(record);
+         }
+         if (buffer.size() >= minBatchSize) {
+             insertIntoDb(buffer);
+             consumer.commitSync();
+             buffer.clear();
+         }
+     }
+提交的offset将会是应用读取的下一条消息的offset
+</code></pre>
+
+<p><strong>Java Consumer 读取特定partition的offset</strong></p>
+<pre><code>String topic = "foo";
+TopicPartition partition0 = new TopicPartition(topic, 0);
+consumer.assign(Arrays.asList(partition0));
+consumer.seek(partition0, 0);
+</code></pre>
+
+</div>
+</div>
+</body>
+</html>
